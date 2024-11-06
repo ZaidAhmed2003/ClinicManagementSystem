@@ -14,7 +14,7 @@ namespace ClinicManagementSystem.Controllers
             _logger = logger;
         }
 
-        [Authorize(Roles = "Admin,User")]
+        //[Authorize(Roles = "Admin,User")]
         public IActionResult Index()
         {
             return View();

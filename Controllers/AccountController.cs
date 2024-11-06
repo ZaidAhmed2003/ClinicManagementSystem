@@ -62,23 +62,46 @@ namespace ClinicManagementSystem.Controllers
             return View();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model)
+[HttpPost]
+public async Task<IActionResult> Login(LoginViewModel model)
+{
+    if (ModelState.IsValid)
+    {
+        // Attempt to sign in
+        var result = await _signInManager.PasswordSignInAsync(
+            model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+
+        if (result.Succeeded)
         {
-            if (ModelState.IsValid)
+            // Find the logged-in user
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user != null)
             {
-                var result = await _signInManager.PasswordSignInAsync(
-                    model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                // Get user roles
+                var roles = await _userManager.GetRolesAsync(user);
 
-                if (result.Succeeded)
+                // Redirect based on role
+                if (roles.Contains("Admin"))
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "AdminDashboard");
                 }
-
-                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                else if (roles.Contains("User"))
+                {
+                    return RedirectToAction("Index", "UserDashboard");
+                }
             }
-            return View(model);
+
+            // Default redirection if no role is matched
+            return RedirectToAction("Index", "Home");
         }
+
+        // If login fails
+        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+    }
+
+    // Return the view with the model state errors if any
+    return View(model);
+}
 
         [HttpPost]
         public async Task<IActionResult> Logout()
