@@ -8,5 +8,28 @@ namespace ClinicManagementSystem.Controllers
         {
             return View();
         }
+
+        public IActionResult AddProduct()
+        {
+            return View();
+        }
+
+        public IActionResult ViewProductDetail()
+        {
+            return View();
+        }
+
+        public IActionResult EditProduct()
+        {
+            return View();
+        }
+
+        public IActionResult DeleteProduct()
+        {
+            return View();
+        }
+
+
+
     }
 }
