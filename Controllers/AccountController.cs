@@ -45,7 +45,7 @@ namespace ClinicManagementSystem.Controllers
                     // Assign default role to new user
                     await _userManager.AddToRoleAsync(user, "User");
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Dashboard");
                 }
 
                 foreach (var error in result.Errors)
@@ -77,17 +77,21 @@ public async Task<IActionResult> Login(LoginViewModel model)
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user != null)
             {
-                // Get user roles
-                var roles = await _userManager.GetRolesAsync(user);
+
+                        // Pass the user's first and last name to the layout via ViewData
+                        ViewData["FirstName"] = user.FirstName;
+                        ViewData["LastName"] = user.LastName;
+                        // Get user roles
+                        var roles = await _userManager.GetRolesAsync(user);
 
                 // Redirect based on role
                 if (roles.Contains("Admin"))
                 {
-                    return RedirectToAction("Index", "AdminDashboard");
+                    return RedirectToAction("Index", "Dashboard");
                 }
                 else if (roles.Contains("User"))
                 {
-                    return RedirectToAction("Index", "UserDashboard");
+                    return RedirectToAction("Index", "Dashboard");
                 }
             }
 

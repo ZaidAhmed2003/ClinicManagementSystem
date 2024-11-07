@@ -1,0 +1,178 @@
+﻿
+@{
+}
+
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light" data-layout-mode="detached" data-topbar-color="light" data-sidenav-color="dark" data-sidenav-size="default">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - @ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,300,400&amp;display=swap" rel="stylesheet">
+
+
+
+    <link rel="stylesheet" href="~/css/custom.css" asp-append-version="true" />
+@*  <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/dashboardLayout.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/sidenav.css" asp-append-version="true" /> *@
+    <link rel="stylesheet" href="~/ClinicManagementSystem.styles.css" asp-append-version="true" />
+</head>
+<body >
+    <div class="app-wrapper">
+        <!-- Sidebar -->
+        <!-- Example in Views/Shared/_DashboardLayout.cshtml -->
+        <div class="app-sidenav menuitem-active">
+            @await Html.PartialAsync("_Sidebar")
+        </div>
+        <!-- Main Content -->
+        <div class="content-page">
+            @await Html.PartialAsync("_TopNav")     
+            <div class="content">
+                <!-- Start Content-->
+                @RenderBody()
+                <!-- End Content -->
+            </div> 
+            <!-- Footer Start -->
+            @await Html.PartialAsync("_DashboardFooter")
+            <!-- end Footer -->
+            
+        </div>
+    </div>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="theme-settings-offcanvas" bis_skin_checked="1">
+        <div class="d-flex align-items-center w-100 bg-primary p-0 offcanvas-header" bis_skin_checked="1">
+            <h6 class="fw-medium py-2 px-3 font-16 text-white">
+                <span class="d-block py-1">Theme Settings</span>
+            </h6>
+        </div>
+
+        <div class="offcanvas-body p-3 h-100" data-simplebar="init" bis_skin_checked="1">
+            <div class="simplebar-wrapper" bis_skin_checked="1" style="margin: -24px;">
+                <div class="simplebar-height-auto-observer-wrapper" bis_skin_checked="1"><div class="simplebar-height-auto-observer" bis_skin_checked="1"></div></div><div class="simplebar-mask" bis_skin_checked="1">
+                    <div class="simplebar-offset" bis_skin_checked="1" style="right: 0px; bottom: 0px;">
+                        <div class="simplebar-content-wrapper" tabindex="0" role="region" aria-label="scrollable content" bis_skin_checked="1" style="height: 100%; overflow: hidden scroll;">
+                            <div class="simplebar-content" bis_skin_checked="1" style="padding: 24px;">
+                                <div bis_skin_checked="1">
+                                    <h5 class="fw-medium font-14 mt-4 mb-2 pb-1">Color Scheme</h5>
+
+                                    <div class="d-flex gap-2" bis_skin_checked="1">
+                                        <div class="form-check form-radio w-50" bis_skin_checked="1">
+                                            <input class="form-check-input" type="radio" name="data-bs-theme" id="layout-color-light" value="light">
+                                            <label class="form-check-label" for="layout-color-light">Light</label>
+                                        </div>
+
+                                        <div class="form-check form-radio w-50" bis_skin_checked="1">
+                                            <input class="form-check-input" type="radio" name="data-bs-theme" id="layout-color-dark" value="dark">
+                                            <label class="form-check-label" for="layout-color-dark">Dark</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div bis_skin_checked="1">
+                                    <h5 class="fw-medium font-14 mt-4 mb-2 pb-1">Layout Mode</h5>
+
+                                    <div class="d-flex gap-2" bis_skin_checked="1">
+                                        <div class="form-check form-radio w-50" bis_skin_checked="1">
+                                            <input class="form-check-input" type="radio" name="data-layout-mode" id="layout-mode-fluid" value="default">
+                                            <label class="form-check-label" for="layout-mode-fluid">Default</label>
+                                        </div>
+
+                                        <div class="form-check form-radio w-50" bis_skin_checked="1">
+                                            <input class="form-check-input" type="radio" name="data-layout-mode" id="layout-mode-detached" value="detached">
+                                            <label class="form-check-label" for="layout-mode-detached">Detached</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <h5 class="fw-medium font-14 mt-4 mb-2 pb-1">Topbar Color</h5>
+
+                                <div class="d-flex gap-2" bis_skin_checked="1">
+                                    <div class="form-check form-radio w-50" bis_skin_checked="1">
+                                        <input class="form-check-input" type="radio" name="data-topbar-color" id="topbar-color-light" value="light">
+                                        <label class="form-check-label" for="topbar-color-light">Light</label>
+                                    </div>
+
+                                    <div class="form-check form-radio w-50" bis_skin_checked="1">
+                                        <input class="form-check-input" type="radio" name="data-topbar-color" id="topbar-color-dark" value="dark">
+                                        <label class="form-check-label" for="topbar-color-dark">Dark</label>
+                                    </div>
+
+                                    <div class="form-check form-radio w-50" bis_skin_checked="1">
+                                        <input class="form-check-input" type="radio" name="data-topbar-color" id="topbar-color-brand" value="brand">
+                                        <label class="form-check-label" for="topbar-color-brand">Brand</label>
+                                    </div>
+                                </div>
+
+                                <div bis_skin_checked="1">
+                                    <h5 class="fw-medium font-14 mt-4 mb-2 pb-1">Menu Color</h5>
+
+                                    <div class="d-flex gap-2" bis_skin_checked="1">
+                                        <div class="form-check form-radio w-50" bis_skin_checked="1">
+                                            <input class="form-check-input" type="radio" name="data-sidenav-color" id="leftbar-color-light" value="light">
+                                            <label class="form-check-label" for="leftbar-color-light">Light</label>
+                                        </div>
+
+                                        <div class="form-check form-radio w-50" bis_skin_checked="1">
+                                            <input class="form-check-input" type="radio" name="data-sidenav-color" id="leftbar-color-dark" value="dark">
+                                            <label class="form-check-label" for="leftbar-color-dark">Dark</label>
+                                        </div>
+                                        <div class="form-check form-radio w-50" bis_skin_checked="1">
+                                            <input class="form-check-input" type="radio" name="data-sidenav-color" id="leftbar-color-brand" value="brand">
+                                            <label class="form-check-label" for="leftbar-color-brand">Brand</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div bis_skin_checked="1">
+                                    <h5 class="fw-medium font-14 mt-4 mb-2 pb-1">Sidebar Size</h5>
+
+                                    <div class="d-flex gap-2 mb-2" bis_skin_checked="1">
+                                        <div class="form-check form-radio w-50" bis_skin_checked="1">
+                                            <input class="form-check-input" type="radio" name="data-sidenav-size" id="sidenav-size-default" value="default">
+                                            <label class="form-check-label" for="sidenav-size-default">Default</label>
+                                        </div>
+
+                                        <div class="form-check form-radio w-50" bis_skin_checked="1">
+                                            <input class="form-check-input" type="radio" name="data-sidenav-size" id="sidenav-size-md" value="md">
+                                            <label class="form-check-label" for="sidenav-size-md">Compact</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex gap-2 mb-2" bis_skin_checked="1">
+                                        <div class="form-check form-radio w-50" bis_skin_checked="1">
+                                            <input class="form-check-input" type="radio" name="data-sidenav-size" id="sidenav-size-small" value="sm">
+                                            <label class="form-check-label" for="sidenav-size-small">Small</label>
+                                        </div>
+
+                                        <div class="form-check form-radio w-50" bis_skin_checked="1">
+                                            <input class="form-check-input" type="radio" name="data-sidenav-size" id="sidenav-size-overlay" value="overlay">
+                                            <label class="form-check-label" for="sidenav-size-overlay">Overlay</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-check form-radio w-50" bis_skin_checked="1">
+                                        <input class="form-check-input" type="radio" name="data-sidenav-size" id="sidenav-size-hidden" value="hidden">
+                                        <label class="form-check-label" for="sidenav-size-hidden">Hidden</label>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div><div class="simplebar-placeholder" bis_skin_checked="1" style="width: auto; height: 566px;"></div>
+            </div><div class="simplebar-track simplebar-horizontal" bis_skin_checked="1" style="visibility: hidden;"><div class="simplebar-scrollbar" bis_skin_checked="1" style="width: 0px; display: none;"></div></div><div class="simplebar-track simplebar-vertical" bis_skin_checked="1" style="visibility: visible;"><div class="simplebar-scrollbar" bis_skin_checked="1" style="height: 65px; transform: translate3d(0px, 0px, 0px); display: block;"></div></div>
+        </div>
+
+        <div class="offcanvas-footer border-top py-2 px-2 text-center" bis_skin_checked="1">
+            <div class="d-flex gap-2" bis_skin_checked="1">
+                <button type="button" class="btn btn-soft-danger w-100" id="reset-layout">Reset</button>
+            </div>
+        </div>
+    </div>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
