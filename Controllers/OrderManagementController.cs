@@ -2,7 +2,7 @@
 
 namespace ClinicManagementSystem.Controllers
 {
-    public class ScientificInstrumentController : Controller
+    public class OrderManagementController : Controller
     {
         public IActionResult Index()
         {

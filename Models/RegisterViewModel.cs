@@ -22,5 +22,7 @@ namespace ClinicManagementSystem.Models
 
         [Required]
         public required string LastName { get; set; }
+
+        public string? ImgagePath { get; set; }
     }
 }

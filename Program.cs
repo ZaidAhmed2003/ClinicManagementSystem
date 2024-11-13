@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ClinicManagementSystem.Data;
 using ClinicManagementSystem.Models;
+using Microsoft.Extensions.FileProviders;
 
 namespace ClinicManagementSystem
 {
@@ -43,6 +44,14 @@ namespace ClinicManagementSystem
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                Path.Combine(Directory.GetCurrentDirectory(), "node_modules")),
+                RequestPath = "/vendor"
+            });
+
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

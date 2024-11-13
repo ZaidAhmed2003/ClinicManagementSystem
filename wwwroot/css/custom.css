@@ -14983,7 +14983,7 @@ html[data-layout-mode=detached][data-sidenav-size=sm] .app-wrapper .app-sidenav 
 }
 
 body.authentication-bg {
-    background-image: url(/assets/images/login-bg-c09e5bcb.jpg);
+    background-image: url(/assets/images/login.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     display: flex;
@@ -15020,7 +15020,7 @@ body.authentication-bg {
 }
 
 html[data-bs-theme=dark] body.authentication-bg {
-    background-image: url(/assets/images/login-bg-dark-86837340.jpg)
+    background-image: url(/assets/images/login-dark.jpg)
 }
 
 html[data-bs-theme=dark] .auth-brand .logo-light {

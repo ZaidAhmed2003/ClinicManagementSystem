@@ -2,53 +2,96 @@
 
 @{
     ViewData["Title"] = "Login";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+  
+    
 }
+    
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card">
+                <div class="row g-0 align-items-center justify-content-center">
+                    <div class="col-xl-5 col-lg-6">
+                        <div class="d-flex flex-column p-4">
+                            <div class="flex-shrink-0">
+                                <div class="auth-brand mb-5">
+                                    <a href="index.html" class="logo-dark">
+                                        <span><img src="~/assets/images/logo-light-e9fb2c1a.png" alt="" height="32"></span>
+                                    </a>
+                                    <a href="index.html" class="logo-light">
+                                        <span><img src="~/assets/images/logo-dark-3d833aea.png" alt="" height="32"></span>
+                                    </a>
+                                </div>
+                            </div>
 
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card mt-5">
-            <div class="card-header">
-                <h2 class="text-center">@ViewData["Title"]</h2>
+                            <div class="flex-grow-1 d-flex flex-column align-items-center justify-content-center">
+                                <div class="w-100">
+                                    <div class="">
+                                        <h4 class="font-20">Sign In</h4>
+                                        <p class="text-muted mb-3">
+                                            Enter your email address and password to access
+                                            account.
+                                        </p>
+                                    </div>
+
+                                    <form asp-action ="Login" method="post" class="mb-3">
+                                        <div class="form-group mb-3">
+                                            <label class="form-label" asp-for="Email" for="emailaddress">Email address</label>
+                                            <input class="form-control" asp-for="Email" type="email" id="emailaddress"  placeholder="Enter your email">
+                                            <span asp-validation-for="Email" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <a href="auth-forgotpw.html" class="text-muted float-end"><small>Forgot your password?</small></a>
+                                            <label asp-for="Password" for="password" class="form-label">Password</label>
+                                            <div class="input-group input-group-merge">
+                                                <input asp-for="Password" type="password" id="password" class="form-control" placeholder="Enter your password">
+                                                <div class="input-group-text" data-password="false">
+                                                    <span class="password-eye"></span>
+                                                </div>
+                                            </div>
+                                            <span asp-validation-for="Password" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group mb-3">
+                                            <div class="d-flex gap-2">
+                                                <input asp-for="RememberMe" class="form-check-input" type="checkbox" id="checkbox-signin" checked>
+                                                <label asp-for="RememberMe" class="form-check-label" for="checkbox-signin">Remember me</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group mb-0 text-center">
+                                            <button class="btn btn-blue w-100" type="submit"><i class="mdi mdi-login me-1"></i> Log In </button>
+                                        </div>
+
+                                    </form>
+
+
+                                
+                                </div>
+                            </div>
+
+                        </div> <!-- end card-body -->
+
+                    </div>
+                    <div class="col-xl-7 col-lg-6  d-none d-lg-block">
+                        <div class="login-img">
+                            <div class="img-light">
+                                <img src="~/assets/images/login-5ee99bc5.svg" alt="" class="img-fluid">
+                            </div>
+                            <div class="img-dark">
+                                <img src="~/assets/images/login-dark-5dbf652b.svg" alt="" class="img-fluid">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="card-body">
-                <form asp-action="Login" method="post">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <!-- end card -->
+            <p class="text-muted text-center font-16 mb-5">Don't have an account? <a asp-action="Register" class="text-dark ms-1">Sign Up</a></p>
 
-                    <div class="mb-3">
-                        <label asp-for="Email" class="form-label"></label>
-                        <input asp-for="Email" class="form-control" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <label asp-for="Password" class="form-label"></label>
-                        <input asp-for="Password" class="form-control" />
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-3 form-check">
-                        <input asp-for="RememberMe" class="form-check-input" />
-                        <label asp-for="RememberMe" class="form-check-label"></label>
-                    </div>
-
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-primary">Login</button>
-                    </div>
-                </form>
-            </div>
-            <div class="card-footer text-center">
-                <p>Don't have an account? <a asp-action="Register">Register here</a></p>
-            </div>
-        </div>
+        </div> <!-- end col -->
     </div>
+    <!-- end row -->
 </div>
-
-   
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
-
+<!-- end container -->

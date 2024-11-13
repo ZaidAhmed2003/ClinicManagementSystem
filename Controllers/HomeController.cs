@@ -14,18 +14,18 @@ namespace ClinicManagementSystem.Controllers
             _logger = logger;
         }
 
-        //[Authorize(Roles = "Admin,User")]
         public IActionResult Index()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                // Redirect to the dashboard if the user is logged in
+                return RedirectToAction("Index", "Dashboard");
+            }
+
             return View();
         }
 
-        [Authorize(Roles = "Admin")]
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
+       
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

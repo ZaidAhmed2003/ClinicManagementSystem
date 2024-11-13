@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ClinicManagementSystem.Models;
+using System.Reflection.Emit;
 
 namespace ClinicManagementSystem.Data
 {
@@ -11,41 +12,26 @@ namespace ClinicManagementSystem.Data
         {
         }
 
+        public DbSet<ProductModel> Products { get; set; }
+        public DbSet<ProductCategoryModel> Product_Category { get; set; }
+        public DbSet<ProductDiscountModel> Product_Discount { get; set; }
+        public DbSet<ProductInventoryModel> Product_Inventory { get; set; }
 
-        public DbSet<MedicineModel> Medicines { get; set; }
-        public DbSet<ScientificInstrumentModel> ScientificInstruments { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
+            // Specify precision for decimal properties
+            builder.Entity<ProductModel>()
+                .Property(p => p.Price)
+                .HasPrecision(18, 2); // 18 digits in total, 2 after the decimal point
 
-            builder.Entity<MedicineModel>(entity =>
-            {
-                entity.Property(e => e.Price)
-                    .HasColumnType("decimal(18,2)")  // Specifies precision and scale
-                    .HasPrecision(18, 2);            // Alternatively, use HasPrecision if only using precision/scale
+            builder.Entity<ProductDiscountModel>()
+                .Property(d => d.DiscountValue)
+                .HasPrecision(18, 2); // 18 digits in total, 2 after the decimal point
 
-                // Configure other properties with HasColumnType, HasMaxLength, etc. as needed
-                entity.Property(e => e.Code)
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.Dosage)
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.Description)
-                    .HasColumnType("nvarchar(max)"); // For longer text
-            });
-
-            // Configure ScientificInstrumentModel similarly
-            builder.Entity<ScientificInstrumentModel>(entity =>
-            {
-                entity.Property(e => e.Price)
-                    .HasColumnType("decimal(18,2)")  // Ensure precision and scale for price
-                    .HasPrecision(18, 2);
-
-                // Add configurations for other properties if necessary
-            });
         }
     }
 }

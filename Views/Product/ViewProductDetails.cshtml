@@ -1,0 +1,144 @@
+﻿@model ClinicManagementSystem.Models.ProductModel
+
+
+@{
+	ViewData["Title"] = "ViewProductDetails";
+	Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<div class="container-fluid">
+
+	<!-- start page title -->
+	<div class="row">
+		<div class="col-12">
+			<div class="d-flex justify-content-between align-items-center py-2">
+				<h4>Product Details</h4>
+
+
+				<ol class="breadcrumb d-lg-flex d-none mb-0">
+					<li class="breadcrumb-item"><a asp-action="Index" asp-controller="Dashboard">Clinic Management System</a></li>
+					<li class="breadcrumb-item"><a asp-action="Index" asp-controller="Product">Products</a></li>
+					<li class="breadcrumb-item"><a href="javascript: void(0);">Product Detail</a></li>
+				</ol>
+			</div>
+		</div>
+	</div>
+	<!-- end page title -->
+
+	<div class="card">
+		<div class="card-body">
+			<div class="row g-0">
+				<div class="col-lg-4">
+					<!-- Product image -->
+					
+					
+							
+								<img src="@Model.ImagePath" class="w-100 rounded" alt="Product-img">
+						
+						
+				
+				</div> <!-- end col -->
+				<div class="col-lg-8">
+					<form class="ps-lg-4">
+						<!-- Product title -->
+						<!-- Product stock -->
+						<div class="mb-3">
+							<h4>
+								@if (Model.IsAvailable)
+								{
+									<span class="badge bg-success-subtle text-success">Active</span>
+								}else{
+									<span class="badge bg-danger-subtle text-danger">In Active</span>
+								}
+							</h4>
+						</div>
+
+						<h3 class="mt-0">
+							<a asp-controller="Product" asp-action="EditProduct" asp-route-id="@Model.ProductId" class="text-muted"><i class="mdi mdi-square-edit-outline ms-2"></i></a>
+						</h3>
+						<p class="mb-1">Added Date: @Model.CreatedAt.ToString("MM/dd/yyyy")</p>
+						<p class="font-16">
+							<span class="text-warning mdi mdi-star"></span>
+							<span class="text-warning mdi mdi-star"></span>
+							<span class="text-warning mdi mdi-star"></span>
+							<span class="text-warning mdi mdi-star"></span>
+							<span class="text-warning mdi mdi-star"></span>
+						</p>
+
+						<!-- Product description -->
+						<div class="mt-4">
+							<h3> $@Model.Price</h3>
+							<p class="text-muted fs-5 fw-semibold">
+								@Model.ShortDescription
+							</p>
+						</div>
+						<hr>
+
+						<!-- Product description -->
+						<div class="mt-4">
+							<h5>Description:</h5>
+							<p class="text-muted fs-5 fw-semibold">
+								@Model.Description
+							</p>
+						</div>
+
+						<!-- Product information -->
+						<div class="mt-4">
+							<div class="row">
+								<div class="col-md-4">
+									<h5>Available Stock:</h5>
+									<p class="text-sm lh-150">@Model.Inventory.Quantity</p>
+								</div>
+								<div class="col-md-4">
+									<h5>Number of Orders:</h5>
+									<p class="text-sm lh-150">5,458</p>
+								</div>
+								<div class="col-md-4">
+									<h5>Revenue:</h5>
+									<p class="text-sm lh-150">$8,57,014</p>
+								</div>
+							</div>
+						</div>
+
+					</form>
+				</div> <!-- end col -->
+			</div> <!-- end row-->
+
+			@* <div class="row justify-content-center align-items-center g-2 mt-4">
+				<div class="col-xl-3 col-md-4">
+					<div class="text-center">
+						<i class="mdi mdi-check-decagram fs-3 text-success"></i>
+						<h5 class="mb-1">100% Original</h5>
+						<p class="text-muted fs-5 fw-semibold">
+							Chocolate bar candy canes ice <br>
+							toffee cookie halvah.
+						</p>
+					</div>
+				</div><!-- end col -->
+
+				<div class="col-xl-3 col-md-4">
+					<div class="text-center">
+						<i class="mdi mdi-check-decagram fs-3 text-success"></i>
+						<h5 class="mb-1">10 Day Replacement</h5>
+						<p class="text-muted fs-5 fw-semibold">
+							Chocolate bar candy canes ice cream
+							<br> toffee cookie halvah.
+						</p>
+					</div>
+				</div><!-- end col -->
+				<div class="col-xl-3 col-md-4">
+					<div class="text-center">
+						<i class="mdi mdi-check-decagram fs-3 text-success"></i>
+						<h5 class="mb-1">Year Warranty</h5>
+						<p class="text-muted fs-5 fw-semibold">
+							Chocolate bar candy canes ice cream
+							<br> toffee cookie halvah.
+						</p>
+					</div>
+				</div><!-- end col -->
+			</div><!-- end row -->
+ *@
+		</div> <!-- end card-body-->
+	</div> <!-- end card-->
+
+</div>

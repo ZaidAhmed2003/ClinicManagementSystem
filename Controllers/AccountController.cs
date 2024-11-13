@@ -62,50 +62,38 @@ namespace ClinicManagementSystem.Controllers
             return View();
         }
 
-[HttpPost]
-public async Task<IActionResult> Login(LoginViewModel model)
-{
-    if (ModelState.IsValid)
-    {
-        // Attempt to sign in
-        var result = await _signInManager.PasswordSignInAsync(
-            model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
-
-        if (result.Succeeded)
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
-            // Find the logged-in user
-            var user = await _userManager.FindByEmailAsync(model.Email);
-            if (user != null)
+            if (ModelState.IsValid)
             {
+                // Attempt to sign in
+                var result = await _signInManager.PasswordSignInAsync(
+                    model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
 
-                        // Pass the user's first and last name to the layout via ViewData
-                        ViewData["FirstName"] = user.FirstName;
-                        ViewData["LastName"] = user.LastName;
-                        // Get user roles
-                        var roles = await _userManager.GetRolesAsync(user);
+                if (result.Succeeded)
+                {
+                    // Find the logged-in user
+                    var user = await _userManager.FindByEmailAsync(model.Email);
 
-                // Redirect based on role
-                if (roles.Contains("Admin"))
-                {
-                    return RedirectToAction("Index", "Dashboard");
+                    if (user != null)
+                    {                       
+                        var roles = await _userManager.GetRolesAsync(user); 
+
+                        ViewBag.FullName = $"{user.FirstName} {user.LastName}";
+
+                        // Redirect based on role
+                        if (roles.Contains("Admin") || roles.Contains("User"))
+                        {
+                            return RedirectToAction("Index", "Dashboard");
+                        }
+                    }
+                    return RedirectToAction("Index", "Home");
                 }
-                else if (roles.Contains("User"))
-                {
-                    return RedirectToAction("Index", "Dashboard");
-                }
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             }
-
-            // Default redirection if no role is matched
-            return RedirectToAction("Index", "Home");
+            return View(model);
         }
-
-        // If login fails
-        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-    }
-
-    // Return the view with the model state errors if any
-    return View(model);
-}
 
         [HttpPost]
         public async Task<IActionResult> Logout()
