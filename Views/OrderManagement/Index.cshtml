@@ -1,0 +1,429 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+<div class="container-fluid">
+
+    <!-- start page title -->
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center py-2">
+                <h4>Order</h4>
+
+
+                <ol class="breadcrumb d-lg-flex d-none mb-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">TechUI</a></li>
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Ecommerce</a></li>
+
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Order</a></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <!-- end page title -->
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-xl-8">
+                            <form class="row gy-2 gx-2 align-items-center justify-content-xl-start justify-content-between">
+                                <div class="col-auto">
+                                    <label for="inputPassword2" class="visually-hidden">Search</label>
+                                    <input type="search" class="form-control" id="inputPassword2" placeholder="Search...">
+                                </div>
+                                <div class="col-auto">
+                                    <div class="d-flex align-items-center">
+                                        <label for="status-select" class="me-2">Status</label>
+                                        <select class="form-select" id="status-select">
+                                            <option selected="">Choose...</option>
+                                            <option value="1">Paid</option>
+                                            <option value="2">Awaiting Authorization</option>
+                                            <option value="3">Payment failed</option>
+                                            <option value="4">Cash On Delivery</option>
+                                            <option value="5">Fulfilled</option>
+                                            <option value="6">Unfulfilled</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-xl-4">
+                            <div class="d-flex justify-content-end align-items-center mt-xl-0 mt-2">
+                                <button type="button" class="btn btn-danger me-2"><i class="mdi mdi-basket me-1"></i> Add New Order</button>
+                                <div>
+                                    <button type="button" class="btn btn-white border"><i class="mdi mdi-filter-outline me-1"></i>Filter</button>
+                                </div>
+                            </div>
+                        </div><!-- end col-->
+                    </div>
+                </div> <!-- end card-body-->
+
+                <div class="table-responsive">
+                    <table class="table table-centered table-nowrap mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th style="width: 20px;">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="customCheck1">
+                                        <label class="form-check-label" for="customCheck1">&nbsp;</label>
+                                    </div>
+                                </th>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Date</th>
+                                <th>Total</th>
+                                <th>Payment Method</th>
+                                <th>Order Status</th>
+                                <th style="width: 125px;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="customCheck2">
+                                        <label class="form-check-label" for="customCheck2">&nbsp;</label>
+                                    </div>
+                                </td>
+                                <td><a href="apps-ecommerce-orders-details.html" class="text-body fw-bold">#CD2302</a> </td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <img src="data:image/jpeg;base64,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" alt="" class="avatar-sm rounded-circle">
+                                        <div>
+                                            <h5 class="mb-0">John Bushmill</h5>
+                                            <a href="" class="text-muted fs-6 mb-0">john_Bushmill@gmail.com</a>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    August 05 2018
+                                    <h6 class="text-muted mb-0">2:20pm</h6>
+                                </td>
+
+                                <td>
+                                    $176.41
+                                </td>
+                                <td>
+                                    Mastercard
+                                </td>
+                                <td>
+                                    <span class="badge bg-info-subtle text-info fs-6 fw-semibold">Shiped</span>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye"></i></a>
+                                    <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
+                                    <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="customCheck3">
+                                        <label class="form-check-label" for="customCheck3">&nbsp;</label>
+                                    </div>
+                                </td>
+                                <td><a href="apps-ecommerce-orders-details.html" class="text-body fw-bold">#CD2305</a> </td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <img src="/techui/layouts/assets/avatar-2-55872111.jpg" alt="" class="avatar-sm rounded-circle">
+                                        <div>
+                                            <h5 class="mb-0">Ilham Budi</h5>
+                                            <a href="" class="text-muted fs-6 mb-0">ilhambudi@gmail.com</a>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    August 04 2018
+                                    <h6 class="text-muted mb-0">3:10pm</h6>
+                                </td>
+
+                                <td>
+                                    $1,458.65
+                                </td>
+                                <td>
+                                    Visa
+                                </td>
+                                <td>
+                                    <span class="badge bg-primary-subtle text-primary fs-6 fw-semibold">Processing</span>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye"></i></a>
+                                    <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
+                                    <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="customCheck4">
+                                        <label class="form-check-label" for="customCheck4">&nbsp;</label>
+                                    </div>
+                                </td>
+                                <td><a href="apps-ecommerce-orders-details.html" class="text-body fw-bold">#CD2310</a> </td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <img src="/techui/layouts/assets/avatar-3-e534a0e8.jpg" alt="" class="avatar-sm rounded-circle">
+                                        <div>
+                                            <h5 class="mb-0">Mohammad Karim</h5>
+                                            <a href="" class="text-muted fs-6 mb-0">mohammad_karim@gmail.com</a>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    August 04 2018
+                                    <h6 class="text-muted mb-0">3:40pm</h6>
+                                </td>
+
+                                <td>
+                                    $801.99
+                                </td>
+                                <td>
+                                    Credit Card
+                                </td>
+                                <td>
+                                    <span class="badge bg-primary-subtle text-primary fs-6 fw-semibold">Processing</span>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye"></i></a>
+                                    <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
+                                    <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="customCheck5">
+                                        <label class="form-check-label" for="customCheck5">&nbsp;</label>
+                                    </div>
+                                </td>
+                                <td><a href="apps-ecommerce-orders-details.html" class="text-body fw-bold">#CD2322</a> </td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <img src="data:image/jpeg;base64,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" alt="" class="avatar-sm rounded-circle">
+                                        <div>
+                                            <h5 class="mb-0">Linda Blair</h5>
+                                            <a href="" class="text-muted fs-6 mb-0">lindablair@gmail.com</a>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    August 03 2018 <h6 class="text-muted mb-0">4:10pm</h6>
+                                </td>
+
+                                <td>
+                                    $215.35
+                                </td>
+                                <td>
+                                    Transfer
+                                </td>
+                                <td>
+                                    <span class="badge bg-info-subtle text-info fs-6 fw-semibold">Shiped</span>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye"></i></a>
+                                    <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
+                                    <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="customCheck6">
+                                        <label class="form-check-label" for="customCheck6">&nbsp;</label>
+                                    </div>
+                                </td>
+                                <td><a href="apps-ecommerce-orders-details.html" class="text-body fw-bold">#CD2311</a> </td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <img src="/techui/layouts/assets/avatar-5-601bc792.jpg" alt="" class="avatar-sm rounded-circle">
+                                        <div>
+                                            <h5 class="mb-0">Josh Adam</h5>
+                                            <a href="" class="text-muted fs-6 mb-0">joshadam@gmail.com</a>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    May 22 2018 <h6 class="text-muted mb-0">4:30pm</h6>
+                                </td>
+
+                                <td>
+                                    $2,514.36
+                                </td>
+                                <td>
+                                    Paypal
+                                </td>
+                                <td>
+                                    <span class="badge bg-info-subtle text-info fs-6 fw-semibold">Shiped</span>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye"></i></a>
+                                    <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
+                                    <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="customCheck7">
+                                        <label class="form-check-label" for="customCheck7">&nbsp;</label>
+                                    </div>
+                                </td>
+                                <td><a href="apps-ecommerce-orders-details.html" class="text-body fw-bold">#CD2313</a> </td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <img src="data:image/jpeg;base64,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" alt="" class="avatar-sm rounded-circle">
+                                        <div>
+                                            <h5 class="mb-0">Sin Tae</h5>
+                                            <a href="" class="text-muted fs-6 mb-0">sintae@gmail.com</a>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    April 02 2018 <h6 class="text-muted mb-0">4:45pm</h6>
+                                </td>
+
+                                <td>
+                                    $183.20
+                                </td>
+                                <td>
+                                    Payoneer
+                                </td>
+                                <td>
+                                    <span class="badge bg-success-subtle text-success fs-6 fw-semibold">Delivered</span>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye"></i></a>
+                                    <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
+                                    <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="customCheck8">
+                                        <label class="form-check-label" for="customCheck8">&nbsp;</label>
+                                    </div>
+                                </td>
+                                <td><a href="apps-ecommerce-orders-details.html" class="text-body fw-bold">#CD2323</a> </td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <img src="data:image/jpeg;base64,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" alt="" class="avatar-sm rounded-circle">
+                                        <div>
+                                            <h5 class="mb-0">Rajesh Masvidal</h5>
+                                            <a href="" class="text-muted fs-6 mb-0">rajeshmasvidal@gmail.com</a>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    March 18 2018 <h6 class="text-muted mb-0">4:50pm</h6>
+                                </td>
+
+                                <td>
+                                    $1,768.41
+                                </td>
+                                <td>
+                                    Visa
+                                </td>
+                                <td>
+                                    <span class="badge bg-danger-subtle text-danger fs-6 fw-semibold">
+                                        Cancelled
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye"></i></a>
+                                    <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
+                                    <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="customCheck9">
+                                        <label class="form-check-label" for="customCheck9">&nbsp;</label>
+                                    </div>
+                                </td>
+                                <td><a href="apps-ecommerce-orders-details.html" class="text-body fw-bold">#CD2365</a> </td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <img src="data:image/jpeg;base64,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" alt="" class="avatar-sm rounded-circle">
+                                        <div>
+                                            <h5 class="mb-0">Fajar Surya</h5>
+                                            <a href="" class="text-muted fs-6 mb-0">fsurya@gmail.com</a>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    February 01 2018 <h6 class="text-muted mb-0">5:25pm</h6>
+                                </td>
+
+                                <td>
+                                    $3,582.99
+                                </td>
+                                <td>
+                                    Paypal
+                                </td>
+                                <td>
+                                    <span class="badge bg-success-subtle text-success fs-6 fw-semibold">Delivered</span>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye"></i></a>
+                                    <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
+                                    <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="customCheck10">
+                                        <label class="form-check-label" for="customCheck10">&nbsp;</label>
+                                    </div>
+                                </td>
+                                <td><a href="apps-ecommerce-orders-details.html" class="text-body fw-bold">#CD2345</a> </td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <img src="/techui/layouts/assets/avatar-9-07538111.jpg" alt="" class="avatar-sm rounded-circle">
+                                        <div>
+                                            <h5 class="mb-0">Francy Grag</h5>
+                                            <a href="" class="text-muted fs-6 mb-0">frany@gmail.com</a>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    January 22 2018 <h6 class="text-muted mb-0">5:45pm</h6>
+                                </td>
+
+                                <td>
+                                    $923.95
+                                </td>
+                                <td>
+                                    Credit Card
+                                </td>
+                                <td>
+                                    <span class="badge bg-danger-subtle text-danger fs-6 fw-semibold">
+                                        Cancelled
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye"></i></a>
+                                    <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
+                                    <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                                </td>
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div> <!-- end card-->
+        </div> <!-- end col -->
+    </div>
+    <!-- end row -->
+
+</div>

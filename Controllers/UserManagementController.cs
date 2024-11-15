@@ -6,27 +6,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ClinicManagementSystem.Controllers
 {
-	
-	public class DashboardController : Controller
-    {
+	[Authorize]
+	public class UserManagementController : Controller
+	{
 		private readonly UserManager<ApplicationUser> _userManager;
 
-		public DashboardController(UserManager<ApplicationUser> userManager)
+		public UserManagementController(UserManager<ApplicationUser> userManager)
 		{
 			_userManager = userManager;
 		}
 
 
-
-		[HttpGet]
-		public async Task<IActionResult> Index()
-        {
-			var user = await _userManager.Users.ToListAsync();
-			
-
-			ViewBag.totalusers = user.Count;
-
-            return View();
-        }
-    }
+		[Authorize(Roles = "Admin")]
+		public async Task <IActionResult> Index()
+		{
+			var users = await _userManager.Users.ToListAsync();
+			return View(users);
+		}
+	}
 }
