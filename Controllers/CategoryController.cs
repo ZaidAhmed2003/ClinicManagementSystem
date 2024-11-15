@@ -1,11 +1,13 @@
 ﻿using ClinicManagementSystem.Data;
 using ClinicManagementSystem.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClinicManagementSystem.Controllers
 {
-    public class CategoryController : Controller
+	[Authorize(Roles = "Admin")]
+	public class CategoryController : Controller
     {
         private readonly ApplicationDbContext _context;
 

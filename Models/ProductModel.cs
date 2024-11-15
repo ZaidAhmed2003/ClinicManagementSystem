@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ClinicManagementSystem.Models
 {
+
     public class ProductModel
     {
 

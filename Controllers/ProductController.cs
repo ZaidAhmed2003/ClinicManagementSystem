@@ -3,9 +3,11 @@ using ClinicManagementSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ClinicManagementSystem.Controllers
 {
+	[Authorize(Roles = "Admin")]
 	public class ProductController : Controller
 	{
 		private readonly ApplicationDbContext _context;

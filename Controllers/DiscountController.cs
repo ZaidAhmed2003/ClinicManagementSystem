@@ -1,10 +1,12 @@
 ﻿using ClinicManagementSystem.Data;
 using ClinicManagementSystem.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClinicManagementSystem.Controllers
 {
+	[Authorize(Roles = "Admin")]
 	public class DiscountController : Controller
 	{
 

@@ -23,14 +23,147 @@
 					<div class="simplebar-content-wrapper menuitem-active" tabindex="0" role="region" aria-label="scrollable content" style="height: 100%; overflow: hidden scroll;">
 						<div class="simplebar-content show" style="padding: 0px;">
 							<ul class="menu">
+								@if (User.IsInRole("Admin"))
+								{
+									<li class="menu-title">Navigation</li>
 
+									<li class="menu-item ">
+										<a asp-controller="Dashboard" asp-action="Index" class="menu-link active">
+											<span class="menu-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></span>
+											<span class="menu-text"> Dashboard </span>
+
+										</a>
+									</li>
+
+									<li class="menu-title">Apps</li>
+
+									<li class="menu-item">
+										<a href="apps-calendar.html" class="menu-link">
+											<span class="menu-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+											<span class="menu-text"> Orders </span>
+										</a>
+									</li>
+
+									<li class="menu-item">
+										<a href="#ecommerce" data-bs-toggle="collapse" class="menu-link">
+											<span class="menu-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></span>
+											<span class="menu-text"> Ecommerce </span>
+											<span class="menu-arrow"></span>
+										</a>
+										<div class="collapse" id="ecommerce">
+											<ul class="sub-menu">
+
+												<li class="menu-item">
+													<a asp-action="Index" asp-controller="Product" class="menu-link">
+														<span class="menu-text">Products</span>
+													</a>
+												</li>
+												<li class="menu-item">
+													<a asp-action="AddProduct" asp-controller="Product" class="menu-link">
+														<span class="menu-text">Create Product</span>
+													</a>
+												</li>
+												<li class="menu-item">
+													<a asp-controller="Category" asp-action="Index" class="menu-link">
+														<span class="menu-text">Category</span>
+													</a>
+												</li>
+												<li class="menu-item">
+													<a asp-controller="Category" asp-action="AddCategory" class="menu-link">
+														<span class="menu-text">Create Category</span>
+													</a>
+												</li>
+												<li class="menu-item">
+													<a asp-controller="Discount" asp-action="Index" class="menu-link">
+														<span class="menu-text">Discount</span>
+													</a>
+												</li>
+												<li class="menu-item">
+													<a asp-controller="Discount" asp-action="AddDiscount" class="menu-link">
+														<span class="menu-text">Create Discount</span>
+													</a>
+												</li>
+
+
+
+												<li class="menu-item">
+													<a asp-controller="OrderManagement" asp-action="Index" class="menu-link">
+														<span class="menu-text">Order</span>
+													</a>
+												</li>
+
+											</ul>
+										</div>
+									</li>
+
+									<li class="menu-item">
+										<a href="#invoice" data-bs-toggle="collapse" class="menu-link">
+											<span class="menu-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg></span>
+											<span class="menu-text"> Invoice </span>
+											<span class="menu-arrow"></span>
+										</a>
+										<div class="collapse" id="invoice">
+											<ul class="sub-menu">
+												<li class="menu-item">
+													<a href="apps-invoice-report.html" class="menu-link">
+														<span class="menu-text">Invoice Report</span>
+													</a>
+												</li>
+												<li class="menu-item">
+													<a href="apps-invoice.html" class="menu-link">
+														<span class="menu-text">Invoice</span>
+													</a>
+												</li>
+											</ul>
+										</div>
+									</li>
+
+
+									<li class="menu-title">Pages</li>
+
+									<li class="menu-item">
+										<a href="#menuExpages" data-bs-toggle="collapse" class="menu-link ">
+											<span class="menu-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-book"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg></span>
+											<span class="menu-text"> Extra Pages </span>
+											<span class="menu-arrow"></span>
+										</a>
+										<div class="collapse" id="menuExpages">
+											<ul class="sub-menu">
+												<li class="menu-item">
+													<a href="pages-starter.html" class="menu-link">
+														<span class="menu-text">Starter</span>
+													</a>
+												</li>
+
+											</ul>
+										</div>
+									</li>
+
+
+
+
+
+									<li class="menu-title">Settings</li>
+
+									<li class="menu-item ">
+										<a asp-controller="UserManagement" asp-action="Index" class="menu-link active">
+											<span class="menu-icon">
+												<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user">
+													<path d="M12 2C9.243 2 7 4.243 7 7C7 9.757 9.243 12 12 12C14.757 12 17 9.757 17 7C17 4.243 14.757 2 12 2ZM12 14C8.686 14 5 16.686 5 20H19C19 16.686 15.314 14 12 14Z"></path>
+												</svg>
+											</span>
+											<span class="menu-text"> Users </span>
+
+										</a>
+									</li>
+								}
 								<li class="menu-title">Navigation</li>
 
 								<li class="menu-item ">
 									<a asp-controller="Dashboard" asp-action="Index" class="menu-link active">
 										<span class="menu-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></span>
 										<span class="menu-text"> Dashboard </span>
-										
+
 									</a>
 								</li>
 
@@ -39,104 +172,22 @@
 								<li class="menu-item">
 									<a href="apps-calendar.html" class="menu-link">
 										<span class="menu-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
-										<span class="menu-text"> Calendar </span>
+										<span class="menu-text"> Orders </span>
 									</a>
 								</li>
-
 								<li class="menu-item">
-									<a href="#ecommerce" data-bs-toggle="collapse" class="menu-link">
-										<span class="menu-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></span>
-										<span class="menu-text"> Ecommerce </span>
-										<span class="menu-arrow"></span>
+									<a href="apps-calendar.html" class="menu-link">
+										<span class="menu-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+										<span class="menu-text"> Transactions </span>
 									</a>
-									<div class="collapse" id="ecommerce">
-										<ul class="sub-menu">
-											<li class="menu-item">
-												<a asp-action="Index" asp-controller="Product" class="menu-link">
-													<span class="menu-text">Products</span>
-												</a>
-											</li>
-											<li class="menu-item">
-												<a asp-action="AddProduct" asp-controller="Product" class="menu-link">
-													<span class="menu-text">Create Product</span>
-												</a>
-											</li>
-											<li class="menu-item">
-												<a asp-controller="Category" asp-action="Index" class="menu-link">
-													<span class="menu-text">Category</span>
-												</a>
-											</li>
-											<li class="menu-item">
-												<a asp-controller="Category" asp-action="AddCategory" class="menu-link">
-													<span class="menu-text">Create Category</span>
-												</a>
-											</li>
-											<li class="menu-item">
-												<a asp-controller="Discount" asp-action="Index" class="menu-link">
-													<span class="menu-text">Discount</span>
-												</a>
-											</li>
-											<li class="menu-item">
-												<a asp-controller="Discount" asp-action="AddDiscount" class="menu-link">
-													<span class="menu-text">Create Discount</span>
-												</a>
-											</li>
-											<li class="menu-item">
-												<a asp-controller="OrderManagement" asp-action="Index" class="menu-link">
-													<span class="menu-text">Order</span>
-												</a>
-											</li>
-											<li class="menu-item">
-												<a asp-controller ="OrderManagement" asp-action="" class="menu-link">
-													<span class="menu-text">Order Details</span>
-												</a>
-											</li>
-										</ul>
-									</div>
-								</li>
-
-								<li class="menu-item">
-									<a href="#invoice" data-bs-toggle="collapse" class="menu-link">
-										<span class="menu-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg></span>
-										<span class="menu-text"> Invoice </span>
-										<span class="menu-arrow"></span>
-									</a>
-									<div class="collapse" id="invoice">
-										<ul class="sub-menu">
-											<li class="menu-item">
-												<a href="apps-invoice-report.html" class="menu-link">
-													<span class="menu-text">Invoice Report</span>
-												</a>
-											</li>
-											<li class="menu-item">
-												<a href="apps-invoice.html" class="menu-link">
-													<span class="menu-text">Invoice</span>
-												</a>
-											</li>
-										</ul>
-									</div>
 								</li>
 
 
-								<li class="menu-title">Pages</li>
 
-								<li class="menu-item">
-									<a href="#menuExpages" data-bs-toggle="collapse" class="menu-link ">
-										<span class="menu-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-book"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg></span>
-										<span class="menu-text"> Extra Pages </span>
-										<span class="menu-arrow"></span>
-									</a>
-									<div class="collapse" id="menuExpages">
-										<ul class="sub-menu">
-											<li class="menu-item">
-												<a href="pages-starter.html" class="menu-link">
-													<span class="menu-text">Starter</span>
-												</a>
-											</li>
-											
-										</ul>
-									</div>
-								</li>
+
+
+
+
 
 
 
@@ -151,11 +202,12 @@
 												<path d="M12 2C9.243 2 7 4.243 7 7C7 9.757 9.243 12 12 12C14.757 12 17 9.757 17 7C17 4.243 14.757 2 12 2ZM12 14C8.686 14 5 16.686 5 20H19C19 16.686 15.314 14 12 14Z"></path>
 											</svg>
 										</span>
-										<span class="menu-text"> Users </span>
-									
+										<span class="menu-text"> Profile </span>
+
 									</a>
 								</li>
 							</ul>
+
 							<!--- End Menu -->
 							<div class="clearfix"></div>
 						</div>
