@@ -16,10 +16,10 @@ namespace ClinicManagementSystem.Data
         public DbSet<ProductCategoryModel> Product_Category { get; set; }
         public DbSet<ProductDiscountModel> Product_Discount { get; set; }
         public DbSet<ProductInventoryModel> Product_Inventory { get; set; }
+		public DbSet<OrderModel> Orders { get; set; }
 
 
-
-        protected override void OnModelCreating(ModelBuilder builder)
+		protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
