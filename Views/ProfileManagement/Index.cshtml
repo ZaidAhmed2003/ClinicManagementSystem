@@ -1,8 +1,420 @@
-﻿
+﻿@model ClinicManagementSystem.Models.ApplicationUser
+
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-<h1>Index</h1>
+<div class="container-fluid">
+
+    <!-- start page title -->
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center py-2">
+                <h4>Profile</h4>
+
+
+                <ol class="breadcrumb d-lg-flex d-none mb-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">TechUI</a></li>
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Extra Pages</a></li>
+
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Profile</a></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <!-- end page title -->
+    <!-- start page title -->
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card overflow-hidden">
+                <div class="card-body">
+                    <div>
+                        <img src="/techui/layouts/assets/small-6-cd90fef9.png" alt="" width="100%" height="400" class="object-fit-cover rounded">
+                    </div>
+
+                    <div class="w-100">
+                        <div class="d-flex justify-content-between mb-4 ms-2">
+                            <div>
+                                <img src="data:image/jpeg;base64,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" alt="" width="150" class="img-thumbnail rounded-circle" style="margin-top: -60px;">
+                            </div>
+                            <div class="d-flex align-items-start gap-2 mt-2">
+                                <button class="btn btn-primary text-center mb-1"><span class="mdi mdi-account-edit me-1"></span>Edit Profile</button>
+                                <button class="btn btn-dark mb-1">Visit Website</button>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between w-100">
+                            <div>
+                                <h3 class="mb-2 mt-0">@Model.FirstName @Model.LastName </h3>
+                                <p class="mb-0 font-16">Authorised Brand Seller</p>
+                                <p class="font-16 mb-4">New York, United States</p>
+
+                                <h4 class="mb-2">Follow On:</h4>
+                                <ul class="social-list list-inline mb-3">
+                                    <li class="list-inline-item">
+                                        <a class="social-list-item border border-2 border-primary btn btn-soft-primary font-16 rounded-2 " title="" data-bs-toggle="tooltip" data-bs-placement="top" href="" data-bs-title="Facebook"><i class="mdi mdi-facebook"></i></a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <a class="social-list-item border border-2 border-info btn btn-soft-info font-16 rounded-2" title="" data-bs-toggle="tooltip" data-bs-placement="top" href="" data-bs-title="Twitter"><i class="mdi mdi-twitter"></i></a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <a class="social-list-item border border-2 border-primary btn btn-soft-primary font-16 rounded-2" title="" data-bs-toggle="tooltip" data-bs-placement="top" href="" data-bs-title="LinkedIn"><i class="mdi mdi-linkedin"></i></a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <a class="social-list-item border border-2 border-danger btn btn-soft-danger font-16 rounded-2" title="" data-bs-toggle="tooltip" data-bs-placement="top" href="" data-bs-title="Message"><i class="mdi mdi-email-open-outline"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">SELLER INFORMATION</h5>
+                    <p class="mb-3 d-none d-md-block">
+                        Hi! I am a good Authorised Brand Seller , always
+                        willing to learn new skills. I am friendly, helpful and polite, have a good
+                        sense of humour. I am able to work independently in busy environments and also
+                        within a team setting. I am outgoing and tactful, and able to listen effectively
+                        when solving problems.
+                        I am a punctual and motivated individual who is able to work in a busy
+                        environment and produce high standards of work. I am an excellent team worker
+                        and am able to take instructions from all levels and build up good working
+                        relationships with all colleagues. I am flexible, reliable and possess excellent
+                        time keeping skills.
+                    </p>
+
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <b>Full Name : </b><span class="ms-1 text-muted">
+                                Daniel R.
+                                Moulton
+                            </span>
+                        </li>
+                        <li class="mb-2">
+                            <b>Mobile :</b> <span class="ms-1 text-muted">
+                                (+45) 23 323
+                                343544
+                            </span>
+                        </li>
+                        <li class="mb-2"><b>Email :</b> <a href="" class="ms-1 text-muted">DanielRMoulton@armyspy.com </a></li>
+                        <li class="mb-2">
+                            <b>Location : </b><span class="ms-1 text-muted">
+                                United
+                                Stat
+                            </span>
+                        </li>
+                        <li class="mb-2">
+                            <b>Languages :</b> <span class="ms-1 text-muted">
+                                English ,
+                                Spanish , French
+                            </span>
+                        </li>
+                    </ul>
+
+                </div>
+            </div> <!-- end card -->
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="profile-content">
+                        <ul class="nav nav-pills bg-light nav-justified gap-0 mb-4 overflow-hidden rounded" role="tablist">
+                            <li class="nav-item" role="presentation"><a class="nav-link rounded-0 active" data-bs-toggle="tab" data-bs-target="#aboutme" type="button" role="tab" aria-controls="home" aria-selected="true" href="#aboutme">About</a></li>
+                            <li class="nav-item" role="presentation"><a class="nav-link rounded-0" data-bs-toggle="tab" data-bs-target="#user-activities" type="button" role="tab" aria-controls="home" aria-selected="false" href="#user-activities" tabindex="-1">Activities</a></li>
+                            <li class="nav-item" role="presentation"><a class="nav-link rounded-0" data-bs-toggle="tab" data-bs-target="#edit-profile" type="button" role="tab" aria-controls="home" aria-selected="false" href="#edit-profile" tabindex="-1">Settings</a></li>
+                            <li class="nav-item" role="presentation"><a class="nav-link rounded-0" data-bs-toggle="tab" data-bs-target="#projects" type="button" role="tab" aria-controls="home" aria-selected="false" href="#projects" tabindex="-1">Projects</a></li>
+                        </ul>
+
+                        <div class="tab-content m-0">
+                            <div class="tab-pane active" id="aboutme" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+                                <div class="profile-desk">
+                                    <h5 class="text-uppercase fs-17 text-dark">Daniel R. Moulton</h5>
+                                    <div class="designation mb-4">
+                                        PRODUCT DESIGNER (UX / UI / Visual
+                                        Interaction)
+                                    </div>
+                                    <p class="text-muted fs-16">
+                                        I have 10 years of experience designing for the web, and specialize in the areas of user interface design, interaction design, visual design and prototyping. I’ve worked with notable startups including Pearl Street Software.
+                                    </p>
+
+                                    <h5 class="mt-4 fs-17 text-dark">Contact Information</h5>
+                                    <table class="table table-sm mb-0 border-top">
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">Url</th>
+                                                <td>
+                                                    <a href="#" class="ng-binding">
+                                                        www.example.com
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Email</th>
+                                                <td>
+                                                    <a href="" class="ng-binding">
+                                                        @Model.Email
+                                                    </a>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <th scope="row">Phone</th>
+                                                <td class="ng-binding">(123)-456-7890</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Skype</th>
+                                                <td>
+                                                    <a href="#" class="ng-binding">
+                                                        jonathandeo123
+                                                    </a>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div> <!-- end profile-desk -->
+                            </div> <!-- about-me -->
+                            <!-- Activities -->
+                            <div id="user-activities" class="tab-pane" role="tabpanel">
+                                <div class="timeline-2">
+                                    <div class="time-item">
+                                        <div class="item-info ms-3 mb-3">
+                                            <div class="text-muted">5 minutes ago</div>
+                                            <p>
+                                                <strong>
+                                                    <a href="#" class="text-info">
+                                                        John
+                                                        Doe
+                                                    </a>
+                                                </strong>Uploaded a photo
+                                            </p>
+                                            <img src="/techui/layouts/assets/small-3-f0402acd.png" alt="" height="40" width="60" class="rounded-1">
+                                            <img src="/techui/layouts/assets/small-4-e17c7f4e.png" alt="" height="40" width="60" class="rounded-1">
+                                        </div>
+                                    </div>
+
+                                    <div class="time-item">
+                                        <div class="item-info ms-3 mb-3">
+                                            <div class="text-muted">30 minutes ago</div>
+                                            <p>
+                                                <a href="" class="text-info">Lorem</a> commented your
+                                                post.
+                                            </p>
+                                            <p>
+                                                <em>
+                                                    "Lorem ipsum dolor sit amet, consectetur adipiscing
+                                                    elit.
+                                                    Aliquam laoreet tellus ut tincidunt euismod. "
+                                                </em>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="time-item">
+                                        <div class="item-info ms-3 mb-3">
+                                            <div class="text-muted">59 minutes ago</div>
+                                            <p>
+                                                <a href="" class="text-info">Jessi</a> attended a meeting
+                                                with<a href="#" class="text-success">John Doe</a>.
+                                            </p>
+                                            <p>
+                                                <em>
+                                                    "Lorem ipsum dolor sit amet, consectetur adipiscing
+                                                    elit.
+                                                    Aliquam laoreet tellus ut tincidunt euismod. "
+                                                </em>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="time-item">
+                                        <div class="item-info ms-3 mb-3">
+                                            <div class="text-muted">5 minutes ago</div>
+                                            <p>
+                                                <strong>
+                                                    <a href="#" class="text-info">
+                                                        John
+                                                        Doe
+                                                    </a>
+                                                </strong> Uploaded 2 new photos
+                                            </p>
+                                            <img src="/techui/layouts/assets/small-2-ca34a017.png" alt="" height="40" width="60" class="rounded-1">
+                                            <img src="/techui/layouts/assets/small-1-7858b0a5.png" alt="" height="40" width="60" class="rounded-1">
+                                        </div>
+                                    </div>
+
+                                    <div class="time-item">
+                                        <div class="item-info ms-3 mb-3">
+                                            <div class="text-muted">30 minutes ago</div>
+                                            <p>
+                                                <a href="" class="text-info">Lorem</a> commented your
+                                                post.
+                                            </p>
+                                            <p>
+                                                <em>
+                                                    "Lorem ipsum dolor sit amet, consectetur adipiscing
+                                                    elit.
+                                                    Aliquam laoreet tellus ut tincidunt euismod. "
+                                                </em>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="time-item">
+                                        <div class="item-info ms-3 mb-3">
+                                            <div class="text-muted">59 minutes ago</div>
+                                            <p>
+                                                <a href="" class="text-info">Jessi</a> attended a meeting
+                                                with<a href="#" class="text-success">John Doe</a>.
+                                            </p>
+                                            <p>
+                                                <em>
+                                                    "Lorem ipsum dolor sit amet, consectetur adipiscing
+                                                    elit.
+                                                    Aliquam laoreet tellus ut tincidunt euismod. "
+                                                </em>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- settings -->
+                            <div id="edit-profile" class="tab-pane" role="tabpanel">
+                                <div class="user-profile-content">
+                                    <form>
+                                        <div class="row row-cols-sm-2 row-cols-1">
+                                            <div class="mb-2">
+                                                <label class="form-label" for="FullName">
+                                                    Full
+                                                    Name
+                                                </label>
+                                                <input type="text" value="John Doe" id="FullName" class="form-control">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label" for="Email">Email</label>
+                                                <input type="email" value="first.last@example.com" id="Email" class="form-control">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label" for="web-url">Website</label>
+                                                <input type="text" value="Enter website url" id="web-url" class="form-control">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label" for="Username">Username</label>
+                                                <input type="text" value="john" id="Username" class="form-control">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label" for="Password">Password</label>
+                                                <input type="password" placeholder="6 - 15 Characters" id="Password" class="form-control">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label" for="RePassword">Re-Password</label>
+                                                <input type="password" placeholder="6 - 15 Characters" id="RePassword" class="form-control">
+                                            </div>
+                                            <div class="col-sm-12 mb-3">
+                                                <label class="form-label" for="AboutMe">About Me</label>
+                                                <textarea style="height: 125px;" id="AboutMe" class="form-control">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</textarea>
+                                            </div>
+                                        </div>
+                                        <button class="btn btn-primary" type="submit"><i class="ri-save-line me-1 fs-16 lh-1"></i> Save</button>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <!-- profile -->
+                            <div id="projects" class="tab-pane" role="tabpanel">
+                                <div class="row m-t-10">
+                                    <div class="col-md-12">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Project Name</th>
+                                                        <th>Start Date</th>
+                                                        <th>Due Date</th>
+                                                        <th>Status</th>
+                                                        <th>Assign</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>TechUI Admin</td>
+                                                        <td>01/01/2015</td>
+                                                        <td>07/05/2015</td>
+                                                        <td>
+                                                            <span class="badge bg-info">
+                                                                Work
+                                                                in Progress
+                                                            </span>
+                                                        </td>
+                                                        <td>GetAppui</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>2</td>
+                                                        <td>TechUI Frontend</td>
+                                                        <td>01/01/2015</td>
+                                                        <td>07/05/2015</td>
+                                                        <td>
+                                                            <span class="badge bg-success">Pending</span>
+                                                        </td>
+                                                        <td>GetAppui</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>3</td>
+                                                        <td>TechUI Admin</td>
+                                                        <td>01/01/2015</td>
+                                                        <td>07/05/2015</td>
+                                                        <td>
+                                                            <span class="badge bg-pink">Done</span>
+                                                        </td>
+                                                        <td>GetAppui</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>4</td>
+                                                        <td>TechUI Frontend</td>
+                                                        <td>01/01/2015</td>
+                                                        <td>07/05/2015</td>
+                                                        <td>
+                                                            <span class="badge bg-purple">
+                                                                Work
+                                                                in Progress
+                                                            </span>
+                                                        </td>
+                                                        <td>GetAppui</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>5</td>
+                                                        <td>TechUI Admin</td>
+                                                        <td>01/01/2015</td>
+                                                        <td>07/05/2015</td>
+                                                        <td>
+                                                            <span class="badge bg-warning">
+                                                                Coming
+                                                                soon
+                                                            </span>
+                                                        </td>
+                                                        <td>GetAppui</td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- end card body -->
+            </div>
+        </div>
+    </div>
+    <!-- end row -->
+
+</div>
 

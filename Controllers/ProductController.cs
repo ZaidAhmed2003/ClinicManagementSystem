@@ -8,13 +8,11 @@ using Microsoft.AspNetCore.Authorization;
 namespace ClinicManagementSystem.Controllers
 {
 	[Authorize(Roles = "Admin")]
-	public class ProductController : Controller
+	public class ProductController(ApplicationDbContext context) : Controller
 	{
-		private readonly ApplicationDbContext _context;
+		private readonly ApplicationDbContext _context = context;
 
 		private const int PageSize = 10; // Items per page
-
-		public ProductController(ApplicationDbContext context) => _context = context;
 
 		[HttpGet]
 		public async Task<IActionResult> Index(string searchTerm, string categoryFilter, string sortBy, int page = 1)
@@ -250,7 +248,7 @@ namespace ClinicManagementSystem.Controllers
 		[HttpPost]
 		public async Task<IActionResult> DeleteMultiple(List<Guid> SelectedProducts)
 		{
-			if (SelectedProducts != null && SelectedProducts.Any())
+			if (SelectedProducts != null && SelectedProducts.Count != 0)
 			{
 				var productsToDelete = await _context.Products
 					.Where(p => SelectedProducts.Contains(p.ProductId))
@@ -295,9 +293,9 @@ namespace ClinicManagementSystem.Controllers
 			var prefix = "CMSP-";
 			if (lastProduct?.SKU?.StartsWith(prefix) == true)
 			{
-				var numericPart = lastProduct.SKU.Substring(prefix.Length);
+				var numericPart = lastProduct.SKU[prefix.Length..];
 				if (int.TryParse(numericPart, out int number))
-					return $"{prefix}{(number + 1):D6}";
+					return $"{prefix}{(number + 1):D5}";
 			}
 
 			return $"{prefix}00001";

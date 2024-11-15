@@ -23,6 +23,12 @@ namespace ClinicManagementSystem.Controllers
 			// Get the current logged-in user
 			var currentUser = await _userManager.GetUserAsync(User);
 
+			// If no user is logged in, redirect to login or show an error message
+			if (currentUser == null)
+			{
+				return RedirectToAction("Login", "Account");  // Or show an error message
+			}
+
 			// Check if the user is an admin
 			if (User.IsInRole("Admin"))
 			{
