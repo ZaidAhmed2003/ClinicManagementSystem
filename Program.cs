@@ -20,9 +20,10 @@ namespace ClinicManagementSystem
 				?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
 			builder.Services.AddDbContext<ApplicationDbContext>(options =>
-			options.UseSqlServer(connectionString));
+	        options.UseSqlServer(connectionString));
 
-			builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+
+			builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
 			{
 				options.Password.RequireDigit = true;
 				options.Password.RequiredLength = 8;
@@ -30,8 +31,9 @@ namespace ClinicManagementSystem
 				options.Password.RequireUppercase = true;
 				options.Password.RequireLowercase = true;
 			})
-		.AddEntityFrameworkStores<ApplicationDbContext>()
-		.AddDefaultTokenProviders();
+			.AddEntityFrameworkStores<ApplicationDbContext>()
+			.AddDefaultTokenProviders();
+
 
 
 			var app = builder.Build();
@@ -64,7 +66,7 @@ namespace ClinicManagementSystem
 			// Add role seeding
 			using (var scope = app.Services.CreateScope())
 			{
-				var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+				var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
 				var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
 				string[] roles = ["Admin", "User"];
@@ -73,7 +75,7 @@ namespace ClinicManagementSystem
 				{
 					if (!await roleManager.RoleExistsAsync(role))
 					{
-						await roleManager.CreateAsync(new IdentityRole(role));
+						await roleManager.CreateAsync(new IdentityRole<Guid>(role));
 					}
 				}
 

@@ -1,7 +1,8 @@
 ﻿using ClinicManagementSystem.Models;
+using ClinicManagementSystem.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
+
 
 namespace ClinicManagementSystem.Controllers
 {
@@ -9,16 +10,16 @@ namespace ClinicManagementSystem.Controllers
 	{
 		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly SignInManager<ApplicationUser> _signInManager;
-		private readonly RoleManager<IdentityRole> _roleManager;
+
 
 		public AccountController(
 			UserManager<ApplicationUser> userManager,
-			SignInManager<ApplicationUser> signInManager,
-			RoleManager<IdentityRole> roleManager)
+			SignInManager<ApplicationUser> signInManager
+			)
 		{
 			_userManager = userManager;
 			_signInManager = signInManager;
-			_roleManager = roleManager;
+
 		}
 
 		[HttpGet]
@@ -32,12 +33,14 @@ namespace ClinicManagementSystem.Controllers
 		{
 			if (ModelState.IsValid)
 			{
+
+
 				var user = new ApplicationUser
 				{
 					UserName = model.Email,
 					Email = model.Email,
 					FirstName = model.FirstName,
-					LastName = model.LastName
+					LastName = model.LastName,
 				};
 
 				var result = await _userManager.CreateAsync(user, model.Password);

@@ -1,7 +1,9 @@
 ﻿using ClinicManagementSystem.Data;
 using ClinicManagementSystem.Models;
+using ClinicManagementSystem.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ClinicManagementSystem.Controllers
 {
@@ -18,15 +20,7 @@ namespace ClinicManagementSystem.Controllers
 
 		public  async Task <IActionResult> Index()
         {
-			var currentUser = await _userManager.GetUserAsync(User);
-
-			// If no user is logged in, redirect to login or show an error message
-			if (currentUser == null)
-			{
-				return RedirectToAction("Login", "Account");  // Or show an error message
-			}
-
-			return View(currentUser);
-        }
-    }
+			return View();
+		}
+	}
 }

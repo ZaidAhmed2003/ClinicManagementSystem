@@ -1,136 +1,138 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject UserManager<ApplicationUser> UserManager
 
-@{
-   
 
+@{
+	var user = await UserManager.GetUserAsync(User);
 }
 
 <div class="navbar-custom">
-    <div class="topbar px-2">
-        <div class="topbar-menu d-flex align-items-center gap-lg-2 gap-1">
+	<div class="topbar px-2">
+		<div class="topbar-menu d-flex align-items-center gap-lg-2 gap-1">
 
-            <!-- Topbar Brand Logo -->
-            <div class="logo-box">
-                <!-- Brand Logo Light -->
-                <a href="index.html" class="logo-light">
-                    <img src="~/assets/images/logo-light-e9fb2c1a.png" alt="logo" class="logo-lg">
-                    <img src="data:image/png;base64,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" alt="small logo" class="logo-sm">
-                </a>
+			<!-- Topbar Brand Logo -->
+			<div class="logo-box">
+				<!-- Brand Logo Light -->
+				<a href="index.html" class="logo-light">
+					<img src="~/assets/images/logo-light-e9fb2c1a.png" alt="logo" class="logo-lg">
+					<img src="data:image/png;base64,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" alt="small logo" class="logo-sm">
+				</a>
 
-                <!-- Brand Logo Dark -->
-                <a href="index.html" class="logo-dark">
-                    <img src="~/assets/images/logo-dark-3d833aea.png" alt="dark logo" class="logo-lg">
-                    <img src="data:image/png;base64,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" alt="small logo" class="logo-sm">
-                </a>
-            </div>
+				<!-- Brand Logo Dark -->
+				<a href="index.html" class="logo-dark">
+					<img src="~/assets/images/logo-dark-3d833aea.png" alt="dark logo" class="logo-lg">
+					<img src="data:image/png;base64,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" alt="small logo" class="logo-sm">
+				</a>
+			</div>
 
-            <!-- Sidebar Menu Toggle Button -->
-            <button class="button-toggle-menu">
-                <i class="mdi mdi-menu"></i>
-            </button>
+			<!-- Sidebar Menu Toggle Button -->
+			<button class="button-toggle-menu">
+				<i class="mdi mdi-menu"></i>
+			</button>
 
-            <!-- Topbar Search Form -->
-            <li class="app-search dropdown d-none d-lg-block">
-                <form>
-                    <input type="search" class="form-control" placeholder="Search...">
-                    <span class="mdi mdi-magnify search-icon font-22"></span>
-                </form>
-            </li>
-        </div>
+			<!-- Topbar Search Form -->
+			<li class="app-search dropdown d-none d-lg-block">
+				<form>
+					<input type="search" class="form-control" placeholder="Search...">
+					<span class="mdi mdi-magnify search-icon font-22"></span>
+				</form>
+			</li>
+		</div>
 
-        <ul class="topbar-menu d-flex align-items-center gap-3">
+		<ul class="topbar-menu d-flex align-items-center gap-3">
 
-            <li class="d-none d-md-inline-block">
-                <a class="nav-link" href="" data-toggle="fullscreen">
-                    <i class="fe-maximize font-22"></i>
-                </a>
-            </li>
+			<li class="d-none d-md-inline-block">
+				<a class="nav-link" href="" data-toggle="fullscreen">
+					<i class="fe-maximize font-22"></i>
+				</a>
+			</li>
 
-            <li class="dropdown d-lg-none">
-                <a class="nav-link dropdown-toggle waves-effect waves-light arrow-none" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                    <i class="ri-search-line font-22"></i>
-                </a>
-                <div class="dropdown-menu dropdown-menu-animated dropdown-lg p-0">
-                    <form class="p-3">
-                        <input type="search" class="form-control" placeholder="Search ..." aria-label="Recipient's username">
-                    </form>
-                </div>
-            </li>
-
-         
+			<li class="dropdown d-lg-none">
+				<a class="nav-link dropdown-toggle waves-effect waves-light arrow-none" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+					<i class="ri-search-line font-22"></i>
+				</a>
+				<div class="dropdown-menu dropdown-menu-animated dropdown-lg p-0">
+					<form class="p-3">
+						<input type="search" class="form-control" placeholder="Search ..." aria-label="Recipient's username">
+					</form>
+				</div>
+			</li>
 
 
-            <li class="d-inline-flex">
-                <div class="nav-link" id="light-dark-mode">
-                    <i class="fe-moon font-22"></i>
-                </div>
-            </li>
-
-            <li>
-                <a class="nav-link waves-effect waves-light" data-bs-toggle="offcanvas" href="#theme-settings-offcanvas">
-                    <i class="fe-settings font-22"></i>
-                </a>
-            </li>
-
-            <li class="dropdown">
-                <a class="nav-link dropdown-toggle nav-user me-0 waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDIBCQkJDAsMGA0NGDIhHCEyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMv/CABEIAJYAlgMBIgACEQEDEQH/xAAbAAACAwEBAQAAAAAAAAAAAAACBQMEBgEAB//aAAgBAQAAAACTPySSySSySSSSSSGRaf43JJJJKa2K+3lMzLve4mSSUxQIqw6bdkZF3pY45TPPKtoQYD6hZIukR5CUzPDfadKKj4230hGRF3KyGZ476nbu/OuQaMzIi7ljkI7Gor34Y8peMj6XcwZmWmfVKCi6u6ZEXSzJGZHoollR1QMjLve5syMisa81OXO8Zd772eMzImr1AiYhb4Xfe8gkMjeXp7aSkrfNqy6t7qCQ3GlnUJ2iWe80YKu1FvUB6bSdq1VtpU8vTS52zVX+QW/o9WD3ra/M7BgC1d6Kl5C73FalUaSrs7tABBfppbMqJ7qolcDsa1F6cGdfL1IypWOtGon0VhZPJeqlHXV1JH+W2UoroWFSSlaaVY6y6H6T/8QAGQEAAwEBAQAAAAAAAAAAAAAAAAECAwQF/9oACAECEAAAAOxqI2Qo2M/NXduBRj5i6PQAow8ydvUAoXnc/V3AUjl4O7pGVKeO86QVNK86vNOnFIqZVtU5ccv/xAAZAQADAQEBAAAAAAAAAAAAAAAAAQIEAwX/2gAIAQMQAAAAxJ305A74HT1KwZwfM7+sZvOAg0etefyQIH6e3z8DCB6/QwZQU0zvncsm5c3MdCRXLJduE5VK9X//xAA5EAACAQMDAQQHBwMEAwAAAAABAgMABBEFEiExBhMiQRAUUWFxgZEVIzJCcqGxB1LRICQlwUNTgv/aAAgBAQABPwDtZ2svu0eqzkzutgHIggBwoWgtAUFoLSilFKKUUBSigKFChQoGg2Oh5rs72ql0/fBeSPLBt8G48qaUUooLSrQFBa4UEk4FS6/bRyAIjSKcgMvTNDtRAqh3gfZkAkHpUOvWMjhS+0Hox6VGVdQykFT0IoChQoGs1ms1mgKC0BQWgKuLiO0t3nkztUeVXuuQ3kGyNyR/aoOalv403w7Mb+T+r202oKq7SuPd9T/3SXiFhH+VgPqK7I6zIt6LCVy8cudmT0NA0KBoVn0ChSigKC0BQrtZMqwQw96FYnJX3Voehahq0vd6WkjA8NMfCi1bf0l2Lulu1dyOfDSf0jiMwea8Yp5gLV9/TDTooSEkl3eRJq1EvZvX90qiRoXK4arK7ivrSO4iOUcfSgaBrPoFChzSigKAoChXatg+vrGwIRUXPvrsjbW9t2fs44ECqIxWPCMCmHh6VqH4TXbuyMWrC4xhJRXYuYyaM6H8kpAoGhQoUKHoAoUKFCu2Foy3kF4PwMgQ/EGtI1Ky0Xs3YG5kYs8CMEUZY1a9s4Lm4EHqF7Cp6STxhQa1rWTpunNMNoJHg3dM1N2n1mdxu1C3jZuVjitmbIrXLe41TstPLchXnhPeB1TbkDrXY9BBpIiYMJHJl5HkTgfxQoUKHpFAUKFChVxoSa12Y1EEfexDvIzj8y1Y6LBfaBZxyFxtt41Oxtp6DzqHsVYQXL3AQjndydxrWdPiu9OgikUMiMDVnpliyAR7QE4wMcVrNtB6m8QUbGQqQK06CSK3XvMlFLCEkYOyhQoegUPQtChQoV2Tljd5rRzhmIkX31HMbZ3RsfiPIr7Ra5lcqw2pwq+TmtT1jUVsBHHpUhnPQ58A9+atr+WwlAupI+/lbLbDxmriVp5JOfCi5oE7AnktChQ9AoegUKFChUbtG4dGKsOhBxWhXQnikt5WJkB3qSa1HTNQS7S9s55PVkbdLbJgM4PXDeRq71+dlKR9iLufJID3N74a0+wuNT1S3vNT0+xtkt2LxQ2yHAPvJ6kVcyLunKkZdgooUKFCh6M1mhS0KFChVm5iu4nBIww6UL0Q3At5yFc+fkffV1ZC4TggH4VqMsWn6fNJIwBRDitPuJrkCeTI3dBWnalFqSzGJJF7qQxtuHmKFCgazWazWaFChQoUK0O07+87xh4Ihn5+VXFjFq+nKJMiReMg8qwq6n7R6fEYo1S4QcB87WxU8ep6jIDfnCA52L0NRRiKDdjpwAKtYY7aPu1wuWLMfaxOTRRlUMR4T0PozWazWazQoUKFKCTgDJNWHZ95gHuXMYP5B1qy2Q381rFxHGMfOje+o6vHE+BFcr9HH+R/FXWD8KuoQ74AqeJYkY9SnPwqdHkWNEzl5B/k1FG0s6wJ0QLuGaksIptqugO1an0aBIywlaM5wM8g1NYzRDPDj2qf9C0DQrTdEnvQJJMxQnoSOW+Aq00u1sRiOIb8Z3tyxqEguTk5PTNQL3esXpHXdn6gV2x1L7NutLVx/t7kuHYLlw4AKEVDfd5bo2/cOhrXp7yeYwW8LNCYiGbcVBJq0hnmt0huJB3oAEhHn76srZZLuVwPBF91Gf3Y/wAD5VaW4Wedj+ItmlGHJPmKupjNrIgz4LeMSN+picfsKGJJSjAlF5OPM1fwq670RUKjoowMekUK0LQu+Rb26Hg6xofze80G8iMGt3j7tup/CaVzLcrEnHd7cmiuzWrknjcoxWs6Mb+eO7vCGisxmKMe8jcT8gKntALchAAGGPn5VHMZyFY4GORjHnVtZxTAl161bWiRRBYxgAk9c0QEZm/u4oIShPRQOSajQ+t3s/JaWTav6QoH85qGMLwDnbyc9B8aubuJpTGJogR1BbJP+KYYYj0CtPt/W7+C38ncA/CmARAiABVGAB5CpRk5PB6CnfNurB/HE4OatP8Ab3F00gO4yYX38U/OrRuUPjQjPwNXEQls50/uQgUmJbBWxk7QcGpR3GuSxFgRIoccdMjn96s0+6pQFBNYQDhASTWsanHaWwjMq7mHTNac4azWdjlpCXA8+STRDSH7xfux0Tovz9tTnK4EfA9lN19ArsxGH1uMn8is1MwHJp2UnGafw3Ay67G4bPFTaqJtejtYtgRG3yuT7iAB9aknh76OQMMxjA+dQXMUrFEcMM1bZQTwf+tiK1OMtryNnhdqn6GrIf8AHqQMuU3YrvLks24qox0AqIyvkNKzY4OBXadVaJIo4hJK2EjXHO4mreGPTrONCSSqgE9SaurxvJJB7iOtXc8krZBijx02Eg1bszwqXILY6j09l5Ei1GTd1MZA+oppyw/D9KZuCGcf/Qq7mjWWNi/hDjcV5wKubmykvbW+tpYZYy/dM8bBgKfAVZCRs6kk0JI++TuEOR4mcKQoAqQ7dXnX+5A1Xtnm6STI8TA/HAA/7NWMu8QJ7YcmhAy8LKX9u4f4qdpIIZJGRVWIF2dn4AArSbDUby9+2NWuizEE29sowsKn+WxUij2c1LEcE72+BFXkHsCv7RVtIrxYUFdvBB9Hng1oh/5WIe0N/Bo2qOvUr+lsU8CKMFpNo/KOaubSO68PcEIRgluP2qPSU08y2TcWF24KMwx3U3kfgcVpqrLApmIeZMqR0CkcYAp5N4l9yGnfGrzkLubuVHWp0LW8LA+PJFafIPtNIh/47fn5mpJSAcHmtRhEmmJanJ9akCv+jq37A15YA4qSnICNuFXShs8c1HuCncc80AWOFBJ91du+xn2TcS6nayx+qTOT3RzuQ1ohxrEI+P8ABpTtPuNAUwxnFXiLIjxyKGVhyK0ydzcuGOTgqx9pXGG+JBH0qHLtJuP4hioV++up/N5dvyAq4cpZrwCd1WM7xHVrkHxovFW5kZYyW6gVcptePPOxMCmmC5JBrvQ67gDirh/KpPbRXxADzrsd2Qit4Df3xjnaZMIgGQor/8QAIhEAAgICAgIDAQEAAAAAAAAAAAECEQMQBCESIDAxQRNR/9oACAECAQE/AEq3PJGH2LkY/VwT3kl4xbHK3bPNGCVqvfOrgJjaZxpK178i/wCboaQ12YIOU01+fBycfjOxnEa7XwcqNxsdnGwuK8n7N6lHyVGPjqOR/wCD1XW2IoaZFdlWxR1JbQ7rotkX2NdiX7qWoO46QxDFqX2Sbs//xAAjEQABAwMEAgMAAAAAAAAAAAABAAIRAwQQEiAhMRMwFEFR/9oACAEDAQE/ACScspOf0vjVNoeRmk3U4BNZAgBaCrhsGd9Aw9QgCFdMOk77aPIJQQ6VxUDGEHs+i0qy2CtQhXgPB9Fq6HQgrqsHHSNwGGu0mVUuC+kP1BBTkIqcE8LoInAwMCJ5wQgeET9Ybh4h2CgigjhqaBC//9k=" alt="user-image" class="rounded-circle">
-
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        var user = await UserManager.GetUserAsync(User);
-                        <span class="ms-1 d-none d-md-inline-block">
-                            @($"{user.FirstName} {user.LastName}") <i class="mdi mdi-chevron-down"></i>
-                        </span>
-                    }
-                    else
-                    {
-                        <span class="ms-1 d-none d-md-inline-block">
-                            Guest <i class="mdi mdi-chevron-down"></i>
-                        </span>
-                    }
-
-                
-                </a>
-                <div class="dropdown-menu dropdown-menu-end profile-dropdown ">
-                    <!-- item-->
-                    <div class="dropdown-header noti-title">
-                        <h6 class="text-overflow m-0">Welcome !</h6>
-                    </div>
-
-                    <!-- item-->
-                    <a asp-controller="Dashboard" asp-action="Index" class="dropdown-item notify-item">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M6.133 21C4.955 21 4 20.02 4 18.81v-8.802c0-.665.295-1.295.8-1.71l5.867-4.818a2.09 2.09 0 0 1 2.666 0l5.866 4.818c.506.415.801 1.045.801 1.71v8.802c0 1.21-.955 2.19-2.133 2.19z" /><path d="M9.5 21v-5.5a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2V21" /></g></svg>
-                        <span>Dashboard</span>
-                    </a>
-                    
-                    <!-- item-->
-                    <a asp-controller="ProfileManagement" asp-action="Index" class="dropdown-item notify-item">
-                        <i class="fe-user me-1"></i>
-                        <span>My Account</span>
-                    </a>
-
-                    <!-- item-->
-                    <a asp-controller="ProfileManagement" asp-action="Index" class="dropdown-item notify-item">
-                        <i class="fe-settings me-1"></i>
-                        <span>Settings</span>
-                    </a>
 
 
-                    <div class="dropdown-divider"></div>
+			<li class="d-inline-flex">
+				<div class="nav-link" id="light-dark-mode">
+					<i class="fe-moon font-22"></i>
+				</div>
+			</li>
 
-                    <!-- item-->
-                    <a href="javascript:void(0);" onclick="document.getElementById('logout-form').submit();" class="dropdown-item notify-item">
-                        <i class="fe-log-out me-1"></i>
-                        <span>Logout</span>
-                    </a>
-                    <form id="logout-form" asp-controller="Account" asp-action="Logout" method="post" style="display: none;">
-                        @* Hidden form for logout *@
-                    </form>
+			<li>
+				<a class="nav-link waves-effect waves-light" data-bs-toggle="offcanvas" href="#theme-settings-offcanvas">
+					<i class="fe-settings font-22"></i>
+				</a>
+			</li>
 
-                </div>
-            </li>
-        </ul>
-    </div>
+			<li class="dropdown">
+				<a class="nav-link dropdown-toggle nav-user me-0 waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+
+					@if (User.Identity.IsAuthenticated)
+					{
+						
+						<img src="@(user.ProfileImagePath ?? $"https://ui-avatars.com/api/?name={Uri.EscapeDataString(user.FirstName + "+" + user.LastName)}&background=a0a0a0&size=128")"
+							 alt="Profile Picture"
+							 class="rounded-circle" />
+						<span class="ms-1 d-none d-md-inline-block">
+							@($"{user.FirstName} {user.LastName}") <i class="mdi mdi-chevron-down"></i>
+						</span>
+					}
+					else
+					{
+						<span class="ms-1 d-none d-md-inline-block">
+							Guest <i class="mdi mdi-chevron-down"></i>
+						</span>
+					}
+
+
+				</a>
+				<div class="dropdown-menu dropdown-menu-end profile-dropdown ">
+					<!-- item-->
+					<div class="dropdown-header noti-title">
+						<h6 class="text-overflow m-0">Welcome !</h6>
+					</div>
+
+					<!-- item-->
+					<a asp-controller="Dashboard" asp-action="Index" class="dropdown-item notify-item">
+						<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M6.133 21C4.955 21 4 20.02 4 18.81v-8.802c0-.665.295-1.295.8-1.71l5.867-4.818a2.09 2.09 0 0 1 2.666 0l5.866 4.818c.506.415.801 1.045.801 1.71v8.802c0 1.21-.955 2.19-2.133 2.19z" /><path d="M9.5 21v-5.5a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2V21" /></g></svg>
+						<span>Dashboard</span>
+					</a>
+
+					<!-- item-->
+					<a asp-controller="ProfileManagement" asp-action="Index" class="dropdown-item notify-item">
+						<i class="fe-user me-1"></i>
+						<span>My Account</span>
+					</a>
+
+					<!-- item-->
+					<a asp-controller="ProfileManagement" asp-action="Index" class="dropdown-item notify-item">
+						<i class="fe-settings me-1"></i>
+						<span>Settings</span>
+					</a>
+
+
+					<div class="dropdown-divider"></div>
+
+					<!-- item-->
+					<a href="javascript:void(0);" onclick="document.getElementById('logout-form').submit();" class="dropdown-item notify-item">
+						<i class="fe-log-out me-1"></i>
+						<span>Logout</span>
+					</a>
+					<form id="logout-form" asp-controller="Account" asp-action="Logout" method="post" style="display: none;">
+						@* Hidden form for logout *@
+					</form>
+
+				</div>
+			</li>
+		</ul>
+	</div>
 </div>

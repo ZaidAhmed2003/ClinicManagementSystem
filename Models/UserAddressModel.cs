@@ -1,18 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ClinicManagementSystem.Models
 {
-    public class UserAddressModel
+	public class UserAddressModel
 	{
 		[Key]
 		public Guid AddressId { get; set; }
 
 		[Required]
-		public required string Id { get; set; }
+		public Guid UserId { get; set; } // Match the primary key type in ApplicationUser
 
-		[ForeignKey("Id")]
-		public required ApplicationUser User { get; set; }
+		[ForeignKey("UserId")]
+		public ApplicationUser User { get; set; } = null!; // Navigation property
 
 		[Required]
 		public required string AddressLine1 { get; set; }
@@ -20,7 +20,7 @@ namespace ClinicManagementSystem.Models
 		public string? AddressLine2 { get; set; }
 
 		[Required]
-		public string? PostalCode { get; set; }
+		public string PostalCode { get; set; } = string.Empty;
 
 		[Required]
 		public required string Country { get; set; }
@@ -30,6 +30,7 @@ namespace ClinicManagementSystem.Models
 
 		public string? Telephone { get; set; }
 
+		[Required]
 		public required string Mobile { get; set; }
 	}
 }

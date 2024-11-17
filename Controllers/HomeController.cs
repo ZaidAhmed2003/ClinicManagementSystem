@@ -1,32 +1,35 @@
-using ClinicManagementSystem.Models;
-using Microsoft.AspNetCore.Authorization;
+using ClinicManagementSystem.Data;
+using ClinicManagementSystem.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace ClinicManagementSystem.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController(ApplicationDbContext context) : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+		private readonly ApplicationDbContext _context = context;
 
-        public HomeController(ILogger<HomeController> logger)
+		public async Task <IActionResult> Index()
         {
-            _logger = logger;
-        }
+			// Fetch products where IsAvailable is false
+			var products = await _context.Products
+				.Where(o => o.IsAvailable) // Equivalent to o.IsAvailable == false
+				.ToListAsync();
 
-        public IActionResult Index()
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                // Redirect to the dashboard if the user is logged in
-                return RedirectToAction("Index", "Dashboard");
-            }
+			// Check if the user is authenticated and is an admin
+			if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+			{
+				// Redirect to the dashboard for admins
+				return RedirectToAction("Index", "Dashboard");
+			}
 
-            return View();
-        }
+			// Return the view with the products list
+			return View(products);
+		}	
 
-       
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+
+		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

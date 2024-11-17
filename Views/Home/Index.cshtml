@@ -1,8 +1,50 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<ClinicManagementSystem.Models.ProductModel>
+
+@{
+	ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container-fluid">
+
+	<!-- start page title -->
+	<div class="row">
+		<div class="col-12">
+			<div class="d-flex justify-content-between align-items-center py-2">
+				<h4>Cards</h4>
+
+
+				<ol class="breadcrumb d-lg-flex d-none mb-0">
+					<li class="breadcrumb-item"><a href="javascript: void(0);">TechUI</a></li>
+					<li class="breadcrumb-item"><a href="javascript: void(0);">Base UI</a></li>
+
+					<li class="breadcrumb-item"><a href="javascript: void(0);">Cards</a></li>
+				</ol>
+			</div>
+		</div>
+	</div>
+	<!-- end page title -->
+
+	<div class="row">
+		@{
+			@foreach (var product in Model)
+			{
+				<!-- Simple card -->
+				<div class="col-sm-6 col-lg-3">
+					<div class="card d-block">
+						<img class="card-img-top" src="@product.ImagePath" alt="Card image cap">
+						<div class="card-body">
+							<h4 class="card-title"> @product.Name </h4>
+							<p class="card-text">
+								@product.ShortDescription
+							</p>
+							<a href="javascript: void(0);" class="btn btn-primary">Button</a>
+						</div> <!-- end card-body-->
+					</div> <!-- end card-->
+				</div>
+
+				<!-- end col -->
+			}
+		}
+
+	</div>
 </div>

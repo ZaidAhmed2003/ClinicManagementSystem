@@ -10,6 +10,10 @@ namespace ClinicManagementSystem.Models
 		public Guid OrderId { get; set; }
 
 		[Required]
+		public required string TrackingID { get; set; }
+
+
+		[Required]
 		public required string Id { get; set; }
 
 		[ForeignKey("Id")]
@@ -31,7 +35,6 @@ namespace ClinicManagementSystem.Models
 		[Required]
 		public OrderStatus Status { get; set; } // Enum representing order status
 	}
-
 	public enum OrderStatus
 	{
 		Pending,

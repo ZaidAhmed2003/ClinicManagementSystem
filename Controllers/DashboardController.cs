@@ -7,7 +7,7 @@ using ClinicManagementSystem.Data;
 
 namespace ClinicManagementSystem.Controllers
 {
-	
+	[Authorize(Roles ="Admin , User")]
 	public class DashboardController : Controller
     {
 		private readonly ApplicationDbContext _context;
