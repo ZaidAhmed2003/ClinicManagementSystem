@@ -5,11 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Authorization;
 using ClinicManagementSystem.ViewModels.ProductsManagement;
-using iText.Kernel.Pdf;
-using iText.Layout;
-using iText.Layout.Element;
 using OfficeOpenXml;
-using iText.Layout.Properties;
 
 
 
