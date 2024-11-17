@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ClinicManagementSystem.Data;
 using ClinicManagementSystem.Models;
 using Microsoft.Extensions.FileProviders;
+using OfficeOpenXml;
 
 namespace ClinicManagementSystem
 {
@@ -12,7 +13,9 @@ namespace ClinicManagementSystem
 		{
 			var builder = WebApplication.CreateBuilder(args);
 
-			// Add services to the container.
+			// Set the license context for EPPlus (non-commercial use)
+			ExcelPackage.LicenseContext = LicenseContext.NonCommercial; // or LicenseContext.Commercial for paid version
+																		// Add services to the container.
 			builder.Services.AddControllersWithViews();
 
 			// Configure DbContext
@@ -34,7 +37,7 @@ namespace ClinicManagementSystem
 			.AddEntityFrameworkStores<ApplicationDbContext>()
 			.AddDefaultTokenProviders();
 
-
+		
 
 			var app = builder.Build();
 

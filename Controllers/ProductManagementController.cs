@@ -5,6 +5,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Authorization;
 using ClinicManagementSystem.ViewModels.ProductsManagement;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
+using OfficeOpenXml;
+using iText.Layout.Properties;
+
+
 
 namespace ClinicManagementSystem.Controllers
 {
@@ -69,7 +76,6 @@ namespace ClinicManagementSystem.Controllers
 			return View(viewModel);
 		}
 
-		// POST: Index (for form submission with filters or sorting)
 		[HttpPost]
 		public async Task<IActionResult> IndexPost(string searchTerm, string categoryFilter, string sortBy, int page = 1)
 		{
@@ -242,7 +248,7 @@ namespace ClinicManagementSystem.Controllers
 				.FirstOrDefaultAsync(p => p.ProductId == id);
 
 			if (product == null) return RedirectToAction("Index");
-			
+
 			product.DeletedAt = DateTime.UtcNow;
 
 			await _context.SaveChangesAsync();
@@ -315,81 +321,57 @@ namespace ClinicManagementSystem.Controllers
 		[HttpGet]
 		public async Task<IActionResult> ExportToExcel()
 		{
+			// Set the EPPlus license context (in case not set globally)
+			ExcelPackage.LicenseContext = LicenseContext.NonCommercial; // or LicenseContext.Commercial
+
+			// Fetch products from the database (customize this query as needed)
 			var products = await _context.Products
-				.Include(p => p.Category)
 				.Where(p => p.DeletedAt == null)
+				.Select(p => new
+				{
+					p.Name,
+					p.SKU,
+					p.Price,
+					p.CreatedAt,
+					Category = p.Category.Name
+				})
 				.ToListAsync();
 
-			using var package = new OfficeOpenXml.ExcelPackage();
-			var worksheet = package.Workbook.Worksheets.Add("Products");
-
-			// Add headers
-			worksheet.Cells[1, 1].Value = "Name";
-			worksheet.Cells[1, 2].Value = "SKU";
-			worksheet.Cells[1, 3].Value = "Category";
-			worksheet.Cells[1, 4].Value = "Price";
-			worksheet.Cells[1, 5].Value = "Availability";
-			worksheet.Cells[1, 6].Value = "Created At";
-
-			// Add data
-			for (int i = 0; i < products.Count; i++)
+			// Create a new Excel package
+			using (var package = new ExcelPackage())
 			{
-				worksheet.Cells[i + 2, 1].Value = products[i].Name;
-				worksheet.Cells[i + 2, 2].Value = products[i].SKU;
-				worksheet.Cells[i + 2, 3].Value = products[i].Category.Name;
-				worksheet.Cells[i + 2, 4].Value = products[i].Price;
-				worksheet.Cells[i + 2, 5].Value = products[i].IsAvailable ? "Active" : "Inactive";
-				worksheet.Cells[i + 2, 6].Value = products[i].CreatedAt.ToShortDateString();
+				// Add a worksheet
+				var worksheet = package.Workbook.Worksheets.Add("Products");
+
+				// Add headers to the worksheet
+				worksheet.Cells[1, 1].Value = "Product Name";
+				worksheet.Cells[1, 2].Value = "SKU";
+				worksheet.Cells[1, 3].Value = "Price";
+				worksheet.Cells[1, 4].Value = "Created At";
+				worksheet.Cells[1, 5].Value = "Category";
+
+				// Add data to the worksheet
+				for (int i = 0; i < products.Count; i++)
+				{
+					worksheet.Cells[i + 2, 1].Value = products[i].Name;
+					worksheet.Cells[i + 2, 2].Value = products[i].SKU;
+					worksheet.Cells[i + 2, 3].Value = products[i].Price;
+					worksheet.Cells[i + 2, 4].Value = products[i].CreatedAt.ToString("yyyy-MM-dd"); // Formatting date
+					worksheet.Cells[i + 2, 5].Value = products[i].Category;
+				}
+
+				// Format the worksheet (optional, for better user experience)
+				worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
+				worksheet.Cells[1, 1, 1, 5].Style.Font.Bold = true; // Bold headers
+				worksheet.Cells[1, 1, 1, 5].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+
+				// Convert the package to a byte array
+				var fileContents = package.GetAsByteArray();
+
+				// Return the file as a download
+				return File(fileContents, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Products.xlsx");
 			}
-
-			var stream = new MemoryStream();
-			package.SaveAs(stream);
-			stream.Position = 0;
-
-			return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Products.xlsx");
 		}
-
-		[HttpGet]
-		public async Task<IActionResult> ExportToPdf()
-		{
-			var products = await _context.Products
-				.Include(p => p.Category)
-				.Where(p => p.DeletedAt == null)
-				.ToListAsync();
-
-			var stream = new MemoryStream();
-			var writer = new iText.Kernel.Pdf.PdfWriter(stream);
-			var pdf = new iText.Layout.Document(new iText.Kernel.Pdf.PdfDocument(writer));
-
-			// Add Title
-			pdf.Add(new iText.Layout.Element.Paragraph("Products").SetFontSize(20).SetBold());
-
-			// Create Table
-			var table = new iText.Layout.Element.Table(6);
-			table.AddHeaderCell("Name");
-			table.AddHeaderCell("SKU");
-			table.AddHeaderCell("Category");
-			table.AddHeaderCell("Price");
-			table.AddHeaderCell("Availability");
-			table.AddHeaderCell("Created At");
-
-			foreach (var product in products)
-			{
-				table.AddCell(product.Name);
-				table.AddCell(product.SKU);
-				table.AddCell(product.Category.Name);
-				table.AddCell(product.Price.ToString());
-				table.AddCell(product.IsAvailable ? "Active" : "Inactive");
-				table.AddCell(product.CreatedAt.ToShortDateString());
-			}
-
-			pdf.Add(table);
-			pdf.Close();
-
-			stream.Position = 0;
-			return File(stream, "application/pdf", "Products.pdf");
-		}
-
 
 		private async Task<string> GenerateNextCode()
 		{
