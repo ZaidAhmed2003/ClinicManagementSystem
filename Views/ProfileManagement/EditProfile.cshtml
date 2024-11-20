@@ -1,84 +1,83 @@
-﻿@model ClinicManagementSystem.ViewModels.UserProfileViewModel
+﻿@model ClinicManagementSystem.ViewModels.ProfileManagement.EditProfileViewModel
 
 @{
-    ViewData["Title"] = "EditProfile";
-    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+	ViewData["Title"] = "EditProfile";
+	Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
 <h1>EditProfile</h1>
 
-<form asp-action="EditProfile" method="post" enctype="multipart/form-data">
+<form asp-action="EditProfile" method="post" @* enctype="multipart/form-data" *@>
+	
 
-    <input type="hidden" asp-for="UserName" />
+	<!-- First Name -->
+	<div class="form-group">
+		<label asp-for="FirstName">First Name</label>
+		<input asp-for="FirstName" class="form-control" />
+	</div>
 
-    <!-- First Name -->
-    <div class="form-group">
-        <label for="FirstName">First Name</label>
-        <input asp-for="FirstName" class="form-control" />
-    </div>
+	<!-- Last Name -->
+	<div class="form-group">
+		<label asp-for="LastName">Last Name</label>
+		<input asp-for="LastName" class="form-control" />
+	</div>
 
-    <!-- Last Name -->
-    <div class="form-group">
-        <label for="LastName">Last Name</label>
-        <input asp-for="LastName" class="form-control" />
-    </div>
+	<!-- Email -->
+	<div class="form-group">
+		<label asp-for="Email">Email</label>
+		<input asp-for="Email" class="form-control" disabled />
+	</div>
 
-    <!-- Email -->
-    <div class="form-group">
-        <label for="Email">Email</label>
-        <input asp-for="Email" class="form-control" disabled />
-    </div>
-
-    <!-- Profile Image -->
-    <div class="form-group">
+	<!-- Profile Image -->
+	@*     <div class="form-group">
         <label for="ProfileImagePath">Profile Image</label>
         <input asp-for="ProfileImagePath" type="file" class="form-control" />
-    </div>
+    </div> *@
 
-    <!-- Address Line 1 -->
-    <div class="form-group">
-        <label for="AddressLine1">Address Line 1</label>
-        <input asp-for="AddressLine1" class="form-control" />
-    </div>
+	<!-- Address Line 1 -->
+	<div class="form-group">
+		<label asp-for="AddressLine1">Address Line 1</label>
+		<input asp-for="AddressLine1" class="form-control" />
+	</div>
 
-    <!-- Address Line 2 -->
-    <div class="form-group">
-        <label for="AddressLine2">Address Line 2</label>
-        <input asp-for="AddressLine2" class="form-control" />
-    </div>
+	<!-- Address Line 2 -->
+	<div class="form-group">
+		<label asp-for="AddressLine2">Address Line 2</label>
+		<input asp-for="AddressLine2" class="form-control" />
+	</div>
 
-    <!-- Postal Code -->
-    <div class="form-group">
-        <label for="PostalCode">Postal Code</label>
-        <input asp-for="PostalCode" class="form-control" />
-    </div>
+	<!-- Postal Code -->
+	<div class="form-group">
+		<label asp-for="PostalCode">Postal Code</label>
+		<input asp-for="PostalCode" class="form-control" />
+	</div>
 
-    <!-- Country -->
-    <div class="form-group">
-        <label for="Country">Country</label>
-        <input asp-for="Country" class="form-control" />
-    </div>
+	<!-- Country -->
+	<div class="form-group">
+		<label asp-for="Country">Country</label>
+		<input asp-for="Country" class="form-control" />
+	</div>
 
-    <!-- City -->
-    <div class="form-group">
-        <label for="City">City</label>
-        <input asp-for="City" class="form-control" />
-    </div>
+	<!-- City -->
+	<div class="form-group">
+		<label asp-for="City">City</label>
+		<input asp-for="City" class="form-control" />
+	</div>
 
-    <!-- Telephone -->
-    <div class="form-group">
+	<!-- Telephone -->
+	@*  <div class="form-group">
         <label for="Telephone">Telephone</label>
         <input asp-for="Telephone" class="form-control" />
-    </div>
+    </div> *@
 
-    <!-- Mobile -->
-    <div class="form-group">
-        <label for="Mobile">Mobile</label>
-        <input asp-for="Mobile" class="form-control" />
-    </div>
+	<!-- Mobile -->
+	<div class="form-group">
+		<label asp-for="Mobile">Mobile</label>
+		<input asp-for="Mobile" class="form-control" />
+	</div>
 
-    <!-- Submit Button -->
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">Save Changes</button>
-    </div>
+	<!-- Submit Button -->
+	<div class="form-group">
+		<button type="submit" class="btn btn-primary">Save Changes</button>
+	</div>
 </form>

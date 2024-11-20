@@ -72,8 +72,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\uploads\images\" />
-    <Folder Include="wwwroot\uploads\images\products\" />
+    <Folder Include="ViewModels\ProductsListing\" />
   </ItemGroup>
 
 </Project>

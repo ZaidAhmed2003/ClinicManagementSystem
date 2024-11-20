@@ -18,7 +18,9 @@ namespace ClinicManagementSystem.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Index()
 		{
-			var discount = await _context.Product_Discount.ToListAsync();
+			var discount = await _context.Product_Discount
+							   .OrderBy(d => d.DiscountValue) 
+							   .ToListAsync();
 			return View(discount);
 		}
 

@@ -1,0 +1,42 @@
+﻿@model ClinicManagementSystem.Models.CartModel
+
+@if (Model == null || !Model.CartItems.Any())
+{
+        <p>Your cart is empty</p>
+}
+else
+{
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model.CartItems)
+            {
+                                <tr><td><img src="@item.Product.ImagePath" /> </td>
+                            <td>@item.Product.Name</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.Product.Price</td>
+                            <td>@(item.Quantity * item.Product.Price)</td>
+                            <td>
+                                <form method="post" asp-controller="Cart" asp-action="RemoveFromCart">
+                                    <input type="hidden" name="cartItemId" value="@item.CartItemId" />
+                                    <button type="submit">Remove</button>
+                                </form>
+                            </td>
+                        </tr>
+            }
+            </tbody>
+        </table>
+        <p>Total: @Model.Total</p>
+}
+<form method="post" asp-action="PlaceOrder" asp-controller="Cart">
+    <button type="submit" class="btn btn-primary">Place Order</button>
+</form>

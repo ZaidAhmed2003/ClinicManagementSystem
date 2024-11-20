@@ -1,0 +1,70 @@
+﻿<html lang="en" style="">
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+	<title>@ViewData["Title"] - ClinicManagementSystem</title>
+	<link rel="shortcut icon" href="/layout/homepage/assets/images/logo/favourite_icon_1.png">
+
+	<!-- css include -->
+	<link rel="stylesheet" type="text/css" href="/layout/homepage/assets/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/layout/homepage/assets/css/line-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="/layout/homepage/assets/css/owl.carousel.min.css">
+	<link rel="stylesheet" type="text/css" href="/layout/homepage/assets/css/owl.theme.default.min.css">
+	<link rel="stylesheet" type="text/css" href="/layout/homepage/assets/css/magnific-popup.css">
+	<link rel="stylesheet" type="text/css" href="/layout/homepage/assets/css/jquery-ui.css">
+
+	<!-- custom - css include -->
+	<link rel="stylesheet" type="text/css" href="/layout/homepage/assets/css/style.css">
+</head>
+<body class="home-v2">
+	<!-- backtotop - start -->
+	<div id="thetop"></div>
+	<div id="backtotop" style="display: none;">
+		<a href="#" id="scroll">
+			<i class="las la-arrow-up"></i>
+		</a>
+	</div>
+	<!-- backtotop - end -->
+	<!-- preloader - start -->
+	<!-- <div id="preloader"></div> -->
+	<!-- preloader - end -->
+	<!-- header-section - start
+	================================================== -->
+	@await Html.PartialAsync("HomeLayout/_HomeHeader")
+	<!-- header-section - end
+	================================================== -->
+	<!-- main body - start
+	================================================== -->
+	<main>
+		@RenderBody();
+	</main>
+	<!-- main body - end
+	================================================== -->
+	<!-- footer-section - start
+	================================================== -->
+	@await Html.PartialAsync("HomeLayout/_HomeFooter")
+	<!-- footer-section - end
+	================================================== -->
+	<!-- jquery include -->
+	<script src="/layout/homepage/assets/js/jquery-3.6.0.min.js"></script>
+	<script src="/layout/homepage/assets/js/jquery-ui.js"></script>
+	<script src="/layout/homepage/assets/js/popper.min.js"></script>
+	<script src="/layout/homepage/assets/js/bootstrap.min.js"></script>
+	<script src="/layout/homepage/assets/js/magnific-popup.min.js"></script>
+	<script src="/layout/homepage/assets/js/owl.carousel.min.js"></script>
+	<script src="/layout/homepage/assets/js/owl.carousel2.thumbs.min.js"></script>
+	<script src="/layout/homepage/assets/js/isotope.pkgd.min.js"></script>
+	<script src="/layout/homepage/assets/js/masonry.pkgd.min.js"></script>
+	<script src="/layout/homepage/assets/js/imagesloaded.pkgd.min.js"></script>
+	<script src="/layout/homepage/assets/js/countdown.js"></script>
+
+	<!-- mobile menu - jquery include -->
+	<script src="/layout/homepage/assets/js/mCustomScrollbar.js"></script>
+
+	<!-- custom - jquery include -->
+	<script src="/layout/homepage/assets/js/custom.js"></script>
+</body>
+</html>

@@ -7,8 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 using ClinicManagementSystem.ViewModels.ProductsManagement;
 using OfficeOpenXml;
 
-
-
 namespace ClinicManagementSystem.Controllers
 {
 	[Authorize(Roles = "Admin")]
@@ -248,28 +246,6 @@ namespace ClinicManagementSystem.Controllers
 			product.DeletedAt = DateTime.UtcNow;
 
 			await _context.SaveChangesAsync();
-
-			return RedirectToAction("Index");
-		}
-
-		[HttpPost]
-		public async Task<IActionResult> DeleteMultiple(List<Guid> SelectedProducts)
-		{
-			if (SelectedProducts != null && SelectedProducts.Count != 0)
-			{
-				var productsToDelete = await _context.Products
-					.Where(p => SelectedProducts.Contains(p.ProductId))
-					.Include(p => p.Inventory) // Include Inventory if necessary
-					.ToListAsync();
-
-				foreach (var product in productsToDelete)
-				{
-					// Mark each product as deleted by setting DeletedAt timestamp
-					product.DeletedAt = DateTime.UtcNow;
-				}
-
-				await _context.SaveChangesAsync();
-			}
 
 			return RedirectToAction("Index");
 		}

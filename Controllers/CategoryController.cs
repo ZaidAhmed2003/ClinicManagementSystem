@@ -16,8 +16,10 @@ namespace ClinicManagementSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var category = await _context.Product_Category.ToListAsync();
-            return View(category);
+			var category = await _context.Product_Category
+							 .OrderBy(c => c.Name) 
+							 .ToListAsync();
+			return View(category);
         }
 
         [HttpGet]

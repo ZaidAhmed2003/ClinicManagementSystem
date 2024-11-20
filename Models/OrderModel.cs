@@ -12,21 +12,21 @@ namespace ClinicManagementSystem.Models
 		[Required]
 		public required string TrackingID { get; set; }
 
+		[Required]
+		public Guid PaymentId { get; set; }
+		[ForeignKey("PaymentId")]
+		public required PaymentDetailModel PaymentDetail { get; set; }
+
 
 		[Required]
-		public required string Id { get; set; }
+		public Guid UserId { get; set; } // Match the primary key type in ApplicationUser
 
-		[ForeignKey("Id")]
-		public required ApplicationUser User { get; set; }
+		[ForeignKey("UserId")]
+		public ApplicationUser User { get; set; } = null!; // Navigation property
 
 		[Required]
 		public DateTime OrderDate { get; set; } = DateTime.UtcNow;
 
-		[Required]
-		public Guid PaymentId { get; set; }
-
-		[ForeignKey("PaymentId")]
-		public required PaymentDetailModel PaymentDetail { get; set; }
 
 
 		[Required, DataType(DataType.Currency)]

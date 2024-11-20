@@ -23,7 +23,7 @@ namespace ClinicManagementSystem
 				?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
 			builder.Services.AddDbContext<ApplicationDbContext>(options =>
-	        options.UseSqlServer(connectionString));
+			options.UseSqlServer(connectionString));
 
 
 			builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
@@ -37,9 +37,11 @@ namespace ClinicManagementSystem
 			.AddEntityFrameworkStores<ApplicationDbContext>()
 			.AddDefaultTokenProviders();
 
-		
+
 
 			var app = builder.Build();
+
+
 
 			// Configure the HTTP request pipeline.
 			if (!app.Environment.IsDevelopment())

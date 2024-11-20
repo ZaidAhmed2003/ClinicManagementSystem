@@ -17,7 +17,7 @@
 
 				<ol class="breadcrumb d-lg-flex d-none mb-0">
 					<li class="breadcrumb-item"><a asp-action="Index" asp-controller="Dashboard">Clinic Management System</a></li>
-					<li class="breadcrumb-item"><a asp-action="Index" asp-controller="Product">Products</a></li>
+					<li class="breadcrumb-item"><a asp-action="Index" asp-controller="ProductManagement">Products</a></li>
 					<li class="breadcrumb-item"><a href="javascript: void(0);">Product Detail</a></li>
 				</ol>
 			</div>
@@ -54,7 +54,7 @@
 						</div>
 
 						<h3 class="mt-0">
-							<a asp-controller="Product" asp-action="EditProduct" asp-route-id="@Model.ProductId" class="text-muted"><i class="mdi mdi-square-edit-outline ms-2"></i></a>
+							<a asp-controller="ProductManagement" asp-action="EditProduct" asp-route-id="@Model.ProductId" class="text-muted"><i class="mdi mdi-square-edit-outline ms-2"></i></a>
 						</h3>
 						<p class="mb-1">Added Date: @Model.CreatedAt.ToString("MM/dd/yyyy")</p>
 						<p class="font-16">

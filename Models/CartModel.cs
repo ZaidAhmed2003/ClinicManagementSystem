@@ -8,11 +8,9 @@ namespace ClinicManagementSystem.Models
 		[Key]
 		public Guid CartId { get; set; }
 
-		[Required]
-		public required string Id { get; set; }
-
-		[ForeignKey("Id")]
-		public required ApplicationUser User { get; set; }
+		public Guid UserId { get; set; } // Match the primary key type in ApplicationUser
+		[ForeignKey("UserId")]
+		public ApplicationUser User { get; set; } = null!; // Navigation property
 
 		[Required, DataType(DataType.Currency)]
 		public decimal Total { get; set; }
@@ -21,5 +19,9 @@ namespace ClinicManagementSystem.Models
 		public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
 		public DateTime? ModifiedAt { get; set; } = DateTime.UtcNow;
+
+		public List<CartItemModel> CartItems { get; set; } = [];
+
+
 	}
 }

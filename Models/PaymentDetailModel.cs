@@ -9,10 +9,10 @@ namespace ClinicManagementSystem.Models
 		public Guid PaymentId { get; set; }
 
 		[Required]
-		public required string Id { get; set; }
+		public Guid UserId { get; set; } // Match the primary key type in ApplicationUser
 
-		[ForeignKey("Id")]
-		public required ApplicationUser User { get; set; }
+		[ForeignKey("UserId")]
+		public ApplicationUser User { get; set; } = null!; // Navigation property
 
 		[Required, DataType(DataType.Currency)]
 		public decimal Amount { get; set; }

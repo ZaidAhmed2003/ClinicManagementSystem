@@ -31,9 +31,9 @@ namespace ClinicManagementSystem.Models
 
 		public bool IsAvailable { get; set; } = false;
 
-		public Guid CategoryId { get; set; }
+		public Guid? CategoryId { get; set; }
 		[ForeignKey("CategoryId")]
-		public required ProductCategoryModel Category { get; set; }
+		public ProductCategoryModel? Category { get; set; }
 
 		public Guid InventoryId { get; set; }
 		[ForeignKey("InventoryId")]

@@ -28,8 +28,6 @@ namespace ClinicManagementSystem.Models
 		[Required]
 		public required string City { get; set; }
 
-		public string? Telephone { get; set; }
-
 		[Required]
 		public required string Mobile { get; set; }
 	}

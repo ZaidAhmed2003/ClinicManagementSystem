@@ -86,7 +86,7 @@ namespace ClinicManagementSystem.Controllers
 
 
 						// Redirect based on role
-						if (roles.Contains("Admin") || roles.Contains("User"))
+						if (roles.Contains("Admin"))
 						{
 							return RedirectToAction("Index", "Dashboard");
 						}
