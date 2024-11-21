@@ -1,6 +1,7 @@
 using ClinicManagementSystem.Data;
 using ClinicManagementSystem.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace ClinicManagementSystem.Controllers
@@ -13,23 +14,15 @@ namespace ClinicManagementSystem.Controllers
 		{
 			return View();
 		}
-		public  IActionResult Shop()
+
+		[HttpGet]
+		public async Task<IActionResult> Shop(string activeTab = "list")
 		{
-			return View();
+			var products = await _context.Products.Include(c => c.Category).Where(p => p.DeletedAt == null).ToListAsync();
+			ViewData["ActiveTab"] = activeTab; // Pass active tab to the view
+			return View(products);
 		}
-
-
-
-		public IActionResult Cart()
-		{
-			return RedirectToAction("Index", "Cart");
-		}
-
-		public IActionResult Products()
-		{
-			return RedirectToAction("Index" , "Products");
-		}
-
+		 
 
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 		public IActionResult Error()

@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<ClinicManagementSystem.Models.ProductModel>
+
+@{
 	ViewData["Title"] = "Shop";
 	Layout = "~/Views/Shared/HomeLayout/_HomeLayout.cshtml";
 }
@@ -36,21 +38,27 @@
 							<div class="layout-tab ul-li clearfix">
 								<ul class="nav" role="tablist">
 									<li>
-										<a data-toggle="tab" href="#column-3-tab">
+										<a class="nav-link @(ViewData["ActiveTab"]?.ToString() == "grid-3" ? "active" : "")"
+										   href="#grid-3-tab"
+										   data-toggle="tab">
 											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="000000">
 												<path id="_3_Grid" data-name="3 Grid" class="cls-1" d="M675,571h3.812v3.812H675V571Zm0,6.094h3.812v3.812H675v-3.812Zm0,6.093h3.812V587H675v-3.813ZM681.094,571h3.812v3.812h-3.812V571Zm0,6.094h3.812v3.812h-3.812v-3.812Zm0,6.093h3.812V587h-3.812v-3.813ZM687.188,571H691v3.812h-3.812V571Zm0,6.094H691v3.812h-3.812v-3.812Zm0,6.093H691V587h-3.812v-3.813Z" transform="translate(-675 -571)" />
 											</svg>
 										</a>
 									</li>
 									<li>
-										<a data-toggle="tab" href="#column-2-tab">
+										<a class="nav-link @(ViewData["ActiveTab"]?.ToString() == "grid-2" ? "active" : "")"
+										   href="#grid-2-tab"
+										   data-toggle="tab">
 											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="000000">
 												<path id="_2_Grid" data-name="2 Grid" class="cls-1" d="M707,580h7v7h-7v-7Zm10,1h6v6h-6v-6Zm-10-10h7v7h-7v-7Zm9,9h7v7h-7v-7Zm1-9h6v6h-6v-6Zm-1,0h7v7h-7v-7Z" transform="translate(-707 -571)" />
 											</svg>
 										</a>
 									</li>
 									<li>
-										<a class="active" data-toggle="tab" href="#list-layout-tab">
+										<a class="nav-link @(ViewData["ActiveTab"]?.ToString() == "list" ? "active" : "")"
+										   href="#list-tab"
+										   data-toggle="tab">
 											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="000000">
 												<path id="_1_Grid" data-name="1 Grid" class="cls-1" d="M738,571h4v4h-4v-4Zm0,6h4v4h-4v-4Zm0,6h4v4h-4v-4Zm6-12h10v4H744v-4Zm0,6h10v4H744v-4Zm0,6h10v4H744v-4Z" transform="translate(-738 -571)" />
 											</svg>
@@ -61,7 +69,7 @@
 						</div>
 
 						<div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 text-center">
-							<p class="result-text">We found <span>62</span> products are available for you</p>
+							<p class="result-text">We found <span>@Model.Count()</span> products are available for you</p>
 						</div>
 
 						<div class="col-lg-4 col-md-3 col-sm-12 col-xs-12">
@@ -82,180 +90,212 @@
 				</div>
 
 				<div class="tab-content">
-					<div id="column-3-tab" class="tab-pane fade">
-						<div class="row mb-70 justify-content-center">
-							<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-								<div class="product-grid text-center clearfix">
-									<div class="item-image">
-										<a href="shop-details-1.html" class="image-wrap">
-											<img src="/layout/homepage/assets/images/product/img_3.jpg" alt="image_not_found">
-										</a>
-										<div class="post-label ul-li-right clearfix">
-											<ul class="clearfix">
-												<li class="bg-skyblue">-30%</li>
-											</ul>
-										</div>
-										<div class="btns-group ul-li-center clearfix">
-											<ul class="clearfix">
-												<li><a href="#!" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="las la-shopping-basket"></i></a></li>
-												<li>
-													<a class="tooltipes" href="#!" data-placement="top" title="Quick View" data-toggle="modal" data-target="#quickview-modal">
-														<i class="las la-dot-circle"></i>
-													</a>
-												</li>
-												<li><a href="#!" data-toggle="tooltip" data-placement="top" title="Compare Product"><i class="las la-sync"></i></a></li>
-												<li><a href="#!" data-toggle="tooltip" data-placement="top" title="Add To Wishlist"><i class="lar la-heart"></i></a></li>
-											</ul>
-										</div>
-									</div>
-									<div class="item-content">
-										<h3 class="item-title">
-											<a href="shop-details-1.html">Digital Thermometer</a>
-										</h3>
-										<span class="item-price">$39.50</span>
-										<div class="rating-star ul-li-center clearfix">
-											<ul class="clearfix">
-												<li class="active"><i class="las la-star"></i></li>
-												<li class="active"><i class="las la-star"></i></li>
-												<li class="active"><i class="las la-star"></i></li>
-												<li class="active"><i class="las la-star"></i></li>
-												<li><i class="las la-star"></i></li>
-											</ul>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="pagination-nav ul-li-center clearfix">
-							<ul class="clearfix">
-								<li><a href="#!"><i class="las la-angle-left"></i></a></li>
-								<li><a href="#!">1</a></li>
-								<li><a href="#!">2</a></li>
-								<li><a href="#!">...</a></li>
-								<li><a href="#!">6</a></li>
-								<li><a href="#!"><i class="las la-angle-right"></i></a></li>
-							</ul>
-						</div>
-					</div>
-
-					<div id="column-2-tab" class="tab-pane fade">
-						<div class="row has-column-2 mb-70 justify-content-center">
-							<div class="col-lg-6 col-md-4 col-sm-6 col-xs-12">
-								<div class="product-grid text-center clearfix">
-									<div class="item-image">
-										<a href="shop-details-1.html" class="image-wrap">
-											<img src="/layout/homepage/assets/images/product/img_3.jpg" alt="image_not_found">
-										</a>
-										<div class="post-label ul-li-right clearfix">
-											<ul class="clearfix">
-												<li class="bg-skyblue">-19%</li>
-												<li class="bg-skyblue">TOP</li>
-											</ul>
-										</div>
-										<div class="btns-group ul-li-center clearfix">
-											<ul class="clearfix">
-												<li><a href="#!" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="las la-shopping-basket"></i></a></li>
-												<li>
-													<a class="tooltipes" href="#!" data-placement="top" title="Quick View" data-toggle="modal" data-target="#quickview-modal">
-														<i class="las la-dot-circle"></i>
-													</a>
-												</li>
-												<li><a href="#!" data-toggle="tooltip" data-placement="top" title="Compare Product"><i class="las la-sync"></i></a></li>
-												<li><a href="#!" data-toggle="tooltip" data-placement="top" title="Add To Wishlist"><i class="lar la-heart"></i></a></li>
-											</ul>
-										</div>
-									</div>
-									<div class="item-content">
-										<h3 class="item-title">
-											<a href="shop-details-1.html">Digital Infrared Thermometer</a>
-										</h3>
-										<span class="item-price">$49.50</span>
-										<div class="rating-star ul-li-center clearfix">
-											<ul class="clearfix">
-												<li class="active"><i class="las la-star"></i></li>
-												<li class="active"><i class="las la-star"></i></li>
-												<li class="active"><i class="las la-star"></i></li>
-												<li class="active"><i class="las la-star"></i></li>
-												<li><i class="las la-star"></i></li>
-											</ul>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="pagination-nav ul-li-center clearfix">
-							<ul class="clearfix">
-								<li><a href="#!"><i class="las la-angle-left"></i></a></li>
-								<li><a href="#!">1</a></li>
-								<li><a href="#!">2</a></li>
-								<li><a href="#!">...</a></li>
-								<li><a href="#!">6</a></li>
-								<li><a href="#!"><i class="las la-angle-right"></i></a></li>
-							</ul>
-						</div>
-					</div>
-					<div id="list-layout-tab" class="tab-pane active">
-						<div class="mb-70 clearfix">
-							<div class="product-list clearfix">
-								<div class="item-image">
-									<a href="shop-details-1.html" class="image-wrap">
-										<img src="/layout/homepage/assets/images/product/img_3.jpg" alt="image_not_found">
-									</a>
-									<div class="post-label ul-li-right clearfix">
-										<ul class="clearfix">
-											<li class="bg-skyblue">-30%</li>
-											<li class="bg-skyblue">TOP</li>
-										</ul>
-									</div>
-									<div class="btns-group ul-li-center clearfix">
-										<ul class="clearfix">
-											<li><a href="#!" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="las la-shopping-basket"></i></a></li>
-											<li>
-												<a class="tooltipes" href="#!" data-placement="top" title="Quick View" data-toggle="modal" data-target="#quickview-modal">
-													<i class="las la-dot-circle"></i>
+					@if (ViewData["ActiveTab"]?.ToString() == "grid-3")
+					{
+						<div id="column-3-tab" class="tab-pane fade @(ViewData["ActiveTab"]?.ToString() == "grid-3" ? "active show" : "")">
+							<div class="row mb-70 justify-content-center">
+								@foreach (var product in Model)
+								{
+									<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+										<div class="product-grid text-center clearfix">
+											<div class="item-image">
+												<a href="shop-details-1.html" class="image-wrap">
+													<img src="@product.ImagePath" alt="@product.Name">
 												</a>
-											</li>
-											<li><a href="#!" data-toggle="tooltip" data-placement="top" title="Compare Product"><i class="las la-sync"></i></a></li>
-											<li><a href="#!" data-toggle="tooltip" data-placement="top" title="Add To Wishlist"><i class="lar la-heart"></i></a></li>
-										</ul>
+												<div class="post-label ul-li-right clearfix">
+													<ul class="clearfix">
+														<li class="bg-skyblue">-30%</li>
+													</ul>
+												</div>
+												<div class="btns-group ul-li-center clearfix">
+													<ul class="clearfix">
+														<li><a href="#!" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="las la-shopping-basket"></i></a></li>
+														<li>
+															<a class="tooltipes" href="#!" data-placement="top" title="Quick View" data-toggle="modal" data-target="#quickview-modal">
+																<i class="las la-dot-circle"></i>
+															</a>
+														</li>
+														<li><a href="#!" data-toggle="tooltip" data-placement="top" title="Compare Product"><i class="las la-sync"></i></a></li>
+														<li><a href="#!" data-toggle="tooltip" data-placement="top" title="Add To Wishlist"><i class="lar la-heart"></i></a></li>
+													</ul>
+												</div>
+											</div>
+											<div class="item-content">
+												<h3 class="item-title">
+													<a href="shop-details-1.html">@product.Name</a>
+												</h3>
+												<span class="item-price">$@product.Price</span>
+												<div class="rating-star ul-li-center clearfix">
+													<ul class="clearfix">
+														<li class="active"><i class="las la-star"></i></li>
+														<li class="active"><i class="las la-star"></i></li>
+														<li class="active"><i class="las la-star"></i></li>
+														<li class="active"><i class="las la-star"></i></li>
+														<li><i class="las la-star"></i></li>
+													</ul>
+												</div>
+											</div>
+										</div>
 									</div>
-								</div>
-								<div class="rating-star ul-li clearfix">
-									<ul class="clearfix">
-										<li class="active"><i class="las la-star"></i></li>
-										<li class="active"><i class="las la-star"></i></li>
-										<li class="active"><i class="las la-star"></i></li>
-										<li class="active"><i class="las la-star"></i></li>
-										<li><i class="las la-star"></i></li>
-									</ul>
-								</div>
-								<div class="item-content">
-									<span class="post-type">Medical Equipment</span>
-									<h3 class="item-title">
-										<a href="shop-details-1.html">Digital Thermometer</a>
-									</h3>
-									<span class="item-price mb-2">$49.50</span>
-									<p class="mb-30">
-										Best Electronic Digital Thermometer adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.
-									</p>
-									<a href="#!" class="btn bg-royal-blue">Add To Cart</a>
-								</div>
+								}
+
+							</div>
+							<div class="pagination-nav ul-li-center clearfix">
+								<ul class="clearfix">
+									<li><a href="#!"><i class="las la-angle-left"></i></a></li>
+									<li><a href="#!">1</a></li>
+									<li><a href="#!">2</a></li>
+									<li><a href="#!">...</a></li>
+									<li><a href="#!">6</a></li>
+									<li><a href="#!"><i class="las la-angle-right"></i></a></li>
+								</ul>
+							</div>
+						</div>
+					}
+					else if (ViewData["ActiveTab"]?.ToString() == "grid-2")
+					{
+						<div id="column-2-tab" class="tab-pane fade @(ViewData["ActiveTab"]?.ToString() == "grid-2" ? "active show" : "")">
+							<div class="row has-column-2 mb-70 justify-content-center">
+								@foreach (var product in Model)
+								{
+									<div class="col-lg-6 col-md-4 col-sm-6 col-xs-12">
+										<div class="product-grid text-center clearfix">
+											<div class="item-image">
+												<a href="shop-details-1.html" class="image-wrap">
+													<img src="/layout/homepage/assets/images/product/img_3.jpg" alt="image_not_found">
+												</a>
+												<div class="post-label ul-li-right clearfix">
+													<ul class="clearfix">
+														<li class="bg-skyblue">-19%</li>
+														<li class="bg-skyblue">TOP</li>
+													</ul>
+												</div>
+												<div class="btns-group ul-li-center clearfix">
+													<ul class="clearfix">
+														<li><a href="#!" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="las la-shopping-basket"></i></a></li>
+														<li>
+															<a class="tooltipes" href="#!" data-placement="top" title="Quick View" data-toggle="modal" data-target="#quickview-modal">
+																<i class="las la-dot-circle"></i>
+															</a>
+														</li>
+														<li><a href="#!" data-toggle="tooltip" data-placement="top" title="Compare Product"><i class="las la-sync"></i></a></li>
+														<li><a href="#!" data-toggle="tooltip" data-placement="top" title="Add To Wishlist"><i class="lar la-heart"></i></a></li>
+													</ul>
+												</div>
+											</div>
+											<div class="item-content">
+												<h3 class="item-title">
+													<a href="shop-details-1.html">Digital Infrared Thermometer</a>
+												</h3>
+												<span class="item-price">$49.50</span>
+												<div class="rating-star ul-li-center clearfix">
+													<ul class="clearfix">
+														<li class="active"><i class="las la-star"></i></li>
+														<li class="active"><i class="las la-star"></i></li>
+														<li class="active"><i class="las la-star"></i></li>
+														<li class="active"><i class="las la-star"></i></li>
+														<li><i class="las la-star"></i></li>
+													</ul>
+												</div>
+											</div>
+										</div>
+									</div>
+								}
+
+							</div>
+							<div class="pagination-nav ul-li-center clearfix">
+								<ul class="clearfix">
+									<li><a href="#!"><i class="las la-angle-left"></i></a></li>
+									<li><a href="#!">1</a></li>
+									<li><a href="#!">2</a></li>
+									<li><a href="#!">...</a></li>
+									<li><a href="#!">6</a></li>
+									<li><a href="#!"><i class="las la-angle-right"></i></a></li>
+								</ul>
+							</div>
+						</div>
+					}
+					else
+					{
+
+						<div id="list-layout-tab" class="tab-pane @(ViewData["ActiveTab"]?.ToString() == "list" ? "active show" : "")">
+
+							<div class="mb-70 clearfix">
+								@foreach (var product in Model)
+								{
+									<div class="product-list clearfix">
+										<div class="item-image">
+											<a href="shop-details-1.html" class="image-wrap">
+												<img src="@product.ImagePath" alt="@product.Name">
+											</a>
+											<div class="post-label ul-li-right clearfix">
+												<ul class="clearfix">
+													<li class="bg-skyblue">-30%</li>
+													<li class="bg-skyblue">TOP</li>
+												</ul>
+											</div>
+
+											<div class="btns-group ul-li-center clearfix">
+												<ul class="clearfix">
+													<form id="add-to-cart-@product.ProductId">
+														<input type="hidden" name="productId" value="@product.ProductId" />
+														<input type="hidden" name="quantity" value="1" />
+													</form>
+													<li><a onclick="document.getElementById('add-to-cart-@product.ProductId').submit()" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="las la-shopping-basket"></i></a></li>
+													<li>
+														<a class="tooltipes" href="#!" data-placement="top" title="Quick View" data-toggle="modal" data-target="#quickview-modal">
+															<i class="las la-dot-circle"></i>
+														</a>
+													</li>
+
+													<li><a href="#!" data-toggle="tooltip" data-placement="top" title="Add To Wishlist"><i class="lar la-heart"></i></a></li>
+												</ul>
+											</div>
+										</div>
+										<div class="rating-star ul-li clearfix">
+											<ul class="clearfix">
+												<li class="active"><i class="las la-star"></i></li>
+												<li class="active"><i class="las la-star"></i></li>
+												<li class="active"><i class="las la-star"></i></li>
+												<li class="active"><i class="las la-star"></i></li>
+												<li><i class="las la-star"></i></li>
+											</ul>
+										</div>
+										<div class="item-content">
+											<span class="post-type">@product.Category?.Name</span>
+											<h3 class="item-title">
+												<a href="shop-details-1.html">@product.Name</a>
+											</h3>
+											<span class="item-price mb-2">$@product.Price</span>
+											<p class="mb-30">
+												@product.ShortDescription
+											</p>
+											<form id="add-to-cart-@product.ProductId" onsubmit="addToCart(event, @product.ProductId)">
+												<input type="hidden" name="productId" value="@product.ProductId" />
+												<input type="hidden" name="quantity" value="1" />
+												<button type="submit" class="btn bg-royal-blue">Add to Cart</button>
+											</form>
+
+										</div>
+									</div>
+								}
+
+
+
 							</div>
 
-
+							<div class="pagination-nav ul-li-center clearfix">
+								<ul class="clearfix">
+									<li><a href="#!"><i class="las la-angle-left"></i></a></li>
+									<li><a href="#!">1</a></li>
+									<li><a href="#!">2</a></li>
+									<li><a href="#!">...</a></li>
+									<li><a href="#!">6</a></li>
+									<li><a href="#!"><i class="las la-angle-right"></i></a></li>
+								</ul>
+							</div>
 						</div>
-
-						<div class="pagination-nav ul-li-center clearfix">
-							<ul class="clearfix">
-								<li><a href="#!"><i class="las la-angle-left"></i></a></li>
-								<li><a href="#!">1</a></li>
-								<li><a href="#!">2</a></li>
-								<li><a href="#!">...</a></li>
-								<li><a href="#!">6</a></li>
-								<li><a href="#!"><i class="las la-angle-right"></i></a></li>
-							</ul>
-						</div>
-					</div>
+					}
 				</div>
 			</div>
 

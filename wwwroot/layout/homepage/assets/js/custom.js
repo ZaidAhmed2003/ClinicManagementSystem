@@ -69,7 +69,7 @@
 
   // menu button - start
   // --------------------------------------------------
-  $(document).ready(function () {
+  $(function () {
     $('.close-btn, .overlay').on('click', function () {
       $('#sidebar-menu').removeClass('active');
       $('.overlay').removeClass('active');
@@ -511,6 +511,5 @@
   }
   // google map - end
   // --------------------------------------------------
-
 
 })(jQuery);

@@ -1,42 +1,144 @@
 ﻿@model ClinicManagementSystem.Models.CartModel
 
-@if (Model == null || !Model.CartItems.Any())
-{
-        <p>Your cart is empty</p>
+@{
+	ViewData["Title"] = "Cart";
+	Layout = "~/Views/Shared/HomeLayout/_HomeLayout.cshtml";
 }
-else
-{
-        <table>
-            <thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Product</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Total</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            @foreach (var item in Model.CartItems)
-            {
-                                <tr><td><img src="@item.Product.ImagePath" /> </td>
-                            <td>@item.Product.Name</td>
-                            <td>@item.Quantity</td>
-                            <td>@item.Product.Price</td>
-                            <td>@(item.Quantity * item.Product.Price)</td>
-                            <td>
-                                <form method="post" asp-controller="Cart" asp-action="RemoveFromCart">
-                                    <input type="hidden" name="cartItemId" value="@item.CartItemId" />
-                                    <button type="submit">Remove</button>
-                                </form>
-                            </td>
-                        </tr>
-            }
-            </tbody>
-        </table>
-        <p>Total: @Model.Total</p>
-}
+@* 
 <form method="post" asp-action="PlaceOrder" asp-controller="Cart">
-    <button type="submit" class="btn btn-primary">Place Order</button>
+	<button type="submit" class="btn btn-primary">Place Order</button>
 </form>
+ *@
+
+<!-- breadcrumb-section - start
+================================================== -->
+<section id="breadcrumb-section" class="breadcrumb-section d-flex align-items-center decoration-wrap clearfix" data-background="layout/homepage/assets/images/slider/bg_1.jpg">
+	<div class="container text-center">
+		<h1 class="page-title mb-3">Cart</h1>
+		<div class="breadcrumb-nav ul-li-center clearfix">
+			<ul class="clearfix">
+				<li><a href="index.html">Home</a></li>
+				<li><a href="shop-grid-3-column.html">Shop</a></li>
+				<li class="active">Cart</li>
+			</ul>
+		</div>
+	</div>
+
+	<span class="decoration-image pill-image-1">
+		<img src="layout/homepage/assets/images/decoration/pill_1.png" alt="pill_image_not_found">
+	</span>
+</section>
+<!-- breadcrumb-section - end
+================================================== -->
+<!-- cart-section - start
+================================================== -->
+<section id="cart-section" class="cart-section sec-ptb-100 clearfix">
+	<div class="container">
+
+
+
+		@if (Model == null || !Model.CartItems.Any())
+		{
+			<div class="text-center">
+				<h2>Your cart is empty</h2>
+			</div>
+		}
+		else
+		{
+			<div class="table-wrap">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Product Name</th>
+							<th>Total</th>
+							<th>Quantity</th>
+							<th>Subtotal</th>
+						</tr>
+					</thead>
+					@foreach (var item in Model.CartItems)
+					{
+						<tbody>
+							<tr>
+								<td>
+									<div class="product-info ul-li">
+										<ul class="clearfix">
+											<li>
+												<form method="post" asp-controller="Cart" asp-action="RemoveFromCart">
+													<input type="hidden" name="cartItemId" value="@item.CartItemId" />
+													<button type="submit" class="remove-btn"><i class="las la-times"></i></button>
+												</form>
+
+											</li>
+											<li>
+												<div class="product-image">
+													<img src="@item.Product.ImagePath" width="48" alt="pill_image_not_found">
+												</div>
+											</li>
+											<li>
+												<h4 class="item-title">@item.Product.Name</h4>
+											</li>
+										</ul>
+									</div>
+								</td>
+								<td><span class="item-price">$@item.Product.Price</span></td>
+								<td>
+									<div class="quantity-input">
+										<form action="#">
+											<span class="input-number-decrement">–</span>
+											<input class="input-number-1" type="text" value="@item.Quantity">
+											<span class="input-number-increment">+</span>
+										</form>
+									</div>
+								</td>
+								<td><strong class="item-price">$@(item.Quantity * item.Product.Price)</strong></td>
+							</tr>
+						</tbody>
+					}
+
+
+				</table>
+			</div>
+			<div class="cuponcode-form mb-70">
+				<div class="row justify-content-lg-end justify-content-md-center justify-content-sm-center">
+
+
+					<div class="col-lg-7 col-md-7 col-sm-10 col-xs-12">
+						<div class="btns-group ul-li-right">
+							<ul class="clearfix">
+								<li><a href="shop-grid-3-column.html" class="btn bg-default-black">Continue Shopping</a></li>
+								<li><a href="#!" class="btn bg-royal-blue">Update Cart</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row justify-content-lg-end justify-content-md-center justify-content-sm-center">
+				<div class="col-lg-6 col-md-8 col-sm-10 col-xs-12">
+					<div class="total-cost-bar mb-30 clearfix">
+						<h3 class="title-text mb-0">Total Cost</h3>
+						<div class="cost-info ul-li-block clearfix">
+							<ul class="clearfix">
+								<li><strong>Subtotal</strong> <span>$@Model?.Total</span></li>
+								<li>
+									<strong>Shipping Cost</strong> <span>$5.00</span>
+									<p class="mb-0 text-right">Shipping to DHL</p>
+								</li>
+							</ul>
+						</div>
+						<div class="total-cost clearfix">
+							<strong>Total</strong>
+							<span>$104.00</span>
+						</div>
+					</div>
+					<div class="btn-wrap text-right">
+						<a href="checkout.html" class="btn bg-royal-blue">Proceed to Checkout</a>
+					</div>
+				</div>
+			</div>
+		}
+
+	</div>
+</section>
+<!-- cart-section - end
+================================================== -->

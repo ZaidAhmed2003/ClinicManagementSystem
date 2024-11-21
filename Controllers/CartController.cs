@@ -18,7 +18,7 @@ namespace ClinicManagementSystem.Controllers
 			_userManager = userManager;
 		}
 
-		[HttpPost]
+		[HttpPost] 
 		public async Task<IActionResult> AddToCart(Guid productId, int quantity)
 		{
 			// Get the current user
@@ -106,11 +106,8 @@ namespace ClinicManagementSystem.Controllers
 				return Conflict(new { message = "Failed to update cart. Please try again.", details = ex.Message });
 			}
 
-			return RedirectToAction("Index", "Products");
+			return RedirectToAction("Shop", "Home");
 		}
-
-
-
 
 		[HttpPost]
 		public async Task<IActionResult> RemoveFromCart(Guid cartItemId)
@@ -251,8 +248,5 @@ namespace ClinicManagementSystem.Controllers
 
 			return RedirectToAction("OrderConfirmation", new { orderId = order.OrderId });
 		}
-
-
-
 	}
 }

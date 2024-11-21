@@ -2889,6 +2889,7 @@ button {
   position: relative;
 }
 .product-grid .item-image .image-wrap > img {
+  height:300px;
   width: 100%;
   display: block;
   transition: 0.6s cubic-bezier(0.33, 1, 0.68, 1);
