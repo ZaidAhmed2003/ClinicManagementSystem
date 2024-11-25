@@ -49,7 +49,7 @@
 	<!-- footer-section - end
 	================================================== -->
 	<!-- jquery include -->
-	<script src="/layout/homepage/assets/js/jquery-3.6.0.min.js"></script>
+	<script src="/lib/jquery/dist/jquery.js"></script>
 	<script src="/layout/homepage/assets/js/jquery-ui.js"></script>
 	<script src="/layout/homepage/assets/js/popper.min.js"></script>
 	<script src="/layout/homepage/assets/js/bootstrap.min.js"></script>
@@ -60,12 +60,13 @@
 	<script src="/layout/homepage/assets/js/masonry.pkgd.min.js"></script>
 	<script src="/layout/homepage/assets/js/imagesloaded.pkgd.min.js"></script>
 	<script src="/layout/homepage/assets/js/countdown.js"></script>
-
+	 
 	<!-- mobile menu - jquery include -->
 	<script src="/layout/homepage/assets/js/mCustomScrollbar.js"></script>
 
 	<!-- custom - jquery include -->
 	<script src="/layout/homepage/assets/js/custom.js"></script>
-	<script src="/layout/homepage/assets/js/Site.js"></script>
+	<script asp-append-version="true" src="/layout/homepage/assets/js/Site.js"></script>
+	@await RenderSectionAsync("Scripts" , required:false)
 </body>
 </html>

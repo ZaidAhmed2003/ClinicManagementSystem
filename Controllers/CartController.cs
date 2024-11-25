@@ -1,79 +1,75 @@
 ﻿using ClinicManagementSystem.Data;
 using ClinicManagementSystem.Models;
+using ClinicManagementSystem.ViewModels.Checkout;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
-
+using System.Security.Claims;
 
 namespace ClinicManagementSystem.Controllers
 {
-	public class CartController : Controller
-	{
-		private readonly ApplicationDbContext _context;
-		private readonly UserManager<ApplicationUser> _userManager;
-		public CartController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
-		{
-			_context = context;
-			_userManager = userManager;
-		}
 
-		[HttpPost] 
+	public class CartController(ApplicationDbContext context, UserManager<ApplicationUser> userManager) : Controller
+	{
+		private readonly ApplicationDbContext _context = context;
+		private readonly UserManager<ApplicationUser> _userManager = userManager;
+
+		// Add To Cart
+		[HttpPost]
 		public async Task<IActionResult> AddToCart(Guid productId, int quantity)
 		{
+			// Validate input
+			if (quantity <= 0)
+				return BadRequest("Invalid quantity specified.");
+
 			// Get the current user
 			var user = await _userManager.GetUserAsync(User);
-			if (user == null) return Unauthorized("User not found");
+			if (user == null)
+				return Unauthorized("User not found.");
 
-			// Fetch the product
+			// Fetch the product and its inventory
 			var product = await _context.Products
-				.Include(p => p.Inventory) // Assuming Inventory is a navigation property of Product
+				.Include(p => p.Inventory)
 				.FirstOrDefaultAsync(p => p.ProductId == productId);
 
-			if (product == null) return NotFound("Product not found");
+			if (product == null)
+				return NotFound("Product not found.");
 
-			// Fetch available inventory
-			var availableInventory = product.Inventory?.Quantity ?? 0; // Assuming Inventory.Quantity holds the stock
+			var availableInventory = product.Inventory?.Quantity ?? 0;
 
-			// Check if the requested quantity exceeds available inventory
-			if (quantity <= 0) return BadRequest("Invalid quantity specified.");
-			if (availableInventory < quantity) return BadRequest($"Only {availableInventory} items are available for this product.");
+			if (availableInventory < quantity)
+				return BadRequest($"Only {availableInventory} items are available in stock.");
 
-			// Check if cart exists for the user
+			// Fetch the user's cart or create a new one if it doesn't exist
 			var cart = await _context.Carts
 				.Include(c => c.CartItems)
 				.FirstOrDefaultAsync(c => c.UserId == user.Id);
 
 			if (cart == null)
 			{
-				// Create a new cart if one doesn't exist
 				cart = new CartModel
 				{
 					CartId = Guid.NewGuid(),
 					UserId = user.Id,
 					Total = 0,
 					CreatedAt = DateTime.UtcNow,
-					CartItems = new List<CartItemModel>()
+					CartItems = []
 				};
+
 				await _context.Carts.AddAsync(cart);
-				await _context.SaveChangesAsync(); // Save immediately to track the cart
 			}
 
 			// Check if the product is already in the cart
 			var cartItem = cart.CartItems.FirstOrDefault(ci => ci.ProductId == productId);
+			int existingQuantity = cartItem?.Quantity ?? 0;
+			int totalQuantityAfterAddition = existingQuantity + quantity;
 
-			int existingQuantityInCart = cartItem?.Quantity ?? 0;
-			int totalQuantityAfterAddition = existingQuantityInCart + quantity;
-
-			// Ensure the total quantity does not exceed the available inventory
 			if (totalQuantityAfterAddition > availableInventory)
-			{
-				return BadRequest($"Cannot add {quantity} items. Only {availableInventory - existingQuantityInCart} more items can be added.");
-			}
+				return BadRequest($"Cannot add {quantity} items. Only {availableInventory - existingQuantity} more items can be added.");
 
 			if (cartItem == null)
 			{
-				// Add the product as a new cart item
+				// Add new item to the cart
 				cartItem = new CartItemModel
 				{
 					CartItemId = Guid.NewGuid(),
@@ -88,165 +84,219 @@ namespace ClinicManagementSystem.Controllers
 			else
 			{
 				// Update the quantity of the existing item
-				cartItem.Quantity += quantity;
+				cartItem.Quantity = totalQuantityAfterAddition;
 				_context.Entry(cartItem).State = EntityState.Modified;
 			}
 
-			// Update the cart's total price
+			// Recalculate the cart's total
 			cart.Total = cart.CartItems.Sum(ci => ci.Quantity * product.Price);
 			_context.Entry(cart).State = EntityState.Modified;
 
-			// Save changes
+			// Save changes and handle exceptions
 			try
 			{
 				await _context.SaveChangesAsync();
+
+				// For non-AJAX form submissions, redirect to the cart page
+				if (!Request.Headers.XRequestedWith.ToString().Equals("XMLHttpRequest"))
+				{
+					TempData["SuccessMessage"] = "Product added to cart successfully.";
+					return RedirectToAction("Index", "Cart");
+				}
+
+				// For AJAX calls, return a JSON response
+				return Json(new
+				{
+					success = true,
+					total = cart.Total,
+					cartItemCount = cart.CartItems.Count
+				});
 			}
 			catch (DbUpdateConcurrencyException ex)
 			{
-				return Conflict(new { message = "Failed to update cart. Please try again.", details = ex.Message });
+				return Conflict(new
+				{
+					message = "Failed to update cart. Please try again.",
+					details = ex.Message
+				});
 			}
-
-			return RedirectToAction("Shop", "Home");
 		}
 
-		[HttpPost]
-		public async Task<IActionResult> RemoveFromCart(Guid cartItemId)
-		{
-			var cartItem = await _context.CartItems.FindAsync(cartItemId);
-			if (cartItem == null) return NotFound("Cart item not found");
-
-			_context.CartItems.Remove(cartItem);
-			await _context.SaveChangesAsync();
-
-			return RedirectToAction("Index");
-		}
-
+		// Get Cart
 		[HttpGet]
 		public async Task<IActionResult> Index()
 		{
 			var user = await _userManager.GetUserAsync(User);
-
 			if (user == null)
+				return Json(new { success = false, message = "User not logged in" });
+
+			var cart = await _context.Carts
+				.Include(c => c.CartItems)
+				.ThenInclude(ci => ci.Product)
+				.ThenInclude(p => p.Discount) // Include product discount details
+				.FirstOrDefaultAsync(c => c.UserId == user.Id);
+
+			// If no cart found, return an empty cart
+			cart ??= new CartModel { CartItems = [], Total = 0 };
+
+			var subtotal = 0m;
+			var shippingCost = 10.00m; // Fixed shipping cost, can be adjusted based on conditions
+			var totalDiscount = 0m; // To track the total discount applied on products
+
+			foreach (var item in cart.CartItems)
 			{
-				return RedirectToAction("Login", "Account");
+				var productPrice = item.Product?.Price ?? 0;
+				var productDiscount = 0m;
+
+				// Check if the product has a discount
+				if (item.Product?.Discount != null)
+				{
+					// Apply the discount only if it exists
+					productDiscount = item.Product.Discount.DiscountValue;
+
+					// If you want to apply the discount to the price
+					subtotal += item.Quantity * (productPrice - productDiscount);
+					totalDiscount += productDiscount * item.Quantity;
+				}
+				else
+				{
+					// No discount, add the product price normally
+					subtotal += item.Quantity * productPrice;
+				}
 			}
 
-			var cart = await _context.Carts.Include(c => c.CartItems)
-										   .ThenInclude(ci => ci.Product)
-										   .FirstOrDefaultAsync(c => c.UserId == user.Id);
+			var total = subtotal + shippingCost; // Final total (including shipping cost)
+
+			if (Request.Headers.XRequestedWith == "XMLHttpRequest")
+			{
+				return Json(new
+				{
+					success = true,
+					cartItems = cart.CartItems.Select(ci => new
+					{
+						cartItemId = ci.CartItemId,
+						product = new
+						{
+							name = ci.Product?.Name,
+							price = ci.Product?.Price,
+							discount = ci.Product?.Discount?.DiscountValue ?? 0,
+							imagePath = ci.Product?.ImagePath
+						},
+						quantity = ci.Quantity,
+						totalPrice = (ci.Quantity * (ci.Product?.Price ?? 0)) - (ci.Product?.Discount?.DiscountValue ?? 0)
+					}),
+					subtotal,
+					discountAmount = totalDiscount,
+					shippingCost,
+					total
+				});
+			}
 
 			return View(cart);
 		}
 
+		// Remove Item From Cart
 		[HttpPost]
-		public async Task<IActionResult> PlaceOrder()
+		public async Task<IActionResult> RemoveFromCart(Guid cartItemId)
 		{
-			// Ensure user is authenticated and exists
+			var user = await _userManager.GetUserAsync(User);
+			if (user == null) return Json(new { success = false, message = "User not logged in" });
+
+			var cartItem = await _context.CartItems
+				.Include(ci => ci.Cart)
+				.ThenInclude(c => c.CartItems)
+				.ThenInclude(ci => ci.Product)
+				.FirstOrDefaultAsync(ci => ci.CartItemId == cartItemId && ci.Cart.UserId == user.Id);
+
+			if (cartItem == null) return Json(new { success = false, message = "Cart item not found" });
+
+			_context.CartItems.Remove(cartItem);
+			await _context.SaveChangesAsync();
+
+			var newTotal = cartItem.Cart?.CartItems
+				.Where(ci => ci.Product != null)
+				.Sum(ci => ci.Quantity * ci.Product.Price) ?? 0;
+
+			return Json(new { success = true, total = newTotal });
+		}
+
+		// Increment Cart Item
+		[HttpPost]
+		public async Task<IActionResult> IncrementCartItem(Guid cartItemId)
+		{
 			var user = await _userManager.GetUserAsync(User);
 			if (user == null)
-			{
-				return Unauthorized("User not found.");
-			}
+				return Json(new { success = false, message = "User not logged in" });
 
-			// Fetch the user's cart
+			var cartItem = await _context.CartItems
+				.Include(ci => ci.Cart)
+				.ThenInclude(c => c.CartItems)
+				.ThenInclude(ci => ci.Product)
+				.FirstOrDefaultAsync(ci => ci.CartItemId == cartItemId && ci.Cart.UserId == user.Id);
+
+			if (cartItem == null)
+				return Json(new { success = false, message = "Cart item not found" });
+
+			cartItem.Quantity++;
+			_context.CartItems.Update(cartItem);
+			await _context.SaveChangesAsync();
+
+			var newTotal = cartItem.Cart?.CartItems
+				.Where(ci => ci.Product != null)
+				.Sum(ci => ci.Quantity * ci.Product.Price) ?? 0;
+
+			return Json(new { success = true, quantity = cartItem.Quantity, total = newTotal });
+		}
+
+		// Decrement Cart Item
+		[HttpPost]
+		public async Task<IActionResult> DecrementCartItem(Guid cartItemId)
+		{
+			var user = await _userManager.GetUserAsync(User);
+			if (user == null)
+				return Json(new { success = false, message = "User not logged in" });
+
+			var cartItem = await _context.CartItems
+				.Include(ci => ci.Cart)
+				.ThenInclude(c => c.CartItems)
+				.ThenInclude(ci => ci.Product)
+				.FirstOrDefaultAsync(ci => ci.CartItemId == cartItemId && ci.Cart.UserId == user.Id);
+
+			if (cartItem == null)
+				return Json(new { success = false, message = "Cart item not found" });
+
+			cartItem.Quantity = Math.Max(1, cartItem.Quantity - 1); // Prevent quantity going below 1
+			_context.CartItems.Update(cartItem);
+			await _context.SaveChangesAsync();
+
+			var newTotal = cartItem.Cart?.CartItems
+				.Where(ci => ci.Product != null)
+				.Sum(ci => ci.Quantity * ci.Product.Price) ?? 0;
+
+			return Json(new { success = true, quantity = cartItem.Quantity, total = newTotal });
+		}
+
+		// Get Cart Count 
+		[HttpGet]
+		public async Task<IActionResult> GetCartItemCount()
+		{
+			var user = await _userManager.GetUserAsync(User);
+			if (user == null) return Json(new { count = 0 });
+
 			var cart = await _context.Carts
 				.Include(c => c.CartItems)
-				.ThenInclude(ci => ci.Product)
 				.FirstOrDefaultAsync(c => c.UserId == user.Id);
 
-			// Handle case when cart is empty or doesn't exist
-			if (cart == null || cart.CartItems == null || !cart.CartItems.Any())
-			{
-				return BadRequest("Your cart is empty.");
-			}
+			int itemCount = cart?.CartItems.Sum(ci => ci.Quantity) ?? 0;
 
-			// Calculate total amount
-			decimal totalAmount = cart.CartItems.Sum(ci => ci.Quantity * ci.Product.Price);
-
-			// Create payment details
-			var paymentDetail = new PaymentDetailModel
-			{
-				PaymentId = Guid.NewGuid(),
-				UserId = user.Id,
-				Amount = totalAmount,
-				PaymentMethod = "CreditCard", // Example
-				Status = PaymentStatus.Completed,
-				PaymentDate = DateTime.UtcNow
-			};
-
-			_context.PaymentDetails.Add(paymentDetail);
-			await _context.SaveChangesAsync();
-
-			// Create the order
-			var order = new OrderModel
-			{
-				OrderId = Guid.NewGuid(),
-				UserId = user.Id,
-				PaymentId = paymentDetail.PaymentId,
-				TrackingID = Guid.NewGuid().ToString(),
-				OrderDate = DateTime.UtcNow,
-				TotalAmount = totalAmount,
-				Status = OrderStatus.Pending,
-				PaymentDetail = paymentDetail // Ensure PaymentDetail is not null
-			};
-
-			_context.Orders.Add(order);
-			await _context.SaveChangesAsync();
-
-			// Create order items
-			foreach (var cartItem in cart.CartItems)
-			{
-				if (cartItem.Product == null)
-				{
-					// Handle the case where the product is null
-					continue;
-				}
-
-				var orderItem = new OrderItemModel
-				{
-					OrderItemId = Guid.NewGuid(),
-					OrderId = order.OrderId,
-					ProductId = cartItem.ProductId,
-					Price = cartItem.Product.Price,
-					Quantity = cartItem.Quantity,
-					CreatedAt = DateTime.UtcNow,
-					Product = cartItem.Product, // Set Product navigation property
-					Order = order // Set Order navigation property
-				};
-
-				_context.OrderItems.Add(orderItem);
-
-				// Update product inventory
-				var product = await _context.Products.FirstOrDefaultAsync(p => p.ProductId == cartItem.ProductId);
-				if (product != null)
-				{
-					product.Inventory.Quantity -= cartItem.Quantity;
-					_context.Entry(product).State = EntityState.Modified;
-				}
-			}
-
-			await _context.SaveChangesAsync();
-
-			// Create transaction
-			var transaction = new TransactionModel
-			{
-				TransactionId = Guid.NewGuid(),
-				UserId = user.Id,
-				OrderId = order.OrderId,
-				Amount = totalAmount,
-				TransactionStatus = TransactionStatus.Success,
-				TransactionDate = DateTime.UtcNow,
-				Order = order
-			};
-
-			_context.Transactions.Add(transaction);
-			await _context.SaveChangesAsync();
-
-			// Clear cart after order placement
-			cart.CartItems.Clear();
-			await _context.SaveChangesAsync();
-
-			return RedirectToAction("OrderConfirmation", new { orderId = order.OrderId });
+			return Json(new { count = itemCount });
 		}
+
+
+		public IActionResult ProceedToCheckout()
+		{
+			return RedirectToAction("Index", "Checkout");
+		}
+
 	}
 }

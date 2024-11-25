@@ -1,0 +1,128 @@
+﻿@model ClinicManagementSystem.ViewModels.Checkout.CheckoutViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/HomeLayout/_HomeLayout.cshtml";
+}
+
+
+<section id="breadcrumb-section" class="breadcrumb-section d-flex align-items-center decoration-wrap clearfix" data-background="/layout/homepage/assets/images/slider/bg_1.jpg" style="background-image: url(&quot;/layout/homepage/assets/images/slider/bg_1.jpg&quot;);">
+	<div class="container text-center">
+		<h1 class="page-title mb-3">Contact Us</h1>
+		<div class="breadcrumb-nav ul-li-center clearfix">
+			<ul class="clearfix">
+				<li><a href="index.html">Home</a></li>
+				<li><a href="shop-grid-3-column.html">Shop</a></li>
+				<li class="active">Checkout</li>
+			</ul>
+		</div>
+	</div>
+
+	<span class="decoration-image pill-image-1">
+		<img src="/layout/homepage/assets/images/decoration/pill_1.png" alt="pill_image_not_found">
+	</span>
+</section>
+
+<section id="checkout-section" class="checkout-section sec-ptb-100 clearfix">
+    <div class="container">
+        <div class="row justify-content-lg-between justify-content-md-center justify-content-sm-center">
+            <div class="col-lg-7 col-md-8 col-sm-10 col-xs-12">
+                <div class="billing-form">
+                    <h3 class="title-text mb-40">Billing Details</h3>
+                    <form method="post" asp-action="PlaceOrder" asp-controller="Checkout">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <div class="form-item">
+                                    <h4 class="form-title">First Name*</h4>
+                                    <input type="text" name="firstname" value="@Model.User.FirstName" readonly>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <div class="form-item">
+                                    <h4 class="form-title">Last Name*</h4>
+                                    <input type="text" name="lastname" value="@Model.User.LastName" readonly>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <div class="form-item">
+                                    <h4 class="form-title">Phone Number*</h4>
+                                    <input type="tel" asp-for="UserAddress" name="telephone" value="@Model.UserAddress.Mobile">
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <div class="form-item">
+                                    <h4 class="form-title">Email Address*</h4>
+                                    <input type="email" name="email" value="@Model.User.Email" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-item">
+                            <h4 class="form-title">Street Address*</h4>
+                            <input type="text" name="address" value="@Model.UserAddress?.AddressLine1" placeholder="e.g. House, Road, Street Name">
+                        </div>
+                        <div class="form-item">
+                            <h4 class="form-title">Country</h4>
+                            <input type="text" name="address" value="@Model.UserAddress?.Country" placeholder="e.g. Australia">
+                        </div>
+                        <div class="form-item">
+                            <h4 class="form-title">City</h4>
+                            <input type="text" value="@Model.UserAddress?.City" name="address" placeholder="e.g New York">
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-lg-5 col-md-8 col-sm-10 col-xs-12">
+                <div class="checkout-sidebar">
+                    <h3 class="title-text mb-40">Your Order</h3>
+
+                    <div class="cart-items-list ul-li-block mb-60 clearfix">
+                        <ul class="clearfix">
+                            @foreach (var item in Model.Cart.CartItems)
+                            {
+                                <li>
+                                    <div class="item-image">
+                                        <img src="@item.Product.ImagePath" alt="image_not_found">
+                                    </div>
+                                    <div class="item-content">
+                                        <h4 class="item-title">@item.Product.Name</h4>
+                                        <div class="d-flex">
+                                            <span class="mr-1">@item.Quantity x</span>
+                                            <span class="item-price">$@item.Product.Price.ToString("F2")</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+
+                    <div class="total-cost-bar mb-60 clearfix">
+                        <h3 class="title-text mb-0">Total Cost</h3>
+                        <div class="cost-info ul-li-block clearfix">
+                            <ul class="clearfix">
+                                <li><strong>Subtotal</strong> <span>$@Model.Subtotal.ToString("F2")</span></li>
+                                <li>
+                                    <strong>Shipping Cost</strong> <span>$@Model.ShippingCost.ToString("F2")</span>
+                                    <p class="mb-0 text-right">Shipping to DHL</p>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="total-cost clearfix">
+                            <strong>Total</strong>
+                            <span>$@Model.TotalCost.ToString("F2")</span>
+                        </div>
+                    </div>
+                    <form method="post" asp-action="PlaceOrder" asp-controller="Checkout">
+                        <button type="submit" class="btn bg-royal-blue">Place Order</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+

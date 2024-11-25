@@ -1,14 +1,8 @@
-﻿@model ClinicManagementSystem.Models.CartModel
-
-@{
+﻿@{
 	ViewData["Title"] = "Cart";
 	Layout = "~/Views/Shared/HomeLayout/_HomeLayout.cshtml";
 }
-@* 
-<form method="post" asp-action="PlaceOrder" asp-controller="Cart">
-	<button type="submit" class="btn btn-primary">Place Order</button>
-</form>
- *@
+
 
 <!-- breadcrumb-section - start
 ================================================== -->
@@ -34,111 +28,213 @@
 ================================================== -->
 <section id="cart-section" class="cart-section sec-ptb-100 clearfix">
 	<div class="container">
-
-
-
-		@if (Model == null || !Model.CartItems.Any())
-		{
-			<div class="text-center">
-				<h2>Your cart is empty</h2>
-			</div>
-		}
-		else
-		{
-			<div class="table-wrap">
-				<table class="table">
-					<thead>
-						<tr>
-							<th>Product Name</th>
-							<th>Total</th>
-							<th>Quantity</th>
-							<th>Subtotal</th>
-						</tr>
-					</thead>
-					@foreach (var item in Model.CartItems)
-					{
-						<tbody>
-							<tr>
-								<td>
-									<div class="product-info ul-li">
-										<ul class="clearfix">
-											<li>
-												<form method="post" asp-controller="Cart" asp-action="RemoveFromCart">
-													<input type="hidden" name="cartItemId" value="@item.CartItemId" />
-													<button type="submit" class="remove-btn"><i class="las la-times"></i></button>
-												</form>
-
-											</li>
-											<li>
-												<div class="product-image">
-													<img src="@item.Product.ImagePath" width="48" alt="pill_image_not_found">
-												</div>
-											</li>
-											<li>
-												<h4 class="item-title">@item.Product.Name</h4>
-											</li>
-										</ul>
-									</div>
-								</td>
-								<td><span class="item-price">$@item.Product.Price</span></td>
-								<td>
-									<div class="quantity-input">
-										<form action="#">
-											<span class="input-number-decrement">–</span>
-											<input class="input-number-1" type="text" value="@item.Quantity">
-											<span class="input-number-increment">+</span>
-										</form>
-									</div>
-								</td>
-								<td><strong class="item-price">$@(item.Quantity * item.Product.Price)</strong></td>
-							</tr>
-						</tbody>
-					}
-
-
-				</table>
-			</div>
-			<div class="cuponcode-form mb-70">
-				<div class="row justify-content-lg-end justify-content-md-center justify-content-sm-center">
-
-
-					<div class="col-lg-7 col-md-7 col-sm-10 col-xs-12">
-						<div class="btns-group ul-li-right">
-							<ul class="clearfix">
-								<li><a href="shop-grid-3-column.html" class="btn bg-default-black">Continue Shopping</a></li>
-								<li><a href="#!" class="btn bg-royal-blue">Update Cart</a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="row justify-content-lg-end justify-content-md-center justify-content-sm-center">
-				<div class="col-lg-6 col-md-8 col-sm-10 col-xs-12">
-					<div class="total-cost-bar mb-30 clearfix">
-						<h3 class="title-text mb-0">Total Cost</h3>
-						<div class="cost-info ul-li-block clearfix">
-							<ul class="clearfix">
-								<li><strong>Subtotal</strong> <span>$@Model?.Total</span></li>
-								<li>
-									<strong>Shipping Cost</strong> <span>$5.00</span>
-									<p class="mb-0 text-right">Shipping to DHL</p>
-								</li>
-							</ul>
-						</div>
-						<div class="total-cost clearfix">
-							<strong>Total</strong>
-							<span>$104.00</span>
-						</div>
-					</div>
-					<div class="btn-wrap text-right">
-						<a href="checkout.html" class="btn bg-royal-blue">Proceed to Checkout</a>
-					</div>
-				</div>
-			</div>
-		}
-
+		<div id="cart-container"></div>
+		<div id="total-container"></div>
 	</div>
 </section>
 <!-- cart-section - end
 ================================================== -->
+@section Scripts {
+	<script>
+					console.log("cart script loaded")
+					$(document).ready(function () {
+					fetchCartData();
+					// Function to fetch and update cart data
+					function fetchCartData() {
+									$.ajax({
+										url: '/Cart/Index',
+										method: 'GET',
+										success: function (response) {
+											if (response.success) {
+												// Update cart count
+												updateCartCount();
+
+												// Clear the container and prepare for new content
+												const cartItemsContainer = $('div#cart-container');
+												const totalContainer = $('div#total-container');
+												totalContainer.empty();
+												cartItemsContainer.empty();
+
+
+												if (response.cartItems.length === 0) {
+													cartItemsContainer.html(`
+														<div class="text-center">
+															<h2>Your cart is empty</h2>
+														</div>
+													`);
+												} else {
+													cartItemsContainer.html(`
+														<div class="table-wrap">
+															<table class="table">
+																<thead>
+																	<tr>
+																		<th>Product Name</th>
+																		<th>Price</th>
+																		<th>Quantity</th>
+																		<th>Total</th>
+																	</tr>
+																</thead>
+
+															</table>
+														</div>
+													`);
+
+													response.cartItems.forEach(item => {
+														$("table").append(`
+														<tbody>
+															<tr id="row-${item.cartItemId}">
+																<td>
+																	<div class="product-info ul-li">
+																		<ul class="clearfix">
+																			<li>
+																				<button type="button" data-cartitem-id="${item.cartItemId}" class="remove-cart-item">
+																					<i class="las la-times"></i>
+																				</button>
+																			</li>
+																			<li>
+																				<div class="product-image">
+																					<img src="${item.product.imagePath}" width="48" alt="pill_image_not_found">
+																				</div>
+																			</li>
+																			<li>
+																				<h4 class="item-title">${item.product.name}</h4>
+																			</li>
+																		</ul>
+																	</div>
+																</td>
+																<td><span class="item-price">$${item.product.price.toFixed(2)}</span></td>
+																<td>
+																	<div class="quantity-input">
+																		<button type="button" class="decrement-cart-item" data-cartitem-id="${item.cartItemId}">-</button>
+																		<input readonly class="input-number-1" id="quantity-${item.cartItemId}" type="number" value="${item.quantity}" />
+																		<button type="button" class="increment-cart-item" data-cartitem-id="${item.cartItemId}">+</button>
+																	</div>
+																</td>
+																<td><strong class="item-price">$${item.totalPrice.toFixed(2)}</strong></td>
+															</tr></tbody>
+																`); } )
+
+													totalContainer.html(`	<div class="cuponcode-form mb-70">
+																					<div class="row justify-content-lg-end justify-content-md-center justify-content-sm-center">
+																						<div class="col-lg-7 col-md-7 col-sm-10 col-xs-12">
+																							<div class="btns-group ul-li-right">
+																								<ul class="clearfix">
+																											<li><a id="continue-shopping" class="btn text-white bg-default-black">Continue Shopping</a></li>
+																								</ul>
+																							</div>
+																						</div>
+																					</div>
+																				</div>
+
+																				<div class="row justify-content-lg-end justify-content-md-center justify-content-sm-center">
+																					<div class="col-lg-6 col-md-8 col-sm-10 col-xs-12">
+																						<div class="total-cost-bar mb-30 clearfix">
+																							<h3 class="title-text mb-0">Total Cost</h3>
+																							<div class="cost-info ul-li-block clearfix">
+																								<ul class="clearfix">
+																									<li><strong>Subtotal</strong> <span id="cart-subtotal"></span></li>
+																									<li>
+																										<strong>Discount</strong> <span id="discount-cost">$0</span>
+																										<p class="mb-0 text-right ">Shipping to DHL</p>
+																									</li>
+																								</ul>
+																							</div>
+																							<div class="total-cost clearfix">
+																								<strong>Total</strong>
+																								<span id="cart-total"></span>
+																							</div>
+																						</div>
+																						<div class="btn-wrap text-right">
+																							<a  id="proceedToCheckoutBtn" asp-controller="Cart" class="text-white btn bg-royal-blue">Proceed to Checkout</a>
+																						</div>
+																					</div>
+																				</div>`);
+
+																				// Update totals
+																				$('#cart-subtotal').text(`$${response.subtotal.toFixed(2)}`);
+																				$('#discount-cost').text(`$${response.shippingCost.toFixed(2)}`);
+																				$('#cart-total').text(`$${response.total.toFixed(2)}`);
+
+												}
+											} else {
+												alert(response.message);
+											}
+										},
+										error: function () {
+											alert('Failed to fetch cart data.');
+										}
+									 })
+									 };
+
+
+				$(document).on('click','#proceedToCheckoutBtn', function() {
+							window.location.href = '/Cart/ProceedToCheckout';
+				});
+
+				$(document).on('click','#continue-shopping', function() {
+							// Handle success (e.g., redirect to checkout page)
+							window.location.href = '/Home/Shop';
+				});
+
+				$(document).on('click', '.increment-cart-item', function () {
+					const cartItemId = $(this).data('cartitem-id');
+					$.ajax({
+						url: '/Cart/IncrementCartItem',
+						method: 'POST',
+						data: { cartItemId: cartItemId },
+						success: function (response) {
+							if (response.success) {
+
+								fetchCartData(); // Refresh the cart to reflect changes
+							} else {
+								alert(response.message);
+							}
+						},
+						error: function () {
+							alert('Failed to increment cart item.');
+						}
+					});
+				});
+
+				$(document).on('click', '.decrement-cart-item', function () {
+					const cartItemId = $(this).data('cartitem-id');
+					$.ajax({
+						url: '/Cart/DecrementCartItem',
+						method: 'POST',
+						data: { cartItemId: cartItemId },
+						success: function (response) {
+							if (response.success) {
+								fetchCartData(); // Refresh the cart to reflect changes
+							} else {
+								alert(response.message);
+							}
+						},
+						error: function () {
+							alert('Failed to decrement cart item.');
+						}
+					});
+				});
+
+
+						$(document).on('click', '.remove-cart-item', function () {
+					const cartItemId = $(this).data('cartitem-id');
+					$.ajax({
+						url: '/Cart/RemoveFromCart',
+						method: 'POST',
+						data: { cartItemId: cartItemId },
+						success: function (response) {
+							if (response.success) {
+								fetchCartData(); // Refresh the cart after removal
+							} else {
+								alert(response.message);
+							}
+						},
+						error: function () {
+							alert('Failed to remove cart item.');
+						}
+					});
+				});
+				})
+
+	</script>
+}

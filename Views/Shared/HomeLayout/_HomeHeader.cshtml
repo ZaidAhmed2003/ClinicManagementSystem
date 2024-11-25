@@ -25,7 +25,7 @@
 								<li>
 									<button class="mobile-btn-cart">
 										<i class="las la-shopping-bag"></i>
-										<small class="cart-counter bg-royal-blue">03</small>
+										<small class="cart-counter bg-royal-blue"></small>
 									</button>
 								</li>
 							</ul>
@@ -92,12 +92,13 @@
 
 							</li>
 
-							<li >
-								<button asp-action="Index" asp-controller="Cart" class="btn-cart">
+							<li>
+								<button type="button" class="btn-cart" onclick="window.location.href='@Url.Action("Index", "Cart")'">
 									<i class="las la-shopping-bag"></i>
-									<small class="cart-counter bg-royal-blue">03</small>
+									<small  class="cart-counter bg-royal-blue">0</small>
 								</button>
 							</li>
+
 						</ul>
 					</div>
 				</div>
@@ -208,14 +209,7 @@
 							<li>
 								<a asp-action="Shop" asp-controller="Home">Shop</a>
 							</li>
-							<li class="menu-item-has-child">
-								<a href="#!">Pages</a>
-								<ul class="submenu">
-									<li><a href="cart.html">Cart Page</a></li>
-									<li><a href="checkout.html">Checkout Page</a></li>
-									<li><a href="wishlist.html">Wishlist Page</a></li>
-								</ul>
-							</li>
+					
 							<li class="menu-item-has-child">
 								<a href="#!">Blog</a>
 								<ul class="submenu">
@@ -271,10 +265,10 @@
 		<div id="mobile-accordion" class="mobile-accordion">
 			<div class="card">
 				<div class="card-header" id="heading-one">
-					<button data-toggle="collapse" data-target="#collapse-one" aria-expanded="false" aria-controls="collapse-one">
+					<button data-toggle="collapse" data-target="#collapse-one" aria-expanded="false" aria-controls="collapse-one" class="d-flex align-items-center gap-3">
 						<i class="las la-shopping-bag"></i>
 						Cart Item
-						<small>03</small>
+						<small class="cart-counter"></small>
 					</button>
 				</div>
 				<div id="collapse-one" class="collapse" aria-labelledby="heading-one" data-parent="#mobile-accordion">

@@ -2,7 +2,7 @@
 
 namespace ClinicManagementSystem.Controllers
 {
-    public class TransactionController : Controller
+    public class TransactionManagementController : Controller
     {
         public IActionResult Index()
         {

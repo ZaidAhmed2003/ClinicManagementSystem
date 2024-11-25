@@ -23,7 +23,7 @@ namespace ClinicManagementSystem.Models
 		[Required]
 		public required string PaymentMethod { get; set; }
 
-		[Required]
+		[Required]	
 		public PaymentStatus Status { get; set; } // Using enum for status
 	}
 

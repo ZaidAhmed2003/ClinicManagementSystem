@@ -18,9 +18,9 @@ namespace ClinicManagementSystem.Models
 		[Required]
 		public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-		public DateTime? ModifiedAt { get; set; } = DateTime.UtcNow;
+		public DateTime? ModifiedAt { get; set; } // Made nullable, only set when updated
 
-		public List<CartItemModel> CartItems { get; set; } = [];
+		public ICollection<CartItemModel> CartItems { get; set; } = []; // Use ICollection for best practice
 
 
 	}

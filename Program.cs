@@ -68,6 +68,7 @@ namespace ClinicManagementSystem
 				name: "default",
 				pattern: "{controller=Home}/{action=Index}/{id?}");
 
+
 			// Add role seeding
 			using (var scope = app.Services.CreateScope())
 			{

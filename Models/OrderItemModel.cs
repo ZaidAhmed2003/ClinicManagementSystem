@@ -3,14 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ClinicManagementSystem.Models
 {
-    public class OrderItemModel
-    {
+	public class OrderItemModel
+	{
 		[Key]
 		public Guid OrderItemId { get; set; }
 
 		public Guid ProductId { get; set; }
 		[ForeignKey("ProductId")]
-		public required ProductModel Product  { get; set; }
+		public required ProductModel Product { get; set; }
 
 		public Guid OrderId { get; set; }
 		[ForeignKey("OrderId")]
@@ -25,4 +25,5 @@ namespace ClinicManagementSystem.Models
 
 		public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 	}
+
 }

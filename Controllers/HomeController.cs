@@ -16,10 +16,12 @@ namespace ClinicManagementSystem.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> Shop(string activeTab = "list")
+		public async Task<IActionResult> Shop()
 		{
-			var products = await _context.Products.Include(c => c.Category).Where(p => p.DeletedAt == null).ToListAsync();
-			ViewData["ActiveTab"] = activeTab; // Pass active tab to the view
+			var products = await _context.Products.Include(c => c.Category)
+												  .Include(d => d.Discount)
+												  .Where(p => p.DeletedAt == null)
+												  .ToListAsync();
 			return View(products);
 		}
 		 

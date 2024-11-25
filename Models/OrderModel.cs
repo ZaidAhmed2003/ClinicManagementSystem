@@ -17,7 +17,6 @@ namespace ClinicManagementSystem.Models
 		[ForeignKey("PaymentId")]
 		public required PaymentDetailModel PaymentDetail { get; set; }
 
-
 		[Required]
 		public Guid UserId { get; set; } // Match the primary key type in ApplicationUser
 
@@ -27,14 +26,16 @@ namespace ClinicManagementSystem.Models
 		[Required]
 		public DateTime OrderDate { get; set; } = DateTime.UtcNow;
 
-
-
 		[Required, DataType(DataType.Currency)]
 		public decimal TotalAmount { get; set; }
 
 		[Required]
 		public OrderStatus Status { get; set; } // Enum representing order status
+
+		// Add the navigation property for OrderItems
+		public ICollection<OrderItemModel> OrderItems { get; set; } = new List<OrderItemModel>(); // This is the missing collection
 	}
+
 	public enum OrderStatus
 	{
 		Pending,

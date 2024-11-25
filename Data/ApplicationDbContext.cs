@@ -6,14 +6,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace ClinicManagementSystem.Data
 {
-	public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
+	public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>(options)
 	{
-		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-			: base(options)
-		{
-		}
-
-
 		public DbSet<ProductModel> Products { get; set; } = null!;
 		public DbSet<ProductCategoryModel> Product_Category { get; set; } = null!;
 		public DbSet<ProductDiscountModel> Product_Discount { get; set; } = null!;
@@ -36,13 +30,7 @@ namespace ClinicManagementSystem.Data
 			base.OnModelCreating(builder);
 
 
-			// Relationships
-
-			builder.Entity<OrderModel>()
-				.HasOne(o => o.PaymentDetail)
-				.WithMany()
-				.HasForeignKey(o => o.PaymentId)
-				.OnDelete(DeleteBehavior.NoAction); // Prevent cascade delete
+			// Relationship
 
 			builder.Entity<TransactionModel>()
 				.HasOne(t => t.Order)
