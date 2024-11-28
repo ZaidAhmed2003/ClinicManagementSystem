@@ -14,7 +14,6 @@ namespace ClinicManagementSystem.Controllers
 		private readonly ApplicationDbContext _context = context;
 		private readonly UserManager<ApplicationUser> _userManager = userManager;
 
-		// Add To Cart
 		[HttpPost]
 		public async Task<IActionResult> AddToCart(Guid productId, int quantity)
 		{
@@ -37,6 +36,7 @@ namespace ClinicManagementSystem.Controllers
 
 			var availableInventory = product.Inventory?.Quantity ?? 0;
 
+			// Check if requested quantity is available
 			if (availableInventory < quantity)
 				return BadRequest($"Only {availableInventory} items are available in stock.");
 
@@ -47,16 +47,19 @@ namespace ClinicManagementSystem.Controllers
 
 			if (cart == null)
 			{
+				// Create a new cart if it doesn't exist
 				cart = new CartModel
 				{
 					CartId = Guid.NewGuid(),
 					UserId = user.Id,
 					Total = 0,
 					CreatedAt = DateTime.UtcNow,
-					CartItems = []
+					CartItems = new List<CartItemModel>()
 				};
 
+				// Add the new cart to the context and save it first to ensure CartId is assigned
 				await _context.Carts.AddAsync(cart);
+				await _context.SaveChangesAsync();
 			}
 
 			// Check if the product is already in the cart
@@ -64,6 +67,7 @@ namespace ClinicManagementSystem.Controllers
 			int existingQuantity = cartItem?.Quantity ?? 0;
 			int totalQuantityAfterAddition = existingQuantity + quantity;
 
+			// Ensure total quantity after addition doesn't exceed available inventory
 			if (totalQuantityAfterAddition > availableInventory)
 				return BadRequest($"Cannot add {quantity} items. Only {availableInventory - existingQuantity} more items can be added.");
 
@@ -73,11 +77,13 @@ namespace ClinicManagementSystem.Controllers
 				cartItem = new CartItemModel
 				{
 					CartItemId = Guid.NewGuid(),
-					CartId = cart.CartId,
+					CartId = cart.CartId,  // Ensure CartId is properly assigned here
 					ProductId = productId,
 					Quantity = quantity,
 					CreatedAt = DateTime.UtcNow
 				};
+
+				// Add the new CartItem to the cart
 				cart.CartItems.Add(cartItem);
 				await _context.CartItems.AddAsync(cartItem);
 			}
@@ -98,7 +104,7 @@ namespace ClinicManagementSystem.Controllers
 				await _context.SaveChangesAsync();
 
 				// For non-AJAX form submissions, redirect to the cart page
-				if (!Request.Headers.XRequestedWith.ToString().Equals("XMLHttpRequest"))
+				if (!Request.Headers["X-Requested-With"].ToString().Equals("XMLHttpRequest"))
 				{
 					TempData["SuccessMessage"] = "Product added to cart successfully.";
 					return RedirectToAction("Index", "Cart");
@@ -114,6 +120,7 @@ namespace ClinicManagementSystem.Controllers
 			}
 			catch (DbUpdateConcurrencyException ex)
 			{
+				// In case of concurrency issue, return a conflict response
 				return Conflict(new
 				{
 					message = "Failed to update cart. Please try again.",
@@ -121,6 +128,7 @@ namespace ClinicManagementSystem.Controllers
 				});
 			}
 		}
+
 
 		// Get Cart
 		[HttpGet]
@@ -224,29 +232,62 @@ namespace ClinicManagementSystem.Controllers
 		[HttpPost]
 		public async Task<IActionResult> IncrementCartItem(Guid cartItemId)
 		{
+			// Get the current user
 			var user = await _userManager.GetUserAsync(User);
 			if (user == null)
 				return Json(new { success = false, message = "User not logged in" });
 
+			// Fetch the cart item along with the associated product and inventory
 			var cartItem = await _context.CartItems
 				.Include(ci => ci.Cart)
 				.ThenInclude(c => c.CartItems)
 				.ThenInclude(ci => ci.Product)
+				.ThenInclude(p => p.Inventory)  // Ensure we load the inventory as well
 				.FirstOrDefaultAsync(ci => ci.CartItemId == cartItemId && ci.Cart.UserId == user.Id);
 
 			if (cartItem == null)
 				return Json(new { success = false, message = "Cart item not found" });
 
-			cartItem.Quantity++;
-			_context.CartItems.Update(cartItem);
-			await _context.SaveChangesAsync();
+			var product = cartItem.Product;
+			var availableInventory = product?.Inventory?.Quantity ?? 0;
 
+			// Debugging: Log the values to ensure they are correct
+			Console.WriteLine($"Cart Item Quantity: {cartItem.Quantity}");
+			Console.WriteLine($"Available Inventory: {availableInventory}");
+
+			// Check if incrementing the quantity exceeds the available inventory
+			if (cartItem.Quantity + 1 > availableInventory)
+			{
+				return Json(new { success = false, message = $"Only {availableInventory - cartItem.Quantity} items are available." });
+			}
+
+			// Increment the quantity of the cart item
+			cartItem.Quantity++;
+
+			// Save the updated cart item
+			_context.CartItems.Update(cartItem);
+
+			// Recalculate the cart total
 			var newTotal = cartItem.Cart?.CartItems
 				.Where(ci => ci.Product != null)
 				.Sum(ci => ci.Quantity * ci.Product.Price) ?? 0;
 
+			try
+			{
+				// Save changes to the database
+				await _context.SaveChangesAsync();
+			}
+			catch (Exception ex)
+			{
+				// Handle any errors that might occur during the save operation
+				return Json(new { success = false, message = "An error occurred while updating the cart item.", error = ex.Message });
+			}
+
+			// Return the updated cart item and total price
 			return Json(new { success = true, quantity = cartItem.Quantity, total = newTotal });
 		}
+
+
 
 		// Decrement Cart Item
 		[HttpPost]
@@ -256,6 +297,7 @@ namespace ClinicManagementSystem.Controllers
 			if (user == null)
 				return Json(new { success = false, message = "User not logged in" });
 
+			// Fetch the cart item with product and inventory details
 			var cartItem = await _context.CartItems
 				.Include(ci => ci.Cart)
 				.ThenInclude(c => c.CartItems)
@@ -265,10 +307,18 @@ namespace ClinicManagementSystem.Controllers
 			if (cartItem == null)
 				return Json(new { success = false, message = "Cart item not found" });
 
-			cartItem.Quantity = Math.Max(1, cartItem.Quantity - 1); // Prevent quantity going below 1
+			// Prevent decrementing quantity below 1
+			if (cartItem.Quantity <= 1)
+			{
+				return Json(new { success = false, message = "Quantity cannot be less than 1" });
+			}
+
+			// Decrement the quantity of the cart item
+			cartItem.Quantity--;
 			_context.CartItems.Update(cartItem);
 			await _context.SaveChangesAsync();
 
+			// Recalculate the cart's total
 			var newTotal = cartItem.Cart?.CartItems
 				.Where(ci => ci.Product != null)
 				.Sum(ci => ci.Quantity * ci.Product.Price) ?? 0;

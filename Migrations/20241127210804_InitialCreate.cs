@@ -94,11 +94,28 @@ namespace ClinicManagementSystem.Migrations
                     InventoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Product_Inventory", x => x.InventoryId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Staff",
+                columns: table => new
+                {
+                    StaffId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Position = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Staff", x => x.StaffId);
                 });
 
             migrationBuilder.CreateTable(
@@ -332,6 +349,7 @@ namespace ClinicManagementSystem.Migrations
                     Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     ShortDescription = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     SKU = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    CostPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     IsAvailable = table.Column<bool>(type: "bit", nullable: false),
                     CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
@@ -364,6 +382,27 @@ namespace ClinicManagementSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Educational_Activity",
+                columns: table => new
+                {
+                    ActivityId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ActivityType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StaffId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Educational_Activity", x => x.ActivityId);
+                    table.ForeignKey(
+                        name: "FK_Educational_Activity_Staff_StaffId",
+                        column: x => x.StaffId,
+                        principalTable: "Staff",
+                        principalColumn: "StaffId");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
@@ -382,8 +421,7 @@ namespace ClinicManagementSystem.Migrations
                         name: "FK_Orders_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "UserId");
                     table.ForeignKey(
                         name: "FK_Orders_PaymentDetails_PaymentId",
                         column: x => x.PaymentId,
@@ -561,6 +599,11 @@ namespace ClinicManagementSystem.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Educational_Activity_StaffId",
+                table: "Educational_Activity",
+                column: "StaffId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Feedbacks_ProductId",
                 table: "Feedbacks",
                 column: "ProductId");
@@ -656,6 +699,9 @@ namespace ClinicManagementSystem.Migrations
                 name: "Contacts");
 
             migrationBuilder.DropTable(
+                name: "Educational_Activity");
+
+            migrationBuilder.DropTable(
                 name: "Feedbacks");
 
             migrationBuilder.DropTable(
@@ -675,6 +721,9 @@ namespace ClinicManagementSystem.Migrations
 
             migrationBuilder.DropTable(
                 name: "Carts");
+
+            migrationBuilder.DropTable(
+                name: "Staff");
 
             migrationBuilder.DropTable(
                 name: "Products");

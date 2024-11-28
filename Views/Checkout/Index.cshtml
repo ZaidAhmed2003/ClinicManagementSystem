@@ -34,28 +34,28 @@
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                 <div class="form-item">
                                     <h4 class="form-title">First Name*</h4>
-                                    <input type="text" name="firstname" value="@Model.User.FirstName" readonly>
+                                    <input type="text" name="firstname" value="@Model.User?.FirstName" readonly>
                                 </div>
                             </div>
 
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                 <div class="form-item">
                                     <h4 class="form-title">Last Name*</h4>
-                                    <input type="text" name="lastname" value="@Model.User.LastName" readonly>
+                                    <input type="text" name="lastname" value="@Model.User?.LastName" readonly>
                                 </div>
                             </div>
 
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                 <div class="form-item">
                                     <h4 class="form-title">Phone Number*</h4>
-                                    <input type="tel" asp-for="UserAddress" name="telephone" value="@Model.UserAddress.Mobile">
+                                    <input type="tel" asp-for="UserAddress" name="telephone" value="@Model.UserAddress?.Mobile">
                                 </div>
                             </div>
 
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                 <div class="form-item">
                                     <h4 class="form-title">Email Address*</h4>
-                                    <input type="email" name="email" value="@Model.User.Email" readonly>
+                                    <input type="email" name="email" value="@Model.User?.Email" readonly>
                                 </div>
                             </div>
                         </div>

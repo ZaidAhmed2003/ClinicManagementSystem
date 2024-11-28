@@ -14,14 +14,15 @@ namespace ClinicManagementSystem.Models
 
 		[Required]
 		public Guid PaymentId { get; set; }
+
 		[ForeignKey("PaymentId")]
 		public required PaymentDetailModel PaymentDetail { get; set; }
 
 		[Required]
-		public Guid UserId { get; set; } // Match the primary key type in ApplicationUser
+		public Guid UserId { get; set; }
 
 		[ForeignKey("UserId")]
-		public ApplicationUser User { get; set; } = null!; // Navigation property
+		public ApplicationUser User { get; set; } = null!;
 
 		[Required]
 		public DateTime OrderDate { get; set; } = DateTime.UtcNow;
@@ -30,11 +31,11 @@ namespace ClinicManagementSystem.Models
 		public decimal TotalAmount { get; set; }
 
 		[Required]
-		public OrderStatus Status { get; set; } // Enum representing order status
+		public OrderStatus Status { get; set; }
 
-		// Add the navigation property for OrderItems
-		public ICollection<OrderItemModel> OrderItems { get; set; } = new List<OrderItemModel>(); // This is the missing collection
+		public ICollection<OrderItemModel> OrderItems { get; set; } = new List<OrderItemModel>();
 	}
+
 
 	public enum OrderStatus
 	{

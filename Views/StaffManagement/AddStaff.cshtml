@@ -1,0 +1,74 @@
+﻿@model ClinicManagementSystem.Models.StaffModel
+
+@{
+	ViewData["Title"] = "AddStaff";
+	Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-12">
+			<div class="d-flex justify-content-between align-items-center py-2">
+				<h4>Add Category</h4>
+				<ol class="breadcrumb d-lg-flex d-none mb-0">
+					<li class="breadcrumb-item"><a href="javascript:void(0);">Clinic Management System</a></li>
+					<li class="breadcrumb-item"><a href="javascript:void(0);">Ecommerce</a></li>
+					<li class="breadcrumb-item"><a href="javascript:void(0);">Educational</a></li>
+					<li class="breadcrumb-item active">Add Staff</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title mb-1">Staff Detail</h4>
+				</div>
+				<div class="card-body">
+					<form method="post" asp-controller="StaffManagement" asp-action="AddStaff">
+						<div class="row">
+							<div class="col-xl-6">
+								<div class="mb-3">
+									<label asp-for="FirstName" class="form-label">First Name</label>
+									<input asp-for="FirstName" type="text" class="form-control" placeholder="Enter First Name">
+								</div>
+							</div>
+							<div class="col-xl-6">
+								<div class="mb-3">
+									<label asp-for="LastName" class="form-label">Last Name</label>
+									<input asp-for="LastName" type="text" class="form-control" placeholder="Enter Last Name">
+								</div>
+							</div>
+							<div class="col-xl-6">
+								<div class="mb-3">
+									<label asp-for="Email" class="form-label">Email</label>
+									<input asp-for="Email" type="text" class="form-control" placeholder="Enter Email">
+								</div>
+							</div>
+							<div class="col-xl-6">
+								<div class="mb-3">
+									<label asp-for="Position" class="form-label">Position</label>
+									<input asp-for="Position" type="text" class="form-control" placeholder="Enter Position">
+								</div>
+							</div>
+							<div class="col-xl-6">
+								<div class="mb-3">
+									<label asp-for="PhoneNumber" class="form-label">Phone Number</label>
+									<input asp-for="PhoneNumber" type="text" class="form-control" placeholder="Enter Phone Number">
+								</div>
+							</div>
+
+							<div class="d-flex justify-content-end">
+								<button type="submit" class="btn btn-dark">Add Staff</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+

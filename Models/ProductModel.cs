@@ -27,6 +27,10 @@ namespace ClinicManagementSystem.Models
 
 		[Required, DataType(DataType.Currency)]
 		[Range(0.01, 1000000, ErrorMessage = "Price must be between 0.01 and 1,000,000.")]
+		public decimal CostPrice { get; set; }		
+		
+		[Required, DataType(DataType.Currency)]
+		[Range(0.01, 1000000, ErrorMessage = "Price must be between 0.01 and 1,000,000.")]
 		public decimal Price { get; set; }
 
 		public bool IsAvailable { get; set; } = false;

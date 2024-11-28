@@ -20,7 +20,9 @@ namespace ClinicManagementSystem.Controllers
 		{
 			var products = await _context.Products.Include(c => c.Category)
 												  .Include(d => d.Discount)
+												  .Include(i => i.Inventory)
 												  .Where(p => p.DeletedAt == null)
+												  .Where( p => p.IsAvailable == true)
 												  .ToListAsync();
 			return View(products);
 		}

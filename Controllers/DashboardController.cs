@@ -21,13 +21,34 @@ namespace ClinicManagementSystem.Controllers
 
 		[HttpGet]
 		public async Task<IActionResult> Index()
-        {
-			var user = await _userManager.Users.ToListAsync();
-			
+		{
+			// Get the total number of users
+			var users = await _userManager.Users.ToListAsync();
+			ViewBag.TotalUsers = users.Count;
 
-			ViewBag.totalusers = user.Count;
+			// Calculate total products sold
+			var totalProductsSold = await _context.OrderItems
+				.Include(oi => oi.Order) // If you want to filter by specific criteria (like order status), you can join here
+				.SumAsync(oi => oi.Quantity);
 
-            return View();
-        }
-    }
+			// Calculate total revenue (total amount from all orders)
+			var totalRevenue = await _context.Orders
+				.Where(o => o.Status == OrderStatus.Completed) // Filter only completed orders
+				.SumAsync(o => o.TotalAmount);
+
+			// Calculate total COGS (Cost of Goods Sold)
+			var totalCOGS = await _context.OrderItems
+				.Include(oi => oi.Product)
+				.SumAsync(oi => oi.Quantity * oi.Product.CostPrice);
+
+			// Calculate total profit (Revenue - COGS)
+			var totalProfit = totalRevenue + totalCOGS;
+
+			ViewBag.TotalRevenue = totalRevenue;
+			ViewBag.TotalCOGS = totalCOGS;
+			ViewBag.TotalProfit = totalProfit;
+
+			return View();
+		}
+	}
 }

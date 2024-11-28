@@ -125,6 +125,7 @@ namespace ClinicManagementSystem.Controllers
 				ShortDescription = product.ShortDescription,
 				SKU = await GenerateNextCode(),
 				Category = category,
+				CostPrice = product.CostPrice,
 				Price = product.Price,
 				Inventory = inventory,
 				Discount = discount,
@@ -187,6 +188,7 @@ namespace ClinicManagementSystem.Controllers
 			existingProduct.Description = product.Description;
 			existingProduct.ShortDescription = product.ShortDescription;
 			existingProduct.Price = product.Price;
+			existingProduct.Price = product.CostPrice;
 			existingProduct.IsAvailable = product.IsAvailable;
 			existingProduct.CategoryId = product.CategoryId;
 			existingProduct.DiscountId = product.DiscountId;

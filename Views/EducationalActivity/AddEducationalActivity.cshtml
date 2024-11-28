@@ -1,0 +1,81 @@
+﻿@model ClinicManagementSystem.Models.EducationalActivityModel
+
+@{
+    ViewData["Title"] = "Add Educational Activity";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center py-2">
+                <h4>Add Educational Activity</h4>
+                <ol class="breadcrumb d-lg-flex d-none mb-0">
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Clinic Management System</a></li>
+                    <li class="breadcrumb-item active">Add Activity</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title mb-1">Activity Detail</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" asp-controller="EducationalActivity" asp-action="AddEducationalActivity">
+                        <div class="row">
+                            <div class="col-xl-6">
+                                <div class="mb-3">
+                                    <label asp-for="Title" class="form-label">Title</label>
+                                    <input asp-for="Title" type="text" class="form-control" placeholder="Enter Title">
+                                    <span asp-validation-for="Title" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-6">
+                                <div class="mb-3">
+                                    <label asp-for="Description" class="form-label">Description</label>
+                                    <input asp-for="Description" type="text" class="form-control" placeholder="Enter Description">
+                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-6">
+                                <div class="mb-3">
+                                    <label asp-for="ActivityType" class="form-label">Activity Type</label>
+                                    <input asp-for="ActivityType" type="text" class="form-control" placeholder="eg. Seminar, Lecture">
+                                    <span asp-validation-for="ActivityType" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-6">
+                                <div class="mb-3">
+                                    <label asp-for="Date" class="form-label">Date</label>
+                                    <input asp-for="Date" type="date" class="form-control">
+                                    <span asp-validation-for="Date" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-6">
+                                <div class="mb-3">
+                                    <label asp-for="StaffId" class="form-label">Assign Staff (Optional)</label>
+                                    <select asp-for="StaffId" class="form-control" asp-items="ViewBag.StaffList">
+                                        <option value="">-- Select Staff --</option>
+                                    </select>
+                                    <span asp-validation-for="StaffId" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-12 d-flex justify-content-end">
+                                <button type="submit" class="btn btn-dark">Add Educational Activity</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

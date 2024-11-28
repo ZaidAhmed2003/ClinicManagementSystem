@@ -93,7 +93,9 @@
 										var discountedPrice = product.Price - product.Discount.DiscountValue;
 										<del class="mr-2 ">$@product.Price.ToString("F2")</del>
 										<span class="item-price">$@discountedPrice.ToString("F2")</span>
-									} else{
+									}
+									else
+									{
 										<span class="item-price">$@product.Price.ToString("F2")</span>
 									}
 
@@ -102,10 +104,20 @@
 									@product.ShortDescription
 								</p>
 
+								@if (product.Inventory.Quantity == 0)
+								{
+									
 
-								<button type="button" class="btn bg-royal-blue add-to-cart" data-product-id="@product.ProductId">
-									Add to Cart
-								</button>
+									<span class="badge bg-danger-subtle text-danger fs-6 fw-semibold">
+										Out of Stock
+									</span>
+								} else {
+									<button type="button" class="btn bg-royal-blue add-to-cart" data-product-id="@product.ProductId">
+										Add to Cart
+									</button>
+								}
+
+
 
 
 

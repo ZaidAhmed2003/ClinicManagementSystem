@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClinicManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241119211840_InitialCreate")]
+    [Migration("20241127210804_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -197,6 +197,37 @@ namespace ClinicManagementSystem.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Contacts");
+                });
+
+            modelBuilder.Entity("ClinicManagementSystem.Models.EducationalActivityModel", b =>
+                {
+                    b.Property<Guid>("ActivityId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ActivityType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("StaffId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ActivityId");
+
+                    b.HasIndex("StaffId");
+
+                    b.ToTable("Educational_Activity");
                 });
 
             modelBuilder.Entity("ClinicManagementSystem.Models.FeedbackModel", b =>
@@ -432,6 +463,12 @@ namespace ClinicManagementSystem.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
                     b.HasKey("InventoryId");
 
                     b.ToTable("Product_Inventory");
@@ -450,6 +487,9 @@ namespace ClinicManagementSystem.Migrations
 
                     b.Property<Guid?>("CategoryId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("CostPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -504,6 +544,37 @@ namespace ClinicManagementSystem.Migrations
                     b.HasIndex("InventoryId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("ClinicManagementSystem.Models.StaffModel", b =>
+                {
+                    b.Property<Guid>("StaffId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Position")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("StaffId");
+
+                    b.ToTable("Staff");
                 });
 
             modelBuilder.Entity("ClinicManagementSystem.Models.TransactionModel", b =>
@@ -748,6 +819,15 @@ namespace ClinicManagementSystem.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("ClinicManagementSystem.Models.EducationalActivityModel", b =>
+                {
+                    b.HasOne("ClinicManagementSystem.Models.StaffModel", "Staff")
+                        .WithMany()
+                        .HasForeignKey("StaffId");
+
+                    b.Navigation("Staff");
+                });
+
             modelBuilder.Entity("ClinicManagementSystem.Models.FeedbackModel", b =>
                 {
                     b.HasOne("ClinicManagementSystem.Models.ProductModel", "Product")
@@ -781,7 +861,7 @@ namespace ClinicManagementSystem.Migrations
             modelBuilder.Entity("ClinicManagementSystem.Models.OrderItemModel", b =>
                 {
                     b.HasOne("ClinicManagementSystem.Models.OrderModel", "Order")
-                        .WithMany()
+                        .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -808,7 +888,7 @@ namespace ClinicManagementSystem.Migrations
                     b.HasOne("ClinicManagementSystem.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("PaymentDetail");
@@ -934,6 +1014,11 @@ namespace ClinicManagementSystem.Migrations
             modelBuilder.Entity("ClinicManagementSystem.Models.CartModel", b =>
                 {
                     b.Navigation("CartItems");
+                });
+
+            modelBuilder.Entity("ClinicManagementSystem.Models.OrderModel", b =>
+                {
+                    b.Navigation("OrderItems");
                 });
 #pragma warning restore 612, 618
         }

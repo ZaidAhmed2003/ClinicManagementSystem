@@ -22,6 +22,8 @@ namespace ClinicManagementSystem.Data
 		public DbSet<FeedbackModel> Feedbacks { get; set; } = null!;
 		public DbSet<NotificationModel> Notifications { get; set; } = null!;
 		public DbSet<UserAddressModel> UserAddresses { get; set; } = null!;
+		public DbSet<StaffModel> Staff { get; set; } = null!;
+		public DbSet<EducationalActivityModel> Educational_Activity { get; set; } = null!;
 
 
 		protected override void OnModelCreating(ModelBuilder builder)
@@ -39,7 +41,17 @@ namespace ClinicManagementSystem.Data
 				.OnDelete(DeleteBehavior.NoAction); // Prevent cascade delete
 
 
+			builder.Entity<OrderModel>()
+				.HasOne(o => o.PaymentDetail)
+				.WithMany()  // assuming PaymentDetail doesn't have navigation property back to OrderModel
+				.HasForeignKey(o => o.PaymentId)
+				.OnDelete(DeleteBehavior.NoAction);  // Disable cascade delete
 
+			builder.Entity<OrderModel>()
+				.HasOne(o => o.User)
+				.WithMany()  // assuming ApplicationUser doesn't have a navigation property back to OrderModel
+				.HasForeignKey(o => o.UserId)
+				.OnDelete(DeleteBehavior.NoAction);  // Disable cascade delete
 
 			// Add configurations for GUID keys
 			builder.Entity<ApplicationUser>()
@@ -66,15 +78,6 @@ namespace ClinicManagementSystem.Data
 			builder.Entity<TransactionModel>()
 				.Property(t => t.Amount)
 				.HasPrecision(18, 2);
-
-
-			//builder.Entity<CartModel>()
-			//	.HasMany(c => c.CartItems)
-			//	.WithOne(ci => ci.Cart)
-			//	.HasForeignKey(ci => ci.CartId)
-			//	.OnDelete(DeleteBehavior.Cascade);
-
-
 
 		}
 	}
