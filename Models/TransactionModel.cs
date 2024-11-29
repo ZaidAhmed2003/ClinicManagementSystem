@@ -10,17 +10,13 @@ namespace ClinicManagementSystem.Models
 
 		[Required]
 		public Guid UserId { get; set; } // Match the primary key type in ApplicationUser
-
-		[Required]
-		public Guid OrderId { get; set; }
-
-		[ForeignKey("OrderId")]
-		public required OrderModel Order { get; set; }
-
 		[ForeignKey("UserId")]
 		public ApplicationUser User { get; set; } = null!; // Navigation property
 
-
+		[Required]
+		public Guid OrderId { get; set; }
+		[ForeignKey("OrderId")]
+		public required OrderModel Order { get; set; }
 
 		[Required]
 		public DateTime TransactionDate { get; set; } = DateTime.UtcNow;

@@ -49,7 +49,7 @@ namespace ClinicManagementSystem.Controllers
 					// Assign default role to new user
 					await _userManager.AddToRoleAsync(user, "User");
 					await _signInManager.SignInAsync(user, isPersistent: false);
-					return RedirectToAction("Index", "Dashboard");
+					return RedirectToAction("Index", "Home");
 				}
 
 				foreach (var error in result.Errors)

@@ -61,7 +61,13 @@
 											</div>
 										</div>
 										<ul class="clearfix">
+											@if(User.IsInRole("Admin")){
 											<li><a asp-action="Index" asp-controller="Dashboard"><i class="las la-columns"></i>Dashboard</a></li>
+											}
+											else
+											{
+												<li><a asp-action="Index" asp-controller="OrderManagement"><i class="las la-box"></i>View Orders</a></li>
+											}
 											<li><a asp-action="Index" asp-controller="ProfileManagement"><i class="las la-user-circle"></i>Profile</a></li>
 											<li><a href="javascript:void(0);" onclick="document.getElementById('logout-form').submit();"><i class="las la-sign-out-alt"></i>Logout</a></li>
 										</ul>

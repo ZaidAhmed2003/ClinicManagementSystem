@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "apexcharts": "^4.0.0",
+    "datatables.net-dt": "^2.1.8",
     "dropify": "^0.2.2"
   }
 }

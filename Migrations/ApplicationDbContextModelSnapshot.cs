@@ -411,6 +411,24 @@ namespace ClinicManagementSystem.Migrations
                     b.HasKey("CategoryId");
 
                     b.ToTable("Product_Category");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = new Guid("0b82e0a7-0aea-4f1d-8160-9aff38290faf"),
+                            CreatedAt = new DateTime(2024, 11, 28, 20, 4, 29, 512, DateTimeKind.Utc).AddTicks(4877),
+                            Description = "Medical products and pharmaceuticals.",
+                            ModifiedAt = new DateTime(2024, 11, 28, 20, 4, 29, 512, DateTimeKind.Utc).AddTicks(5229),
+                            Name = "Medicine"
+                        },
+                        new
+                        {
+                            CategoryId = new Guid("bf0430a8-573d-4571-8abc-e0aef9c14765"),
+                            CreatedAt = new DateTime(2024, 11, 28, 20, 4, 29, 512, DateTimeKind.Utc).AddTicks(5554),
+                            Description = "Medical tools and equipment.",
+                            ModifiedAt = new DateTime(2024, 11, 28, 20, 4, 29, 512, DateTimeKind.Utc).AddTicks(5555),
+                            Name = "Scientific Equipment"
+                        });
                 });
 
             modelBuilder.Entity("ClinicManagementSystem.Models.ProductDiscountModel", b =>

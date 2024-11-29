@@ -78,7 +78,6 @@ namespace ClinicManagementSystem.Data
 			builder.Entity<TransactionModel>()
 				.Property(t => t.Amount)
 				.HasPrecision(18, 2);
-
 		}
 	}
 }

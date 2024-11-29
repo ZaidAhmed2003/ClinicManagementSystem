@@ -143,6 +143,18 @@ namespace ClinicManagementSystem.Controllers
 			_context.CartItems.RemoveRange(cart.CartItems);
 			_context.Carts.Remove(cart);
 
+
+			var transaction = new TransactionModel
+			{
+				UserId = user.Id,
+				TransactionStatus = TransactionStatus.Success,
+				TransactionDate = DateTime.UtcNow,
+				Order = order,
+				Amount = totalAmount,
+			};
+
+			await _context.Transactions.AddAsync(transaction);
+			await _context.SaveChangesAsync();
 			// Save changes
 			try
 			{
